@@ -1,0 +1,22 @@
+# Frontend (Vite/React)
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.*
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+frontend/.vercel/
+frontend/.netlify/
+
+# Genel
+.DS_Store
+Thumbs.db
+.vscode/
+*.log
+*.tmp
+
+# Python (lokal araçlar)
+tools/**/__pycache__/
+tools/**/*.pyc
