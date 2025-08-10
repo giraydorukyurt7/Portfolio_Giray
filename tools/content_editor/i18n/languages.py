@@ -1,0 +1,1 @@
+SUPPORTED_LANGS = ["tr", "en"]
