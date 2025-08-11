@@ -1,0 +1,48 @@
+[
+  {
+    "name": {
+      "tr": "Teknofest Rocket Competition 2025 – “İstikbal” Rocket Team",
+      "en": "Teknofest Rocket Competition 2025 – “İstikbal” Rocket Team"
+    },
+    "role": {
+      "tr": "Team Leader",
+      "en": "Software Team Member"
+    },
+    "organization": "Teknofest",
+    "start": "",
+    "end": "",
+    "present": false,
+    "result": "",
+    "details": {
+      "tr": "",
+      "en": "Collaborated within a 15-person interdisciplinary team to design and implement advanced flight control algorithms for both custom\nbuilt and commercial flight control systems.\n Applied “extended Kalman filtering” techniques for enhanced sensor data fusion and noise reduction in real-time flight operations.\n Documented technical implementations and contributed to comprehensive project reports.\n Created a machine learning model for carbon emission measurement as a scientific payload component, addressing\n environmental monitoring challenges in rocket flight operations."
+    },
+    "highlights": {
+      "tr": [],
+      "en": []
+    }
+  },
+  {
+    "name": {
+      "tr": "Teknofest Artificial Intelligence in Healthcare Competition 2025 – “NEUROCTULUS” Team (Ongoing)",
+      "en": "Teknofest Artificial Intelligence in Healthcare Competition 2025 – “NEUROCTULUS” Team (Ongoing)"
+    },
+    "role": {
+      "tr": "Team Leader",
+      "en": "Team Leader"
+    },
+    "organization": "",
+    "start": "",
+    "end": "",
+    "present": false,
+    "result": "",
+    "details": {
+      "tr": "",
+      "en": "Leading a 5-member interdisciplinary team developing AI-based stroke detection and temporal classification systems.\n Phase 1: Developed a binary classification model using brain CT scans to detect stroke presence/absence (ischemic or\n hemorrhagic) with TensorFlow and PyTorch.\n Phase 2: Currently implementing temporal classification of ischemic stroke using MRI scans. Creating a three-class classifier for\n Hyperacute-Acute, Subacute, and Chronic stages.\n Coordinating project planning, dataset preprocessing, model development, and technical documentation across competition\n phases"
+    },
+    "highlights": {
+      "tr": [],
+      "en": []
+    }
+  }
+]

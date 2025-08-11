@@ -1,0 +1,82 @@
+[
+  {
+    "name": {
+      "tr": "",
+      "en": "Artificial Intelligence Literacy and Technologies"
+    },
+    "issuer": "TechPro Education",
+    "start": "",
+    "end": "",
+    "present": false,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "tr": "",
+      "en": ""
+    }
+  },
+  {
+    "name": {
+      "tr": "",
+      "en": "EMK Academy Matlab"
+    },
+    "issuer": "ISU Energy and Engineering Club",
+    "start": "",
+    "end": "",
+    "present": false,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "tr": "",
+      "en": ""
+    }
+  },
+  {
+    "name": {
+      "tr": "",
+      "en": "Data Literacy"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "start": "",
+    "end": "",
+    "present": false,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "tr": "",
+      "en": ""
+    }
+  },
+  {
+    "name": {
+      "tr": "",
+      "en": "Data Manipulation 101"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "start": "",
+    "end": "",
+    "present": false,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "tr": "",
+      "en": ""
+    }
+  },
+  {
+    "name": {
+      "tr": "",
+      "en": "Data Manipulation 201"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "start": "",
+    "end": "",
+    "present": false,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "tr": "",
+      "en": ""
+    }
+  }
+]
