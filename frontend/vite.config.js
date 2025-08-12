@@ -5,4 +5,3 @@ export default defineConfig({
   base: "/Portfolio_Giray/",
   plugins: [react()],
 });
-
