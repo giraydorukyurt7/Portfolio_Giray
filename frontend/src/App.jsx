@@ -31,6 +31,8 @@ const formatYM = (ym) => {
   }
 };
 
+const asset = (p) => new URL(p, import.meta.env.BASE_URL).toString();
+
 async function fetchJSON(path) {
   const res = await fetch(path, { cache: "no-store" });
   if (!res.ok) throw new Error(`${path} ${res.status}`);
@@ -57,12 +59,12 @@ function usePortfolioContent() {
     (async () => {
       try {
         const [info, projects, experience, competitions, certificates, socials] = await Promise.all([
-          fetchJSON("/content/info.json").catch(() => null),
-          fetchJSON("/content/projects.json").catch(() => []),
-          fetchJSON("/content/experience.json").catch(() => []),
-          fetchJSON("/content/competitions.json").catch(() => []),
-          fetchJSON("/content/certificates.json").catch(() => []),
-          fetchJSON("/content/socials.json").catch(() => []),
+          fetchJSON(asset("content/info.json")).catch(() => null),
+          fetchJSON(asset("content/projects.json")).catch(() => []),
+          fetchJSON(asset("content/experience.json")).catch(() => []),
+          fetchJSON(asset("content/competitions.json")).catch(() => []),
+          fetchJSON(asset("content/certificates.json")).catch(() => []),
+          fetchJSON(asset("content/socials.json")).catch(() => []),
         ]);
         if (!alive) return;
         setState((s) => ({ ...s, info, projects, experience, competitions, certificates, socials, loading: false }));
