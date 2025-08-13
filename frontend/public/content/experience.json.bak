@@ -1,0 +1,22 @@
+[
+  {
+    "title": {
+      "tr": "Yapay Zeka Stajyeri",
+      "en": "Artificial Intelligence Intern"
+    },
+    "organization": "Ayasis Teknoloji",
+    "location": "İstanbul (Online)",
+    "start": "2025-07",
+    "end": "2025-08",
+    "present": false,
+    "details": {
+      "tr": "",
+      "en": ""
+    },
+    "highlights": {
+      "tr": [],
+      "en": []
+    },
+    "tech": []
+  }
+]
