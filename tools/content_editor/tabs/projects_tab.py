@@ -3,6 +3,7 @@ from tkinter import ttk
 from typing import Any, Dict, List
 from widgets.fields import LabeledEntry, LabeledText, DateRange
 from widgets.i18n_fields import MultiLangEntry, MultiLangText, MultiLangList
+from widgets.icon_picker import IconPicker
 from .list_tab import ListEntityTab
 
 class ProjectsTab(ListEntityTab):
@@ -20,6 +21,13 @@ class ProjectsTab(ListEntityTab):
         self.highlights_ml = MultiLangList(f, "Highlights", height=4)
         self.images = LabeledText(f, "Images (one URL per line)", height=3)
 
+        # Cover / Icon (opsiyonel)
+        self.icon = IconPicker(
+            f, public_dir_cb=self.public_dir, tab_key="projects_tab",
+            name_cb=lambda: (self.title_ml.get().get("en") or self.title_ml.get().get("tr") or "project"),
+            title="Cover / Icon (optional)"
+        )
+
         self.title_ml.grid(row=0, column=0, sticky="ew", pady=6)
         self.summary_ml.grid(row=1, column=0, sticky="nsew", pady=6)
         self.dr.grid(row=2, column=0, sticky="w", pady=6)
@@ -28,6 +36,7 @@ class ProjectsTab(ListEntityTab):
         self.link_demo.grid(row=5, column=0, sticky="ew", pady=6)
         self.highlights_ml.grid(row=6, column=0, sticky="nsew", pady=6)
         self.images.grid(row=7, column=0, sticky="nsew", pady=6)
+        self.icon.grid(row=8, column=0, sticky="ew", pady=6)
 
         f.columnconfigure(0, weight=1)
         f.rowconfigure(1, weight=1)
@@ -48,6 +57,7 @@ class ProjectsTab(ListEntityTab):
             "links": {"github": self.link_gh.get(), "demo": self.link_demo.get()},
             "highlights": self.highlights_ml.get(),
             "images": [x.strip() for x in self.images.get().splitlines() if x.strip()],
+            "icon": self.icon.get(),  # images/projects_tab/<Title>.png veya svg URL
         }
 
     def set_form(self, rec: Dict[str, Any]):
@@ -55,12 +65,13 @@ class ProjectsTab(ListEntityTab):
         self.summary_ml.set(rec.get("summary"))
         self.dr.set(rec.get("start"), rec.get("end"), rec.get("present", False))
         self.stack.set(", ".join(rec.get("stack", [])))
-        links = rec.get("links", {})
+        links = rec.get("links", {}) or {}
         self.link_gh.set(links.get("github"))
         self.link_demo.set(links.get("demo"))
         self.highlights_ml.set(rec.get("highlights"))
-        # FIX: her görsel yeni satıra gelsin
+        # FIX: görüntüler satır satır
         self.images.set("\n".join(rec.get("images", [])))
+        self.icon.set(rec.get("icon"))
 
     def summary_row(self, rec: Dict[str, Any]) -> List[Any]:
         title_tr = (rec.get("title", {}) or {}).get("tr", "")

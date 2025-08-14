@@ -3,11 +3,13 @@ from tkinter import ttk
 from typing import Any, Dict, List
 from widgets.fields import LabeledEntry, LabeledText, DateRange
 from widgets.i18n_fields import MultiLangEntry, MultiLangText, MultiLangList
+from widgets.icon_picker import IconPicker
 from .list_tab import ListEntityTab
 
 class CompetitionsTab(ListEntityTab):
     entity_name = "competitions"
     columns = ["name(tr)", "name(en)", "start", "end/present"]
+
     def build_form(self, parent):
         f = ttk.Frame(parent)
         self.name_ml = MultiLangEntry(f, "Name")
@@ -17,6 +19,13 @@ class CompetitionsTab(ListEntityTab):
         self.result = LabeledEntry(f, "Result")
         self.details_ml = MultiLangText(f, "Details", height=4)
         self.highlights_ml = MultiLangList(f, "Highlights", height=4)
+
+        self.icon = IconPicker(
+            f, public_dir_cb=self.public_dir, tab_key="competitions_tab",
+            name_cb=lambda: (self.name_ml.get().get("en") or self.name_ml.get().get("tr") or "competition"),
+            title="Icon (optional)"
+        )
+
         self.name_ml.grid(row=0, column=0, sticky="ew", pady=6)
         self.role_ml.grid(row=1, column=0, sticky="ew", pady=6)
         self.org.grid(row=2, column=0, sticky="ew", pady=6)
@@ -24,9 +33,14 @@ class CompetitionsTab(ListEntityTab):
         self.result.grid(row=4, column=0, sticky="ew", pady=6)
         self.details_ml.grid(row=5, column=0, sticky="nsew", pady=6)
         self.highlights_ml.grid(row=6, column=0, sticky="nsew", pady=6)
-        f.columnconfigure(0, weight=1); f.rowconfigure(5, weight=1); f.rowconfigure(6, weight=1)
+        self.icon.grid(row=7, column=0, sticky="ew", pady=6)
+
+        f.columnconfigure(0, weight=1)
+        f.rowconfigure(5, weight=1)
+        f.rowconfigure(6, weight=1)
         return f
-    def record_from_form(self):
+
+    def record_from_form(self) -> Dict[str, Any]:
         dr = self.dr.get()
         return {
             "name": self.name_ml.get(),
@@ -36,13 +50,19 @@ class CompetitionsTab(ListEntityTab):
             "result": self.result.get(),
             "details": self.details_ml.get(),
             "highlights": self.highlights_ml.get(),
+            "icon": self.icon.get(),
         }
+
     def set_form(self, rec: Dict[str, Any]):
-        self.name_ml.set(rec.get("name")); self.role_ml.set(rec.get("role"))
+        self.name_ml.set(rec.get("name"))
+        self.role_ml.set(rec.get("role"))
         self.org.set(rec.get("organization"))
         self.dr.set(rec.get("start"), rec.get("end"), rec.get("present", False))
         self.result.set(rec.get("result"))
-        self.details_ml.set(rec.get("details")); self.highlights_ml.set(rec.get("highlights"))
+        self.details_ml.set(rec.get("details"))
+        self.highlights_ml.set(rec.get("highlights"))
+        self.icon.set(rec.get("icon"))
+
     def summary_row(self, rec: Dict[str, Any]) -> List[Any]:
         end = rec.get("end") or ("Present" if rec.get("present") else "")
         name_tr = (rec.get("name", {}) or {}).get("tr", "")

@@ -2,24 +2,45 @@ from __future__ import annotations
 from tkinter import ttk
 from typing import Any, Dict, List
 from widgets.fields import LabeledEntry
+from widgets.icon_picker import IconPicker
 from .list_tab import ListEntityTab
 
 class SocialsTab(ListEntityTab):
     entity_name = "socials"
-    columns = ["platform", "username", "url"]
+    columns = ["platform", "username", "url", "icon"]
+
     def build_form(self, parent):
         f = ttk.Frame(parent)
         self.platform = LabeledEntry(f, "Platform")
         self.username = LabeledEntry(f, "Username")
-        self.url = LabeledEntry(f, "URL",)
+        self.url = LabeledEntry(f, "URL", 60)
+
+        self.icon = IconPicker(
+            f, public_dir_cb=self.public_dir, tab_key="socials_tab",
+            name_cb=lambda: self.platform.get(), title="Icon"
+        )
+
         self.platform.grid(row=0, column=0, sticky="ew", pady=6)
         self.username.grid(row=1, column=0, sticky="ew", pady=6)
         self.url.grid(row=2, column=0, sticky="ew", pady=6)
+        self.icon.grid(row=3, column=0, sticky="nsew", pady=6)
+
         f.columnconfigure(0, weight=1)
         return f
-    def record_from_form(self):
-        return {"platform": self.platform.get(), "username": self.username.get(), "url": self.url.get()}
+
+    def record_from_form(self) -> Dict[str, Any]:
+        return {
+            "platform": self.platform.get(),
+            "username": self.username.get(),
+            "url": self.url.get(),
+            "icon": self.icon.get(),  # images/socials_tab/<Platform>.png veya svg URL
+        }
+
     def set_form(self, rec: Dict[str, Any]):
-        self.platform.set(rec.get("platform")); self.username.set(rec.get("username")); self.url.set(rec.get("url"))
+        self.platform.set(rec.get("platform"))
+        self.username.set(rec.get("username"))
+        self.url.set(rec.get("url"))
+        self.icon.set(rec.get("icon"))
+
     def summary_row(self, rec: Dict[str, Any]) -> List[Any]:
-        return [rec.get("platform", ""), rec.get("username", ""), rec.get("url", "")]
+        return [rec.get("platform", ""), rec.get("username", ""), rec.get("url", ""), rec.get("icon", "")]
