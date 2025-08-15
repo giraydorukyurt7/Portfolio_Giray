@@ -1,7 +1,7 @@
 [
   {
     "name": {
-      "tr": "Teknofest Rocket Competition 2025 – “İstikbal” Rocket Team",
+      "tr": "",
       "en": "Teknofest Rocket Competition 2025 – “İstikbal” Rocket Team"
     },
     "role": {
@@ -20,11 +20,12 @@
     "highlights": {
       "tr": [],
       "en": []
-    }
+    },
+    "icon": "images/competitions_tab/Teknofest_Rocket_Competition_2025__İstikbal_Rocket_Team.png"
   },
   {
     "name": {
-      "tr": "Teknofest Artificial Intelligence in Healthcare Competition 2025 – “NEUROCTULUS” Team (Ongoing)",
+      "tr": "",
       "en": "Teknofest Artificial Intelligence in Healthcare Competition 2025 – “NEUROCTULUS” Team (Ongoing)"
     },
     "role": {
@@ -32,10 +33,10 @@
       "en": "Team Leader"
     },
     "organization": "",
-    "start": "",
+    "start": "2024-11",
     "end": "",
-    "present": false,
-    "result": "",
+    "present": true,
+    "result": "Finalist (competition is not finished.)",
     "details": {
       "tr": "",
       "en": "Leading a 5-member interdisciplinary team developing AI-based stroke detection and temporal classification systems.\n Phase 1: Developed a binary classification model using brain CT scans to detect stroke presence/absence (ischemic or\n hemorrhagic) with TensorFlow and PyTorch.\n Phase 2: Currently implementing temporal classification of ischemic stroke using MRI scans. Creating a three-class classifier for\n Hyperacute-Acute, Subacute, and Chronic stages.\n Coordinating project planning, dataset preprocessing, model development, and technical documentation across competition\n phases"
@@ -44,6 +45,6 @@
       "tr": [],
       "en": []
     },
-    "icon": "images/competitions_tab/Teknofest_Artificial_Intelligence_in_Healthcare_Competition_2025__NEUROCTULUS_Team_Ongoing.png"
+    "icon": "images/competitions_tab/Teknofest_Artificial_Intelligence_in_Healthcare_Competition_2025__NEUROCTULUS_Team_Ongoing_5.png"
   }
 ]
