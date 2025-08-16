@@ -11,7 +11,7 @@ try:
 except Exception:
     DND_OK = False
 
-# PNG dönüşümü (önerilir)
+# PNG dönüştürme (önerilir)
 try:
     from PIL import Image
     PIL_OK = True
@@ -26,10 +26,10 @@ def _sanitize(name: str) -> str:
 
 class IconPicker(ttk.LabelFrame):
     """
-    Local (copy + PNG) veya SVG URL picker.
+    Local (copy + PNG overwrite) veya SVG URL picker.
     - public_dir_cb(): .../frontend/public
     - tab_key: 'socials_tab' | 'info_tab' | ...
-    - name_cb(): görüntü dosya adı için kaynak string (örn. 'LinkedIn' -> LinkedIn.png)
+    - name_cb(): dosya adı kaynağı ('LinkedIn' -> LinkedIn.png)
     """
 
     def __init__(
@@ -104,6 +104,7 @@ class IconPicker(ttk.LabelFrame):
         # local
         path = self._local_path.get().strip()
         if not path:
+            # Yeni dosya seçilmediyse mevcudu koru (duplikasyon yok)
             return self._saved_value.get() or None
         saved = self._save_local_png(path)
         self._saved_value.set(saved or "")
@@ -134,7 +135,6 @@ class IconPicker(ttk.LabelFrame):
             self.local_hint.configure(text=f"Selected: {p}")
 
     def _public_dir(self) -> str:
-        # public dizini (…/frontend/public)
         return self.public_dir_cb()
 
     def _images_dir(self) -> str:
@@ -148,11 +148,8 @@ class IconPicker(ttk.LabelFrame):
             return None
 
         base = _sanitize(self.name_cb() or "icon")
+        # ---- ÖNEMLİ: her seferinde SABİT isme yaz (overwrite) ----
         dst = os.path.join(self._images_dir(), f"{base}.png")
-        i = 1
-        while os.path.exists(dst):
-            dst = os.path.join(self._images_dir(), f"{base}_{i}.png")
-            i += 1
 
         try:
             if PIL_OK:
@@ -173,5 +170,4 @@ class IconPicker(ttk.LabelFrame):
             messagebox.showerror("Image Save", f"Could not save image: {e}")
             return None
 
-        # Frontend'in göreceği relative path (web için forward slash)
         return f"images/{self.tab_key}/{os.path.basename(dst)}"

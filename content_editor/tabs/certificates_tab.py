@@ -1,7 +1,8 @@
 from __future__ import annotations
+import tkinter as tk
 from tkinter import ttk
 from typing import Any, Dict, List
-from widgets.fields import LabeledEntry, LabeledText, DateRange
+from widgets.fields import LabeledEntry, DateRange
 from widgets.i18n_fields import MultiLangEntry, MultiLangText
 from widgets.icon_picker import IconPicker
 from .list_tab import ListEntityTab
@@ -11,31 +12,33 @@ class CertificatesTab(ListEntityTab):
     columns = ["name(tr)", "name(en)", "issuer", "start"]
 
     def build_form(self, parent):
-        f = ttk.Frame(parent)
-        self.name_ml = MultiLangEntry(f, "Name")
-        self.issuer = LabeledEntry(f, "Issuer")
-        self.dr = DateRange(f)
-        self.cred_id = LabeledEntry(f, "Credential ID")
-        self.cred_url = LabeledEntry(f, "Credential URL", 60)
-        self.details_ml = MultiLangText(f, "Details", height=4)
+        wrap = self.make_scrollable(parent)
 
+        self.lang = tk.StringVar(value="en")
+        lang_box = ttk.Frame(wrap)
+        ttk.Label(lang_box, text="Language").pack(side="left")
+        ttk.Radiobutton(lang_box, text="TR", variable=self.lang, value="tr").pack(side="left", padx=6)
+        ttk.Radiobutton(lang_box, text="EN", variable=self.lang, value="en").pack(side="left")
+        lang_box.grid(row=0, column=0, sticky="w", pady=(4, 2))
+
+        self.name_ml = MultiLangEntry(wrap, "Name", lang_var=self.lang)
+        self.issuer = LabeledEntry(wrap, "Issuer")
+        self.dr = DateRange(wrap)
+        self.cred_id = LabeledEntry(wrap, "Credential ID")
+        self.cred_url = LabeledEntry(wrap, "Credential URL", 60)
+        self.details_ml = MultiLangText(wrap, "Details", height=6, lang_var=self.lang)
         self.icon = IconPicker(
-            f, public_dir_cb=self.public_dir, tab_key="certificates_tab",
+            wrap, public_dir_cb=self.public_dir, tab_key="certificates_tab",
             name_cb=lambda: (self.name_ml.get().get("en") or self.name_ml.get().get("tr") or "certificate"),
             title="Icon (optional)"
         )
 
-        self.name_ml.grid(row=0, column=0, sticky="ew", pady=6)
-        self.issuer.grid(row=1, column=0, sticky="ew", pady=6)
-        self.dr.grid(row=2, column=0, sticky="w", pady=6)
-        self.cred_id.grid(row=3, column=0, sticky="ew", pady=6)
-        self.cred_url.grid(row=4, column=0, sticky="ew", pady=6)
-        self.details_ml.grid(row=5, column=0, sticky="nsew", pady=6)
-        self.icon.grid(row=6, column=0, sticky="ew", pady=6)
+        r = 1
+        for w in [self.name_ml, self.issuer, self.dr, self.cred_id, self.cred_url, self.details_ml, self.icon]:
+            w.grid(row=r, column=0, sticky="ew", pady=6); r += 1
 
-        f.columnconfigure(0, weight=1)
-        f.rowconfigure(5, weight=1)
-        return f
+        wrap.columnconfigure(0, weight=1)
+        return wrap
 
     def record_from_form(self) -> Dict[str, Any]:
         dr = self.dr.get()

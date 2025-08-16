@@ -1,6 +1,7 @@
 from __future__ import annotations
+import tkinter as tk
 from tkinter import ttk
-from widgets.fields import LabeledEntry, LabeledText
+from widgets.fields import LabeledEntry
 from widgets.i18n_fields import MultiLangEntry, MultiLangText
 from widgets.icon_picker import IconPicker
 from .base_tab import BaseTab
@@ -10,19 +11,28 @@ class InfoTab(BaseTab):
 
     def __init__(self, master, app):
         super().__init__(master, app)
-        wrap = ttk.Frame(self); wrap.pack(fill="both", expand=True, padx=16, pady=8)
+
+        # Sağ panel scrollable
+        wrap = self.make_scrollable(self)
+
+        # Dil tuşu
+        self.lang = tk.StringVar(value="en")
+        lang_box = ttk.Frame(wrap)
+        ttk.Label(lang_box, text="Language").pack(side="left")
+        ttk.Radiobutton(lang_box, text="TR", variable=self.lang, value="tr").pack(side="left", padx=6)
+        ttk.Radiobutton(lang_box, text="EN", variable=self.lang, value="en").pack(side="left")
+        lang_box.grid(row=0, column=0, sticky="w", pady=(4, 2))
 
         self.full_name  = LabeledEntry(wrap, "Full Name")
-        self.title_ml   = MultiLangEntry(wrap, "Title")
+        self.title_ml   = MultiLangEntry(wrap, "Title", lang_var=self.lang)
         self.university = LabeledEntry(wrap, "University")
         self.department = LabeledEntry(wrap, "Department")
         self.class_year = LabeledEntry(wrap, "Class Year")
         self.gpa        = LabeledEntry(wrap, "GPA")
         self.location   = LabeledEntry(wrap, "Location")
         self.email      = LabeledEntry(wrap, "Email")
-        self.summary_ml = MultiLangText(wrap, "Summary", height=6)
+        self.summary_ml = MultiLangText(wrap, "Summary", height=6, lang_var=self.lang)
 
-        # Brand / Logo (name='logo' → logo.png)
         self.logo = IconPicker(
             wrap, public_dir_cb=self.public_dir, tab_key="info_tab",
             name_cb=lambda: "logo", title="Brand / Logo"
@@ -34,7 +44,7 @@ class InfoTab(BaseTab):
         self.link_gh  = LabeledEntry(links, "GitHub", 60)
         self.link_web = LabeledEntry(links, "Website", 60)
 
-        r = 0
+        r = 1
         for w in [
             self.full_name, self.title_ml, self.university, self.department,
             self.class_year, self.gpa, self.location, self.email, self.summary_ml,
@@ -61,8 +71,7 @@ class InfoTab(BaseTab):
         self.email.set(data.get("email"))
         self.summary_ml.set(data.get("summary"))
         self.logo.set(data.get("logo"))
-
-        links = data.get("links", {})
+        links = data.get("links", {}) or {}
         self.link_cv.set(links.get("cv"))
         self.link_li.set(links.get("linkedin"))
         self.link_gh.set(links.get("github"))

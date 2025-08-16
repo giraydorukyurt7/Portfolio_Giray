@@ -1,4 +1,5 @@
 from __future__ import annotations
+import tkinter as tk
 from tkinter import ttk
 from typing import Any, Dict, List
 from widgets.fields import LabeledEntry
@@ -10,30 +11,33 @@ class SocialsTab(ListEntityTab):
     columns = ["platform", "username", "url", "icon"]
 
     def build_form(self, parent):
-        f = ttk.Frame(parent)
-        self.platform = LabeledEntry(f, "Platform")
-        self.username = LabeledEntry(f, "Username")
-        self.url = LabeledEntry(f, "URL", 60)
+        # scrollable form
+        container = self.make_scrollable(parent)
+
+        # Lang toggle (TR/EN) global değil; bu sekmede gerek yok; diğerlerinde var.
+        self.platform = LabeledEntry(container, "Platform")
+        self.username = LabeledEntry(container, "Username")
+        self.url = LabeledEntry(container, "URL", 60)
 
         self.icon = IconPicker(
-            f, public_dir_cb=self.public_dir, tab_key="socials_tab",
+            container, public_dir_cb=self.public_dir, tab_key="socials_tab",
             name_cb=lambda: self.platform.get(), title="Icon"
         )
 
         self.platform.grid(row=0, column=0, sticky="ew", pady=6)
         self.username.grid(row=1, column=0, sticky="ew", pady=6)
         self.url.grid(row=2, column=0, sticky="ew", pady=6)
-        self.icon.grid(row=3, column=0, sticky="nsew", pady=6)
+        self.icon.grid(row=3, column=0, sticky="ew", pady=6)
 
-        f.columnconfigure(0, weight=1)
-        return f
+        container.columnconfigure(0, weight=1)
+        return container
 
     def record_from_form(self) -> Dict[str, Any]:
         return {
             "platform": self.platform.get(),
             "username": self.username.get(),
             "url": self.url.get(),
-            "icon": self.icon.get(),  # images/socials_tab/<Platform>.png veya svg URL
+            "icon": self.icon.get(),
         }
 
     def set_form(self, rec: Dict[str, Any]):
