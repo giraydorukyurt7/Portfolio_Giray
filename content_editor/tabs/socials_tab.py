@@ -1,5 +1,4 @@
 from __future__ import annotations
-import tkinter as tk
 from tkinter import ttk
 from typing import Any, Dict, List
 from widgets.fields import LabeledEntry
@@ -11,16 +10,14 @@ class SocialsTab(ListEntityTab):
     columns = ["platform", "username", "url", "icon"]
 
     def build_form(self, parent):
-        # scrollable form
-        container = self.make_scrollable(parent)
+        f = ttk.Frame(parent)
 
-        # Lang toggle (TR/EN) global değil; bu sekmede gerek yok; diğerlerinde var.
-        self.platform = LabeledEntry(container, "Platform")
-        self.username = LabeledEntry(container, "Username")
-        self.url = LabeledEntry(container, "URL", 60)
+        self.platform = LabeledEntry(f, "Platform")
+        self.username = LabeledEntry(f, "Username")
+        self.url = LabeledEntry(f, "URL", 60)
 
         self.icon = IconPicker(
-            container, public_dir_cb=self.public_dir, tab_key="socials_tab",
+            f, public_dir_cb=self.public_dir, tab_key="socials_tab",
             name_cb=lambda: self.platform.get(), title="Icon"
         )
 
@@ -29,8 +26,8 @@ class SocialsTab(ListEntityTab):
         self.url.grid(row=2, column=0, sticky="ew", pady=6)
         self.icon.grid(row=3, column=0, sticky="ew", pady=6)
 
-        container.columnconfigure(0, weight=1)
-        return container
+        f.columnconfigure(0, weight=1)
+        return f
 
     def record_from_form(self) -> Dict[str, Any]:
         return {
