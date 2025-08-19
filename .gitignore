@@ -20,3 +20,7 @@ Thumbs.db
 # Python (lokal araçlar)
 tools/**/__pycache__/
 tools/**/*.pyc
+
+data
+
+__pycache__
