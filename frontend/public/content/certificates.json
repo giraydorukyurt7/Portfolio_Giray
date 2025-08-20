@@ -1,0 +1,98 @@
+[
+  {
+    "name": {
+      "en": " Data Literacy"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "start": "",
+    "end": "",
+    "present": false,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "images": [],
+    "icon": null
+  },
+  {
+    "name": {
+      "en": "Data Manipulation 101"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "start": "",
+    "end": "",
+    "present": false,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "images": [],
+    "icon": null
+  },
+  {
+    "name": {
+      "en": "Data Manipulation 201"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "start": "",
+    "end": "",
+    "present": false,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "images": [],
+    "icon": null
+  },
+  {
+    "name": {
+      "en": "Data Visualization"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "start": "",
+    "end": "",
+    "present": false,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "images": [],
+    "icon": null
+  },
+  {
+    "name": {
+      "en": "Statistics for Data Science 101"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "start": "",
+    "end": "",
+    "present": false,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "images": [],
+    "icon": null
+  },
+  {
+    "name": {
+      "en": "Statistics for Data Science 201"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "start": "",
+    "end": "",
+    "present": false,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "images": [],
+    "icon": null
+  }
+]

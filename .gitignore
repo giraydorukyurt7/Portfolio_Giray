@@ -21,6 +21,6 @@ Thumbs.db
 tools/**/__pycache__/
 tools/**/*.pyc
 
-data
+data_cv
 
 __pycache__

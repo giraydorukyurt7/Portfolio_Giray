@@ -1,0 +1,27 @@
+{
+  "full_name": "Giray Doruk Yurtseven",
+  "title": {
+    "en": "Software Engineering Student"
+  },
+  "university": "Halic University",
+  "department": "Software Engineering",
+  "class_year": "4th Year",
+  "gpa": "3.28",
+  "location": "Turkey/Istanbul",
+  "email": "giraysoftwareengineer3.14@hotmail.com",
+  "summary": {
+    "en": "I am Giray Doruk Yurtseven, a Software Engineering student at Halic University with a passion for building real-world solutions. I have gained solid skills in data science, embedded systems, backend development, and frontend development. I aim to apply this diverse technical knowledge to practical projects where I can contribute meaningfully while continuing to grow as an engineer."
+  },
+  "photo": "images/info_profile/Giray_Doruk_Yurtseven_1.png",
+  "photos": [
+    "images/info_profile/Giray_Doruk_Yurtseven_1.png"
+  ],
+  "logo": null,
+  "university_logos": [],
+  "links": {
+    "cv": "",
+    "linkedin": "",
+    "github": "",
+    "website": ""
+  }
+}

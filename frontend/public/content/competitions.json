@@ -1,0 +1,26 @@
+[
+  {
+    "name": {
+      "en": "Artificial Inteligence in Healtcare 2025"
+    },
+    "team": "NEUROCTULUS",
+    "role": {
+      "en": "TEAM LEADER"
+    },
+    "organization": "Teknofest",
+    "start": "2024/11",
+    "end": "",
+    "present": true,
+    "result": "Finalist",
+    "details": {
+      "en": "*Leading a 5-member interdisciplinary team developing AI-based stroke detection and temporal classification systems.\n\n*Phase 1: Developed a binary classification model using brain CT scans to detect stroke presence/absence (ischemic or hemorrhagic) with TensorFlow and PyTorch.\n\n*Phase 2: Currently implementing temporal classification of ischemic stroke using MRI scans. Creating a three-class classifier for Hyperacute-Acute, Subacute, and Chronic stages.\n\n*Coordinating project planning, dataset preprocessing, model development, and technical documentation across competition phases."
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [
+      "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_1.png"
+    ],
+    "icon": "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_1.png"
+  }
+]

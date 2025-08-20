@@ -1,0 +1,78 @@
+[
+  {
+    "title": {
+      "en": "Classifier for Shells of Nuts"
+    },
+    "summary": {
+      "en": "-Collected and labeled a custom dataset from self-taken photographs, including 6 types of nuts and their shelled versions.\n\n-Developed a convolutional neural network (CNN) model for multi-class classification."
+    },
+    "start": "",
+    "end": "",
+    "present": false,
+    "stack": [
+      "Python",
+      "Tensorflow",
+      "CNN"
+    ],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Classifier-For-Shells-Of-Nuts",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null
+  },
+  {
+    "title": {
+      "en": "Brain Tumor Classifier"
+    },
+    "summary": {
+      "en": "-Built a convolutional neural network (CNN) model for binary classification using medical imaging data."
+    },
+    "start": "",
+    "end": "",
+    "present": false,
+    "stack": [
+      "Python",
+      "Tensorflow",
+      "CNN"
+    ],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Brain-Tumor-Classifier",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null
+  },
+  {
+    "title": {
+      "en": "Optimal Plant Care Website (XML-Based)"
+    },
+    "summary": {
+      "en": "-Developed a website using XML, XSLT, JavaScript, and CSS.\n\n-Recommends the optimal plants for the user to grow based on conditions and advises whether to increase or decrease environmental factors."
+    },
+    "start": "",
+    "end": "",
+    "present": false,
+    "stack": [
+      "XML",
+      "XSLT",
+      "JavaScript",
+      "CSS"
+    ],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/OptimalPlantCareXML",
+      "demo": "https://giraydorukyurt7.github.io/OptimalPlantCareXML/OptimalPlantCare.xml"
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null
+  }
+]
