@@ -29,7 +29,7 @@ class ListEntityTab(BaseTab):
 
         # Sol liste
         left = ttk.Frame(root)
-        left.grid(row=0, column=0, sticky="nsw")
+        left.grid(row=0, column=0, sticky="nsew")  # ⬅️ nsw -> nsew
         self.tree = ttk.Treeview(left, columns=self.columns, show="headings", height=18)
         for col in self.columns:
             self.tree.heading(col, text=col)
@@ -39,6 +39,7 @@ class ListEntityTab(BaseTab):
         self.tree.grid(row=0, column=0, sticky="nsew")
         ysb.grid(row=0, column=1, sticky="ns")
         left.grid_columnconfigure(0, weight=1)
+        left.grid_rowconfigure(0, weight=1)       # ⬅️ sol panel dikeyde tam dolsun
 
         # Sağ scrollable form alanı
         right = ttk.Frame(root)

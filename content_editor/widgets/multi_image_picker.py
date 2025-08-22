@@ -23,7 +23,7 @@ def _sanitize(name: str) -> str:
 
 
 def _is_url(s: str) -> bool:
-    s = s.strip().lower()
+    s = (s or "").strip().lower()
     return s.startswith("http://") or s.startswith("https://")
 
 
@@ -118,7 +118,7 @@ class MultiImagePicker(ttk.LabelFrame):
         for idx, it in enumerate(self.items):
             kind, val = it["kind"], it["value"]
             if kind == "existing":
-                images_out.append(val)
+                images_out.append(val.replace("\\", "/"))
             elif kind == "url":
                 images_out.append(val)
             else:  # local
@@ -139,7 +139,7 @@ class MultiImagePicker(ttk.LabelFrame):
                 except Exception as e:
                     messagebox.showerror("Image Save", f"Could not save {os.path.basename(val)}:\n{e}")
                     continue
-                rel = f"images/{self.tab_key}/{filename}"
+                rel = f"images/{self.tab_key}/{filename}".replace("\\", "/")
                 images_out.append(rel)
                 local_name_map[idx] = rel
 
@@ -150,7 +150,8 @@ class MultiImagePicker(ttk.LabelFrame):
             if it["kind"] == "local":
                 cover_out = local_name_map.get(self.cover_idx)
             else:
-                cover_out = it["value"]
+                v = it["value"]
+                cover_out = v if _is_url(v) else v.replace("\\", "/")
 
         return {"images": images_out, "cover": cover_out}
 

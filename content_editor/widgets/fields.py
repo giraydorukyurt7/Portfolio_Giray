@@ -85,3 +85,40 @@ class ListPane(ttk.Frame):
     def insert_rows(self, rows):
         self.clear()
         for r in rows: self.tree.insert("", "end", values=r)
+
+# ---- NEW: Virgüllü liste giriş alanı (Stack gibi) ----
+class CommaListEntry(ttk.Frame):
+    """
+    Tek satırlık giriş -> ['A','B','C'] listesine dönüştürmek için.
+    get_list(): benzersiz, kırpılmış öğe listesi
+    set_list(list[str]): alanı doldurur
+    get_text()/set_text(): ham metin erişimi
+    """
+    def __init__(self, master, text: str = "Stack (comma separated)", width: int = 60):
+        super().__init__(master)
+        ttk.Label(self, text=text).grid(row=0, column=0, sticky="w", padx=(0,8))
+        self.var = tk.StringVar(master=self)
+        e = ttk.Entry(self, textvariable=self.var, width=width)
+        e.grid(row=0, column=1, sticky="ew")
+        self.columnconfigure(1, weight=1)
+
+    def get_text(self) -> str:
+        return self.var.get()
+
+    def set_text(self, v: str):
+        self.var.set(v or "")
+
+    def get_list(self) -> list[str]:
+        raw = self.var.get() or ""
+        out, seen = [], set()
+        for tok in [t.strip() for t in raw.split(",")]:
+            if not tok: continue
+            k = tok.lower()
+            if k not in seen:
+                out.append(tok)
+                seen.add(k)
+        return out
+
+    def set_list(self, items: list[str] | None):
+        items = items or []
+        self.var.set(", ".join(items))

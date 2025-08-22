@@ -21,10 +21,9 @@ class SocialsTab(ListEntityTab):
             name_cb=lambda: self.platform.get(), title="Icon"
         )
 
-        self.platform.grid(row=0, column=0, sticky="ew", pady=6)
-        self.username.grid(row=1, column=0, sticky="ew", pady=6)
-        self.url.grid(row=2, column=0, sticky="ew", pady=6)
-        self.icon.grid(row=3, column=0, sticky="ew", pady=6)
+        r = 0
+        for w in [self.platform, self.username, self.url, self.icon]:
+            w.grid(row=r, column=0, sticky="ew", pady=6); r += 1
 
         f.columnconfigure(0, weight=1)
         return f
@@ -45,3 +44,7 @@ class SocialsTab(ListEntityTab):
 
     def summary_row(self, rec: Dict[str, Any]) -> List[Any]:
         return [rec.get("platform", ""), rec.get("username", ""), rec.get("url", ""), rec.get("icon", "")]
+
+    def serialize(self):
+        # ListEntityTab sekmeleri 'data' listesi üzerinden kaydedilir.
+        return getattr(self, "data", [])

@@ -1,7 +1,7 @@
 from __future__ import annotations
 from tkinter import ttk
 from typing import Any, Dict, List
-from widgets.fields import LabeledEntry, DateRange
+from widgets.fields import LabeledEntry, DateRange, CommaListEntry
 from widgets.i18n_fields import EnOnlyEntry, EnOnlyText, EnOnlyList
 from widgets.multi_image_picker import MultiImagePicker
 from .list_tab import ListEntityTab
@@ -21,6 +21,7 @@ class CompetitionsTab(ListEntityTab):
         self.result = LabeledEntry(f, "Result")
         self.details_en = EnOnlyText(f, "Details (EN)", height=6)
         self.highlights_en = EnOnlyList(f, "Highlights (EN)", height=6)
+        self.stack = CommaListEntry(f, "Stack (comma separated)")
 
         self.gallery = MultiImagePicker(
             f, public_dir_cb=self.public_dir, tab_key="competitions_tab",
@@ -29,7 +30,7 @@ class CompetitionsTab(ListEntityTab):
         )
 
         r = 0
-        for w in [self.name_en, self.team, self.role_en, self.org, self.dr, self.result, self.details_en, self.highlights_en, self.gallery]:
+        for w in [self.name_en, self.team, self.role_en, self.org, self.dr, self.result, self.details_en, self.highlights_en, self.stack, self.gallery]:
             w.grid(row=r, column=0, sticky="ew", pady=6); r += 1
 
         f.columnconfigure(0, weight=1)
@@ -47,6 +48,7 @@ class CompetitionsTab(ListEntityTab):
             "result": self.result.get(),
             "details": self.details_en.get(),
             "highlights": self.highlights_en.get(),
+            "stack": self.stack.get_list(),     # ✅ yeni alan
             "images": g["images"],
             "icon": g["cover"],
         }
@@ -60,6 +62,7 @@ class CompetitionsTab(ListEntityTab):
         self.result.set(rec.get("result"))
         self.details_en.set(rec.get("details"))
         self.highlights_en.set(rec.get("highlights"))
+        self.stack.set_list(rec.get("stack") or [])
         self.gallery.set(rec.get("images") or [], rec.get("icon"))
 
     def summary_row(self, rec: Dict[str, Any]) -> List[Any]:

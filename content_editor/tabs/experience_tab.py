@@ -1,7 +1,7 @@
 from __future__ import annotations
 from tkinter import ttk
 from typing import Any, Dict, List
-from widgets.fields import LabeledEntry, DateRange
+from widgets.fields import LabeledEntry, DateRange, CommaListEntry
 from widgets.i18n_fields import EnOnlyEntry, EnOnlyText, EnOnlyList
 from widgets.multi_image_picker import MultiImagePicker
 from .list_tab import ListEntityTab
@@ -19,6 +19,7 @@ class ExperienceTab(ListEntityTab):
         self.dr = DateRange(f)
         self.details_en = EnOnlyText(f, "Details (EN)", height=6)
         self.highlights_en = EnOnlyList(f, "Highlights (EN)", height=6)
+        self.stack = CommaListEntry(f, "Stack (comma separated)")
 
         self.gallery = MultiImagePicker(
             f, public_dir_cb=self.public_dir, tab_key="experience_tab",
@@ -27,7 +28,7 @@ class ExperienceTab(ListEntityTab):
         )
 
         r = 0
-        for w in [self.title_en, self.org, self.loc, self.dr, self.details_en, self.highlights_en, self.gallery]:
+        for w in [self.title_en, self.org, self.loc, self.dr, self.details_en, self.highlights_en, self.stack, self.gallery]:
             w.grid(row=r, column=0, sticky="ew", pady=6); r += 1
 
         f.columnconfigure(0, weight=1)
@@ -36,6 +37,7 @@ class ExperienceTab(ListEntityTab):
     def record_from_form(self) -> Dict[str, Any]:
         dr = self.dr.get()
         g = self.gallery.get()
+        stack_list = self.stack.get_list()
         return {
             "title": self.title_en.get(),
             "organization": self.org.get(),
@@ -43,7 +45,8 @@ class ExperienceTab(ListEntityTab):
             "start": dr["start"], "end": dr["end"], "present": dr["present"],
             "details": self.details_en.get(),
             "highlights": self.highlights_en.get(),
-            "tech": [],
+            "stack": stack_list,          # ✅ yeni alan
+            "tech": stack_list,           # (geri uyum için aynısını yazıyoruz)
             "images": g["images"],
             "icon": g["cover"],
         }
@@ -55,6 +58,10 @@ class ExperienceTab(ListEntityTab):
         self.dr.set(rec.get("start"), rec.get("end"), rec.get("present", False))
         self.details_en.set(rec.get("details"))
         self.highlights_en.set(rec.get("highlights"))
+        stack_in = rec.get("stack")
+        if not stack_in:
+            stack_in = rec.get("tech")  # eski verilerde 'tech' vardı
+        self.stack.set_list(stack_in or [])
         self.gallery.set(rec.get("images") or [], rec.get("icon"))
 
     def summary_row(self, rec: Dict[str, Any]) -> List[Any]:
