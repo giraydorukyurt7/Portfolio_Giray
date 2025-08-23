@@ -1,7 +1,7 @@
 [
   {
     "name": {
-      "en": " Data Literacy"
+      "en": "Data Literacy"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
     "start": "",
@@ -12,6 +12,7 @@
     "details": {
       "en": ""
     },
+    "stack": [],
     "images": [],
     "icon": null
   },

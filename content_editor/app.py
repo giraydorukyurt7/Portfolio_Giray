@@ -1,4 +1,5 @@
 from __future__ import annotations
+import importlib
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 
@@ -62,6 +63,9 @@ class EditorApp(tk.Tk):
         self.nb.add(self.tabs["competitions"], text="Competitions")
         self.nb.add(self.tabs["projects"], text="Projects")
         self.nb.add(self.tabs["certificates"], text="Certificates")
+
+        # ⬇️ Stack tab varsa otomatik ekle
+        self._try_mount_stack_tab()
 
         # İlk yükleme
         self._apply_content_root()
@@ -143,8 +147,6 @@ class EditorApp(tk.Tk):
                 try:
                     data = tab.serialize()
                 except NotImplementedError:
-                    # Bazı sekmeler BaseTab.serialize'ı override etmiyor (ListEntityTab gibi).
-                    # Bu durumda doğrudan tab.data kullan.
                     data = getattr(tab, "data", None)
             elif hasattr(tab, "data"):
                 data = tab.data
@@ -153,14 +155,29 @@ class EditorApp(tk.Tk):
                 return
 
             # Yaz
-            out_path = self.repo.save(name, data)
+            self.repo.save(name, data)
             tab.update_target_path()
         except Exception as e:
             import traceback
             tb = traceback.format_exc()
-            from tkinter import messagebox
             messagebox.showerror("Save",
                 f"Failed to save '{getattr(tab, 'entity_name', '?')}'\n\n{e}\n\n{tb}")
+
+    # -------------------- Optional mount: Stack tab --------------------
+    def _try_mount_stack_tab(self):
+        """
+        tabs/stack_tab.py mevcutsa içe aktarır ve Notebook'a ekler.
+        """
+        try:
+            mod = importlib.import_module("tabs.stack_tab")
+            StackTab = getattr(mod, "StackTab", None)
+            if StackTab is None:
+                return
+            self.tabs["stack"] = StackTab(self.nb, self)
+            self.nb.add(self.tabs["stack"], text="Stack")
+        except Exception:
+            # Dosya yoksa/eksikse sessizce geç
+            pass
 
 
 # ------------------------------------------------------------------
