@@ -1,1 +1,44 @@
-[]
+[
+  {
+    "name": "Python",
+    "category": "Programming Languages",
+    "link": "",
+    "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg",
+    "logo_path": ""
+  },
+  {
+    "name": "JAVA",
+    "category": "Programming Languages",
+    "link": "",
+    "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg",
+    "logo_path": ""
+  },
+  {
+    "name": "C",
+    "category": "Programming Languages",
+    "link": "",
+    "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg",
+    "logo_path": ""
+  },
+  {
+    "name": "C++",
+    "category": "Programming Languages",
+    "link": "",
+    "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg",
+    "logo_path": ""
+  },
+  {
+    "name": "C#",
+    "category": "Programming Languages",
+    "link": "",
+    "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg",
+    "logo_path": ""
+  },
+  {
+    "name": "JavaScript",
+    "category": "Programming Languages",
+    "link": "",
+    "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg",
+    "logo_path": ""
+  }
+]
