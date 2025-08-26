@@ -45,8 +45,11 @@
     "details": {
       "en": ""
     },
-    "images": [],
-    "icon": null
+    "stack": [],
+    "images": [
+      "images/certificates_tab/Data_Manipulation_201_1.png"
+    ],
+    "icon": "images/certificates_tab/Data_Manipulation_201_1.png"
   },
   {
     "name": {
@@ -61,8 +64,11 @@
     "details": {
       "en": ""
     },
-    "images": [],
-    "icon": null
+    "stack": [],
+    "images": [
+      "images/certificates_tab/Data_Visualization_1.png"
+    ],
+    "icon": "images/certificates_tab/Data_Visualization_1.png"
   },
   {
     "name": {
@@ -77,8 +83,11 @@
     "details": {
       "en": ""
     },
-    "images": [],
-    "icon": null
+    "stack": [],
+    "images": [
+      "images/certificates_tab/Statistics_for_Data_Science_101_1.png"
+    ],
+    "icon": "images/certificates_tab/Statistics_for_Data_Science_101_1.png"
   },
   {
     "name": {
@@ -93,7 +102,10 @@
     "details": {
       "en": ""
     },
-    "images": [],
-    "icon": null
+    "stack": [],
+    "images": [
+      "images/certificates_tab/Statistics_for_Data_Science_201_1.png"
+    ],
+    "icon": "images/certificates_tab/Statistics_for_Data_Science_201_1.png"
   }
 ]
