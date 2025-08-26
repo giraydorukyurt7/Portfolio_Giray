@@ -1,3 +1,4 @@
+# tabs/list_tab.py
 from __future__ import annotations
 import tkinter as tk
 from tkinter import ttk
@@ -21,16 +22,51 @@ class ListEntityTab(BaseTab):
     def summary_row(self, rec: Dict[str, Any]) -> List[Any]:  # override
         raise NotImplementedError
 
+    # ---- App standard API ----
+    def export(self) -> List[Dict[str, Any]]:
+        return list(self.data)
+
+    def save(self) -> None:
+        self._save_only()
+
     def __init__(self, master, app):
         super().__init__(master, app)
+
+        # ---------- Treeview stili: seçili satır odak kaybolsa da vurgulu ----------
+        style = ttk.Style(self)
+        # Mevcut Treeview yerleşimini klonla ve özel isimle kullan
+        try:
+            base_layout = style.layout("Treeview")
+            style.layout("AlwaysSelected.Treeview", base_layout)
+        except Exception:
+            pass
+        # Seçili ve odak dışı seçili durumları için renkler
+        style.map(
+            "AlwaysSelected.Treeview",
+            background=[
+                ("selected", "#2563eb"),           # mavi vurgulu
+                ("!focus selected", "#2563eb"),    # odak başka yerdeyken de aynı mavi
+            ],
+            foreground=[
+                ("selected", "white"),
+                ("!focus selected", "white"),
+            ],
+        )
 
         root = ttk.Frame(self)
         root.pack(fill="both", expand=True, padx=10, pady=8)
 
         # Sol liste
         left = ttk.Frame(root)
-        left.grid(row=0, column=0, sticky="nsew")  # ⬅️ nsw -> nsew
-        self.tree = ttk.Treeview(left, columns=self.columns, show="headings", height=18)
+        left.grid(row=0, column=0, sticky="nsew")
+        self.tree = ttk.Treeview(
+            left,
+            columns=self.columns,
+            show="headings",
+            height=18,
+            style="AlwaysSelected.Treeview",
+            selectmode="browse",
+        )
         for col in self.columns:
             self.tree.heading(col, text=col)
             self.tree.column(col, width=160, stretch=True)
@@ -39,7 +75,7 @@ class ListEntityTab(BaseTab):
         self.tree.grid(row=0, column=0, sticky="nsew")
         ysb.grid(row=0, column=1, sticky="ns")
         left.grid_columnconfigure(0, weight=1)
-        left.grid_rowconfigure(0, weight=1)       # ⬅️ sol panel dikeyde tam dolsun
+        left.grid_rowconfigure(0, weight=1)
 
         # Sağ scrollable form alanı
         right = ttk.Frame(root)
@@ -48,9 +84,9 @@ class ListEntityTab(BaseTab):
         form_container = self._make_scrollable_form(right)   # Canvas içindeki 'content' frame
         self.form = self.build_form(form_container)          # Alt sınıf burada root frame döndürüyor
 
-        # ÖNEMLİ: dönen form root’u content’e yerleştir (aksi halde görünmez)
+        # Alt sınıf grid/pack yapmadıysa yerleştir
         try:
-            if not self.form.winfo_manager():  # henüz pack/grid yapılmadıysa
+            if not self.form.winfo_manager():
                 self.form.grid(row=0, column=0, sticky="nsew")
         except Exception:
             pass
@@ -80,45 +116,37 @@ class ListEntityTab(BaseTab):
         self.bind_all("<Alt-s>", lambda e: self._save_only())
 
     def _make_scrollable_form(self, parent) -> ttk.Frame:
-       canvas = tk.Canvas(parent, highlightthickness=0)
-       vsb = ttk.Scrollbar(parent, orient="vertical", command=canvas.yview)
-       content = ttk.Frame(canvas)
-    
-       # 1) İçeriği canvas'a yerleştir ve pencere id'sini tut
-       window_id = canvas.create_window((0, 0), window=content, anchor="nw")
-    
-       # 2) İçerik boyu değişince scrollregion güncelle
-       def _on_cfg(_e=None):
-           canvas.configure(scrollregion=canvas.bbox("all"))
-       content.bind("<Configure>", _on_cfg)
-    
-       # 3) Canvas genişleyince iç pencerenin genişliğini eşitle (boşlukları yok eder)
-       def _on_canvas_resize(e):
-           canvas.itemconfigure(window_id, width=e.width)
-       canvas.bind("<Configure>", _on_canvas_resize)
-    
-       # 4) Mouse wheel sadece form üzerindeyken çalışsın
-       def on_wheel(e): canvas.yview_scroll(-int(e.delta/120), "units")
-       def bind_wheel(_): content.bind_all("<MouseWheel>", on_wheel)
-       def unbind_wheel(_): content.unbind_all("<MouseWheel>")
-       content.bind("<Enter>", bind_wheel)
-       content.bind("<Leave>", unbind_wheel)
-    
-       # Yerleşim
-       parent.grid_columnconfigure(0, weight=1)
-       parent.grid_rowconfigure(0, weight=1)
-       canvas.grid(row=0, column=0, sticky="nsew")
-       vsb.grid(row=0, column=1, sticky="ns")
-    
-       # İç formun kendi kolonunu esnet
-       content.columnconfigure(0, weight=1)
-    
-       return content
+        canvas = tk.Canvas(parent, highlightthickness=0)
+        vsb = ttk.Scrollbar(parent, orient="vertical", command=canvas.yview)
+        content = ttk.Frame(canvas)
 
+        window_id = canvas.create_window((0, 0), window=content, anchor="nw")
+
+        def _on_cfg(_e=None):
+            canvas.configure(scrollregion=canvas.bbox("all"))
+        content.bind("<Configure>", _on_cfg)
+
+        def _on_canvas_resize(e):
+            canvas.itemconfigure(window_id, width=e.width)
+        canvas.bind("<Configure>", _on_canvas_resize)
+
+        def on_wheel(e): canvas.yview_scroll(-int(e.delta/120), "units")
+        def bind_wheel(_): content.bind_all("<MouseWheel>", on_wheel)
+        def unbind_wheel(_): content.unbind_all("<MouseWheel>")
+        content.bind("<Enter>", bind_wheel)
+        content.bind("<Leave>", unbind_wheel)
+
+        parent.grid_columnconfigure(0, weight=1)
+        parent.grid_rowconfigure(0, weight=1)
+        canvas.grid(row=0, column=0, sticky="nsew")
+        vsb.grid(row=0, column=1, sticky="ns")
+        content.columnconfigure(0, weight=1)
+
+        return content
 
     # ---- Data IO ----
-    def load(self):
-        items = self.app.repo.load(self.entity_name) or []
+    def load(self, data: List[Dict[str, Any]] | None = None):
+        items = data if isinstance(data, list) else (self.app.repo.load(self.entity_name) or [])
         if not isinstance(items, list):
             items = []
         self.data = items
@@ -127,6 +155,7 @@ class ListEntityTab(BaseTab):
             self.set_form({})
         except Exception:
             pass
+        self.update_target_path()
 
     def _save_only(self):
         self.app.repo.save(self.entity_name, self.data)
