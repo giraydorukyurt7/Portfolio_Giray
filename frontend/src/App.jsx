@@ -62,33 +62,4 @@ logo_url: it.logo_url || "",
 });
 return idx;
 }, [stack]);
-
-
-const fullName = safeGet(info, "full_name", "");
-
-
-return (
-<div className="min-h-screen text-white bg-[#0b0b10]">
-<Navbar fullName={fullName} />
-
-
-{loading && <Loading />}
-{error && !loading && <ErrorState message={error} />}
-
-
-{!loading && !error && (
-<>
-<Hero info={info || {}} />
-<ProjectsSection items={projects} stackIndex={stackIndex} />
-<ExperienceSection items={experience} stackIndex={stackIndex} />
-<CompetitionsSection items={competitions} stackIndex={stackIndex} />
-<CertificatesSection items={certificates} stackIndex={stackIndex} />
-<ContactSection info={info || {}} socials={socials} />
-</>
-)}
-
-
-<Footer />
-</div>
-);
 }

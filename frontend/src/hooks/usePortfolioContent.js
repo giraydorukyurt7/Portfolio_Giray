@@ -1,8 +1,4 @@
 // src/hooks/usePortfolioContent.js
-import { useEffect, useState } from "react";
-import { asset, fetchJSON } from "../lib/utils";
-
-
 export default function usePortfolioContent() {
 const [state, setState] = useState({
 info: null,
