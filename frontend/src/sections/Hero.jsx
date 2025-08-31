@@ -26,22 +26,24 @@ export default function Hero({ info }) {
   const summary = safeGet(info, "summary.en", "");
   const links = info?.links || {};
 
-  // photo preference: profile_photo.url -> photo -> photos[0]
+  // Photo fallbacks: profile_photo.url -> photo -> photos[0] -> profile_photo.path (if relative)
   const photo = first(
     safeGet(info, "profile_photo.url", ""),
     resolveAsset(info?.photo),
-    resolveAsset(Array.isArray(info?.photos) ? info.photos[0] : null)
+    resolveAsset(Array.isArray(info?.photos) ? info.photos[0] : null),
+    resolveAsset(safeGet(info, "profile_photo.path", ""))
   );
 
+  // University logo fallbacks: university_logo.url -> university_logo.path -> university_logos[0] -> info.logo
   const uniLogo = first(
     resolveAsset(safeGet(info, "university_logo.url", "")),
     resolveAsset(safeGet(info, "university_logo.path", "")),
-    resolveAsset(Array.isArray(info?.university_logos) ? info.university_logos[0] : null)
+    resolveAsset(Array.isArray(info?.university_logos) ? info.university_logos[0] : null),
+    resolveAsset(info?.logo)
   );
 
   return (
     <section id="home" className="relative overflow-hidden">
-      {/* background */}
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(120,119,198,0.25),rgba(255,255,255,0))]" />
       <div className="pointer-events-none absolute inset-0 -z-10 bg-grid-white/[0.02]" />
 
@@ -66,42 +68,22 @@ export default function Hero({ info }) {
 
         <div className="mt-6 flex flex-wrap items-center gap-3">
           {links?.cv && (
-            <a
-              href={links.cv}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm hover:bg-white/15"
-            >
+            <a href={links.cv} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm hover:bg-white/15">
               Download CV
             </a>
           )}
           {links?.github && (
-            <a
-              href={links.github}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm hover:bg-white/10"
-            >
+            <a href={links.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm hover:bg-white/10">
               GitHub
             </a>
           )}
           {links?.linkedin && (
-            <a
-              href={links.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm hover:bg-white/10"
-            >
+            <a href={links.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm hover:bg-white/10">
               LinkedIn
             </a>
           )}
           {links?.website && (
-            <a
-              href={links.website}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm hover:bg-white/10"
-            >
+            <a href={links.website} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm hover:bg-white/10">
               Website
             </a>
           )}

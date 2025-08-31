@@ -14,6 +14,7 @@ import ExperienceSection from "./sections/ExperienceSection.jsx";
 import CompetitionsSection from "./sections/CompetitionsSection.jsx";
 import ProjectsSection from "./sections/ProjectsSection.jsx";
 import CertificatesSection from "./sections/CertificatesSection.jsx";
+import CoursesSection from "./sections/CoursesSection.jsx";
 import ContactSection from "./sections/ContactSection.jsx";
 
 function Loading() {
@@ -38,6 +39,17 @@ function ErrorState({ message }) {
   );
 }
 
+// Yeni varsayılan sıra (content/order.json yoksa)
+const DEFAULT_ORDER = ["stack", "experience", "competitions", "projects", "certificates", "courses"];
+const LABELS = {
+  stack: "Stack",
+  experience: "Experience",
+  competitions: "Competitions",
+  projects: "Projects",
+  certificates: "Certificates",
+  courses: "Technical Courses",
+};
+
 export default function App() {
   const {
     info,
@@ -45,12 +57,14 @@ export default function App() {
     experience,
     competitions,
     certificates,
-    socials,
     stack,
+    courses,
+    order,
     loading,
     error,
   } = usePortfolioContent();
 
+  // StackBadge index
   const stackIndex = useMemo(() => {
     const idx = {};
     (stack || []).forEach((it) => {
@@ -69,35 +83,44 @@ export default function App() {
 
   const fullName = safeGet(info, "full_name", "");
 
+  // Order.json’dan; yoksa DEFAULT_ORDER
+  const sectionOrder = Array.isArray(order?.sections_order) && order.sections_order.length
+    ? order.sections_order
+    : DEFAULT_ORDER;
+
+  const sections = {
+    stack: <StackSection items={stack} />,
+    experience: <ExperienceSection items={experience} stackIndex={stackIndex} />,
+    competitions: <CompetitionsSection items={competitions} stackIndex={stackIndex} />,
+    projects: <ProjectsSection items={projects} stackIndex={stackIndex} />,
+    certificates: <CertificatesSection items={certificates} stackIndex={stackIndex} />,
+    courses: <CoursesSection items={courses} />,
+  };
+
+  const navItems = [
+    ...sectionOrder.map((id) => ({ id, label: LABELS[id] || id, href: `#${id}` })),
+    { id: "contact", label: "Contact", href: "#contact" },
+  ];
+
   return (
     <div className="min-h-screen text-white bg-[#0b0b10]">
-      <Navbar fullName={fullName} />
+      <Navbar fullName={fullName} items={navItems} />
 
       {loading && <Loading />}
       {error && !loading && <ErrorState message={error} />}
 
       {!loading && !error && (
         <>
-          {/* Info */}
+          {/* info */}
           <Hero info={info || {}} />
 
-          {/* Stack */}
-          <StackSection items={stack || []} />
+          {/* stack → … → courses */}
+          {sectionOrder.map((id) => (
+            <React.Fragment key={id}>{sections[id]}</React.Fragment>
+          ))}
 
-          {/* Experience */}
-          <ExperienceSection items={experience} stackIndex={stackIndex} />
-
-          {/* Competition */}
-          <CompetitionsSection items={competitions} stackIndex={stackIndex} />
-
-          {/* Projects */}
-          <ProjectsSection items={projects} stackIndex={stackIndex} />
-
-          {/* Certificates */}
-          <CertificatesSection items={certificates} stackIndex={stackIndex} />
-
-          {/* Contact */}
-          <ContactSection info={info || {}} socials={socials} />
+          {/* contact */}
+          <ContactSection info={info || {}} />
         </>
       )}
 

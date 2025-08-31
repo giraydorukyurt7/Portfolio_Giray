@@ -4,9 +4,8 @@ import Section from "../components/Section";
 import Card from "../components/Card";
 import StackBadge from "../components/StackBadge";
 import ExternalLink from "../components/ExternalLink";
-import { safeGet, formatYM, resolveAsset } from "../lib/utils";
+import { safeGet, resolveAsset, formatDate } from "../lib/utils";
 
-// Küçük ok ikonları (inline SVG)
 function ChevronDown({ className = "h-4 w-4" }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -22,34 +21,17 @@ function ChevronUp({ className = "h-4 w-4" }) {
   );
 }
 
-// Büyük ön izleme (lightbox)
 function ImageLightbox({ src, alt, onClose, name, issuer, credUrl, credId }) {
   if (!src) return null;
   const linkLabel = issuer ? `Certificate Link at ${issuer} Website` : "Certificate Link";
   return (
-    <div
-      className="fixed inset-0 z-[60] bg-black/80 p-4 flex items-center justify-center"
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-    >
-      <div
-        className="relative w-full max-w-2xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          onClick={onClose}
-          className="absolute -top-3 -right-3 rounded-full bg-white/15 hover:bg-white/25 text-white p-2"
-          aria-label="Close preview"
-        >
+    <div className="fixed inset-0 z-[60] bg-black/80 p-4 flex items-center justify-center" onClick={onClose} role="dialog" aria-modal="true">
+      <div className="relative w-full max-w-2xl" onClick={(e) => e.stopPropagation()}>
+        <button onClick={onClose} className="absolute -top-3 -right-3 rounded-full bg-white/15 hover:bg-white/25 text-white p-2" aria-label="Close preview">
           ×
         </button>
-        <img
-          src={src}
-          alt={alt || name || "certificate"}
-          className="w-full h-auto object-contain rounded-xl border border-white/10 shadow-2xl"
-        />
-        {/* Ok gerekmeksizin küçük bilgi alanı */}
+        <img src={src} alt={alt || name || "certificate"} className="w-full h-auto object-contain rounded-xl border border-white/10 shadow-2xl" />
+        {/* Always show small info under the preview */}
         <div className="mt-3 text-xs text-white/80 space-y-1">
           {name && <div className="font-medium text-white/90">{name}</div>}
           {issuer && <div>Issuer: {issuer}</div>}
@@ -68,9 +50,8 @@ function ImageLightbox({ src, alt, onClose, name, issuer, credUrl, credId }) {
 function CertificateItem({ ce, stackIndex }) {
   const name = safeGet(ce, "name.en", "Certificate");
   const issuer = ce.issuer;
-  const start = formatYM(ce.start);
-  const end = ce.present ? "Present" : formatYM(ce.end);
-  const range = [start, end].filter(Boolean).join(" — ");
+  // New: single issued date. Try ce.issued_at, then ce.date, then fallback to old fields
+  const issued = formatDate(ce.issued_at || ce.date || ce.end || ce.start || "");
   const credUrl = ce.credential_url;
   const credId = ce.credential_id;
   const details = safeGet(ce, "details.en", "");
@@ -81,22 +62,19 @@ function CertificateItem({ ce, stackIndex }) {
   const [previewOpen, setPreviewOpen] = useState(false);
 
   const linkLabel = issuer ? `Certificate Link at ${issuer} Website` : "Certificate Link";
-  const showToggle = Boolean(credUrl || credId); // ok sadece gerçekten ekstra bilgi varsa
+  const showToggle = Boolean(credUrl || credId);
 
   return (
     <>
       <Card>
         <div className="flex flex-col gap-2">
-          {/* Üst başlık */}
           <div className="flex items-start justify-between gap-2">
             <h3 className="font-semibold text-lg leading-tight">{name}</h3>
-            {range && <div className="text-xs text-white/60 whitespace-nowrap">{range}</div>}
+            {issued && <div className="text-xs text-white/60 whitespace-nowrap">Issued on: {issued}</div>}
           </div>
 
-          {/* Issuer */}
           <div className="text-sm text-white/80">{issuer && <span className="font-medium">{issuer}</span>}</div>
 
-          {/* Logo artık başlığın ALTINDA ve tıklanabilir */}
           {icon ? (
             <div className="mt-2">
               <img
@@ -111,10 +89,8 @@ function CertificateItem({ ce, stackIndex }) {
             </div>
           ) : null}
 
-          {/* Açıklama */}
           {details && <p className="text-sm text-white/80 whitespace-pre-line mt-1">{details}</p>}
 
-          {/* Stack badge'leri */}
           {stack.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-2">
               {stack.map((t, i) => (
@@ -123,7 +99,6 @@ function CertificateItem({ ce, stackIndex }) {
             </div>
           )}
 
-          {/* Küçük aşağı/yukarı ok ve açılır alan */}
           {showToggle && (
             <div className="mt-2">
               <button
@@ -155,7 +130,6 @@ function CertificateItem({ ce, stackIndex }) {
         </div>
       </Card>
 
-      {/* Lightbox */}
       {previewOpen && (
         <ImageLightbox
           src={icon}
