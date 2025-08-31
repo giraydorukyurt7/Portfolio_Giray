@@ -8,9 +8,10 @@ export default function Navbar({ fullName }) {
         </a>
         <div className="hidden sm:flex items-center gap-1">
           {[
-            ["Projects", "#projects"],
+            ["Stack", "#stack"],
             ["Experience", "#experience"],
             ["Competitions", "#competitions"],
+            ["Projects", "#projects"],
             ["Certificates", "#certificates"],
             ["Contact", "#contact"],
           ].map(([label, href]) => (
