@@ -1,130 +1,83 @@
-// src/App.jsx
 import React, { useMemo } from "react";
-import usePortfolioContent from "./hooks/usePortfolioContent.js";
-import { safeGet } from "./lib/utils";
+import usePortfolioContent from "./hooks/usePortfolioContent";
 
-// components
-import Navbar from "./components/Navbar.jsx";
-import Footer from "./components/Footer.jsx";
+// Sections
+import Hero from "./sections/Hero";
+import StackSection from "./sections/StackSection";
+import ExperienceSection from "./sections/ExperienceSection";
+import CompetitionsSection from "./sections/CompetitionsSection";
+import ProjectsSection from "./sections/ProjectsSection";
+import CertificatesSection from "./sections/CertificatesSection";
+import CoursesSection from "./sections/CoursesSection";
+import ContactSection from "./sections/ContactSection";
+import TimelineSection from "./sections/TimelineSection"; // <-- YENİ
 
-// sections
-import Hero from "./sections/Hero.jsx";
-import StackSection from "./sections/StackSection.jsx";
-import ExperienceSection from "./sections/ExperienceSection.jsx";
-import CompetitionsSection from "./sections/CompetitionsSection.jsx";
-import ProjectsSection from "./sections/ProjectsSection.jsx";
-import CertificatesSection from "./sections/CertificatesSection.jsx";
-import CoursesSection from "./sections/CoursesSection.jsx";
-import ContactSection from "./sections/ContactSection.jsx";
-
-function Loading() {
-  return (
-    <div className="mx-auto max-w-6xl px-4 py-24">
-      <div className="animate-pulse space-y-6">
-        <div className="h-8 w-2/3 rounded bg-white/10" />
-        <div className="h-4 w-1/2 rounded bg-white/10" />
-        <div className="h-4 w-1/3 rounded bg-white/10" />
-      </div>
-    </div>
-  );
-}
-
-function ErrorState({ message }) {
-  return (
-    <div className="mx-auto max-w-6xl px-4 py-24">
-      <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-4">
-        <p className="text-sm">{message || "Failed to load content."}</p>
-      </div>
-    </div>
-  );
-}
-
-// Yeni varsayılan sıra (content/order.json yoksa)
-const DEFAULT_ORDER = ["stack", "experience", "competitions", "projects", "certificates", "courses"];
-const LABELS = {
-  stack: "Stack",
-  experience: "Experience",
-  competitions: "Competitions",
-  projects: "Projects",
-  certificates: "Certificates",
-  courses: "Technical Courses",
-};
+// Layout
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 export default function App() {
   const {
     info,
-    projects,
+    stack,
     experience,
     competitions,
+    projects,
     certificates,
-    stack,
     courses,
-    order,
+    socials,
     loading,
     error,
   } = usePortfolioContent();
 
-  // StackBadge index
+  // Stack rozetleri için hızlı erişim
   const stackIndex = useMemo(() => {
     const idx = {};
-    (stack || []).forEach((it) => {
-      const key = String(it?.name || "").trim().toLowerCase();
-      if (!key) return;
-      idx[key] = {
-        name: it.name || "",
-        category: it.category || "",
-        link: it.link || "",
-        logo_path: it.logo_path || "",
-        logo_url: it.logo_url || "",
-      };
+    (stack || []).forEach((s) => {
+      if (s?.name) idx[String(s.name).trim().toLowerCase()] = s;
     });
     return idx;
   }, [stack]);
 
-  const fullName = safeGet(info, "full_name", "");
-
-  // Order.json’dan; yoksa DEFAULT_ORDER
-  const sectionOrder = Array.isArray(order?.sections_order) && order.sections_order.length
-    ? order.sections_order
-    : DEFAULT_ORDER;
-
-  const sections = {
-    stack: <StackSection items={stack} />,
-    experience: <ExperienceSection items={experience} stackIndex={stackIndex} />,
-    competitions: <CompetitionsSection items={competitions} stackIndex={stackIndex} />,
-    projects: <ProjectsSection items={projects} stackIndex={stackIndex} />,
-    certificates: <CertificatesSection items={certificates} stackIndex={stackIndex} />,
-    courses: <CoursesSection items={courses} />,
-  };
-
-  const navItems = [
-    ...sectionOrder.map((id) => ({ id, label: LABELS[id] || id, href: `#${id}` })),
-    { id: "contact", label: "Contact", href: "#contact" },
-  ];
+  if (loading) {
+    return (
+      <div className="min-h-screen grid place-items-center">
+        <div className="text-white/80">Loading content…</div>
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className="min-h-screen grid place-items-center">
+        <div className="text-red-400">Content load failed. Please try again.</div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen text-white bg-[#0b0b10]">
-      <Navbar fullName={fullName} items={navItems} />
+    <div className="min-h-screen bg-slate-950 text-white">
+      {typeof Navbar === "function" ? <Navbar fullName={info?.full_name} /> : null}
 
-      {loading && <Loading />}
-      {error && !loading && <ErrorState message={error} />}
+      <main>
+        <Hero info={info} />
 
-      {!loading && !error && (
-        <>
-          {/* info */}
-          <Hero info={info || {}} />
+        <div className="mx-auto max-w-6xl px-4 space-y-14 md:space-y-20">
+          <StackSection items={stack} />
+          <ExperienceSection items={experience} stackIndex={stackIndex} />
+          <CompetitionsSection items={competitions} stackIndex={stackIndex} />
+          <ProjectsSection projects={projects} stackIndex={stackIndex} />
+          <CertificatesSection certificates={certificates} />
+          <CoursesSection items={courses} />
+          <ContactSection info={info} socials={socials} />
 
-          {/* stack → … → courses */}
-          {sectionOrder.map((id) => (
-            <React.Fragment key={id}>{sections[id]}</React.Fragment>
-          ))}
+          {/* En aşağıda Timeline */}
+          <TimelineSection
+            data={{ experience, competitions, certificates, projects, courses }}
+          />
+        </div>
+      </main>
 
-          {/* contact */}
-          <ContactSection info={info || {}} />
-        </>
-      )}
-
-      <Footer />
+      {typeof Footer === "function" ? <Footer /> : null}
     </div>
   );
 }

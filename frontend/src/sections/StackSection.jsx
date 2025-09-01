@@ -56,14 +56,15 @@ function StackLogo({ item }) {
 
 export default function StackSection({ items }) {
   // Gruplama
-  const groups = items?.reduce((acc, it) => {
-    const cat = it.category || "Tools & Others";
-    acc[cat] = acc[cat] || [];
-    acc[cat].push(it);
-    return acc;
-  }, {}) || {};
+  const groups =
+    items?.reduce((acc, it) => {
+      const cat = it.category || "Tools & Others";
+      acc[cat] = acc[cat] || [];
+      acc[cat].push(it);
+      return acc;
+    }, {}) || {};
 
-  // Sıralı kategori listesi
+  // Sıralı kategori listesi (önce ORDER'dakiler, sonra kalanlar)
   const categories = [
     ...ORDER.filter((c) => groups[c]?.length),
     ...Object.keys(groups).filter((c) => !ORDER.includes(c)),
@@ -81,7 +82,7 @@ export default function StackSection({ items }) {
               {cat}
             </h3>
 
-            {/* Responsive grid — alt alta gitmez */}
+            {/* Responsive grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-3">
               {groups[cat].map((it, i) => (
                 <StackLogo key={`${cat}-${i}-${it.name}`} item={it} />

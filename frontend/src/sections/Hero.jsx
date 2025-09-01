@@ -1,6 +1,4 @@
 // src/sections/Hero.jsx
-import Card from "../components/Card";
-import ExternalLink from "../components/ExternalLink";
 import { safeGet, resolveAsset, first } from "../lib/utils";
 
 function Avatar({ src, alt }) {
@@ -26,7 +24,7 @@ export default function Hero({ info }) {
   const summary = safeGet(info, "summary.en", "");
   const links = info?.links || {};
 
-  // Photo fallbacks: profile_photo.url -> photo -> photos[0] -> profile_photo.path (if relative)
+  // Photo fallbacks
   const photo = first(
     safeGet(info, "profile_photo.url", ""),
     resolveAsset(info?.photo),
@@ -34,7 +32,7 @@ export default function Hero({ info }) {
     resolveAsset(safeGet(info, "profile_photo.path", ""))
   );
 
-  // University logo fallbacks: university_logo.url -> university_logo.path -> university_logos[0] -> info.logo
+  // University logo fallbacks
   const uniLogo = first(
     resolveAsset(safeGet(info, "university_logo.url", "")),
     resolveAsset(safeGet(info, "university_logo.path", "")),
@@ -64,26 +62,50 @@ export default function Hero({ info }) {
           </div>
         </div>
 
-        {summary && <p className="mt-6 text-base leading-7 text-white/80 whitespace-pre-line max-w-3xl">{summary}</p>}
+        {summary && (
+          <p className="mt-6 text-base leading-7 text-white/80 whitespace-pre-line max-w-3xl">
+            {summary}
+          </p>
+        )}
 
         <div className="mt-6 flex flex-wrap items-center gap-3">
           {links?.cv && (
-            <a href={links.cv} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm hover:bg-white/15">
+            <a
+              href={links.cv}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm hover:bg-white/15"
+            >
               Download CV
             </a>
           )}
           {links?.github && (
-            <a href={links.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm hover:bg-white/10">
+            <a
+              href={links.github}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm hover:bg-white/10"
+            >
               GitHub
             </a>
           )}
           {links?.linkedin && (
-            <a href={links.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm hover:bg-white/10">
+            <a
+              href={links.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm hover:bg-white/10"
+            >
               LinkedIn
             </a>
           )}
           {links?.website && (
-            <a href={links.website} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm hover:bg-white/10">
+            <a
+              href={links.website}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2 text-sm hover:bg-white/10"
+            >
               Website
             </a>
           )}

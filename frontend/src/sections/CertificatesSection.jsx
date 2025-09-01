@@ -1,159 +1,201 @@
-// src/sections/CertificatesSection.jsx
-import React, { useState } from "react";
-import Section from "../components/Section";
+import React, { useMemo, useState, useEffect, useCallback } from "react";
 import Card from "../components/Card";
-import StackBadge from "../components/StackBadge";
-import ExternalLink from "../components/ExternalLink";
-import { safeGet, resolveAsset, formatDate } from "../lib/utils";
+import Section from "../components/Section";
+import { safeGet } from "../lib/utils";
 
-function ChevronDown({ className = "h-4 w-4" }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-function ChevronUp({ className = "h-4 w-4" }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M18 15l-6-6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
+// dd/mm/yyyy veya yyyy-mm-dd -> UNIX
+function toUnix(dateStr) {
+  if (!dateStr) return null;
+  if (typeof dateStr === "number") return dateStr;
+  const s = String(dateStr).trim();
+  const m = s.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
+  if (m) {
+    const [_, dd, mm, yyyy] = m;
+    const d = new Date(Number(yyyy), Number(mm) - 1, Number(dd));
+    return isNaN(d) ? null : Math.floor(d.getTime() / 1000);
+  }
+  const d = new Date(s);
+  return isNaN(d) ? null : Math.floor(d.getTime() / 1000);
 }
 
-function ImageLightbox({ src, alt, onClose, name, issuer, credUrl, credId }) {
-  if (!src) return null;
-  const linkLabel = issuer ? `Certificate Link at ${issuer} Website` : "Certificate Link";
+function pickIssuedUnix(c) {
   return (
-    <div className="fixed inset-0 z-[60] bg-black/80 p-4 flex items-center justify-center" onClick={onClose} role="dialog" aria-modal="true">
-      <div className="relative w-full max-w-2xl" onClick={(e) => e.stopPropagation()}>
-        <button onClick={onClose} className="absolute -top-3 -right-3 rounded-full bg-white/15 hover:bg-white/25 text-white p-2" aria-label="Close preview">
-          ×
-        </button>
-        <img src={src} alt={alt || name || "certificate"} className="w-full h-auto object-contain rounded-xl border border-white/10 shadow-2xl" />
-        {/* Always show small info under the preview */}
-        <div className="mt-3 text-xs text-white/80 space-y-1">
-          {name && <div className="font-medium text-white/90">{name}</div>}
-          {issuer && <div>Issuer: {issuer}</div>}
-          {credUrl && (
-            <div>
-              <ExternalLink href={credUrl}>{linkLabel}</ExternalLink>
-            </div>
-          )}
-          {credId && <div>Credential ID: {credId}</div>}
-        </div>
-      </div>
-    </div>
+    toUnix(c?.issued_at_unix) ??
+    toUnix(c?.issued_at_iso) ??
+    toUnix(c?.issued_at) ??
+    null
   );
 }
 
-function CertificateItem({ ce, stackIndex }) {
-  const name = safeGet(ce, "name.en", "Certificate");
-  const issuer = ce.issuer;
-  // New: single issued date. Try ce.issued_at, then ce.date, then fallback to old fields
-  const issued = formatDate(ce.issued_at || ce.date || ce.end || ce.start || "");
-  const credUrl = ce.credential_url;
-  const credId = ce.credential_id;
-  const details = safeGet(ce, "details.en", "");
-  const stack = Array.isArray(ce.stack) ? ce.stack : [];
-  const icon = resolveAsset(ce.icon);
+export default function CertificatesSection({ certificates = [] }) {
+  // İSTEK: Editor sırası yok → yalnız iki seçenek
+  // Varsayılan: Newest → Oldest
+  const [mode, setMode] = useState("date_desc"); // 'date_desc' | 'date_asc'
 
-  const [expanded, setExpanded] = useState(false);
-  const [previewOpen, setPreviewOpen] = useState(false);
+  // Lightbox state
+  const [lightbox, setLightbox] = useState(null);
+  const openLightbox = useCallback((src, name, credUrl, credId) => {
+    setLightbox({ src, name, credUrl, credId });
+  }, []);
+  const closeLightbox = useCallback(() => setLightbox(null), []);
 
-  const linkLabel = issuer ? `Certificate Link at ${issuer} Website` : "Certificate Link";
-  const showToggle = Boolean(credUrl || credId);
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") closeLightbox();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightbox, closeLightbox]);
+
+  const sorted = useMemo(() => {
+    const arr = [...(certificates || [])];
+    if (mode === "date_desc") {
+      return arr.sort((a, b) => (pickIssuedUnix(b) ?? -1) - (pickIssuedUnix(a) ?? -1));
+    }
+    if (mode === "date_asc") {
+      return arr.sort((a, b) => (pickIssuedUnix(a) ?? 1e15) - (pickIssuedUnix(b) ?? 1e15));
+    }
+    return arr;
+  }, [certificates, mode]);
 
   return (
     <>
-      <Card>
-        <div className="flex flex-col gap-2">
-          <div className="flex items-start justify-between gap-2">
-            <h3 className="font-semibold text-lg leading-tight">{name}</h3>
-            {issued && <div className="text-xs text-white/60 whitespace-nowrap">Issued on: {issued}</div>}
-          </div>
+      <Section
+        id="certificates"
+        title="Certificates"
+        subtitle="Latest trainings & achievements"
+        toolbar={
+          <select
+            className="rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-sm"
+            value={mode}
+            onChange={(e) => setMode(e.target.value)}
+            aria-label="Sort certificates"
+          >
+            <option value="date_desc">Newest → Oldest</option>
+            <option value="date_asc">Oldest → Newest</option>
+          </select>
+        }
+      >
+        {sorted.length === 0 && <p className="text-white/60">No certificates yet.</p>}
 
-          <div className="text-sm text-white/80">{issuer && <span className="font-medium">{issuer}</span>}</div>
+        {/* Daha geniş görsel + dengeli grid */}
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {sorted.map((c, i) => {
+            const name = safeGet(c, "name.en", "Certificate");
+            const issuer = c?.issuer || "";
+            const dtUnix = pickIssuedUnix(c);
+            const dateLabel = dtUnix ? new Date(dtUnix * 1000).toLocaleDateString() : "";
 
-          {icon ? (
-            <div className="mt-2">
-              <img
-                src={icon}
-                alt="issuer"
-                className="h-14 w-14 object-contain rounded-md border border-white/10 bg-white/5 p-1 cursor-zoom-in hover:bg-white/10 transition-colors"
-                onClick={() => setPreviewOpen(true)}
-                height={56}
-                width={56}
-              />
-              <div className="text-[10px] text-white/50 mt-1">Click to preview</div>
-            </div>
-          ) : null}
+            const cover =
+              (Array.isArray(c?.images) && c.images[0]) ||
+              c?.icon ||
+              "";
 
-          {details && <p className="text-sm text-white/80 whitespace-pre-line mt-1">{details}</p>}
+            const credUrl = c?.credential_url || "";
+            const credId  = c?.credential_id || "";
 
-          {stack.length > 0 && (
-            <div className="mt-2 flex flex-wrap gap-2">
-              {stack.map((t, i) => (
-                <StackBadge key={i} name={t} index={stackIndex} />
-              ))}
-            </div>
-          )}
+            return (
+              <Card key={`${name}-${i}`}>
+                <article className="flex flex-col h-full">
+                  {cover ? (
+                    <button
+                      type="button"
+                      onClick={() => openLightbox(cover, name, credUrl, credId)}
+                      className="mb-3 overflow-hidden rounded-lg border border-white/10 focus:outline-none focus:ring-2 focus:ring-sky-400/50"
+                      aria-label={`Open ${name} image`}
+                    >
+                      <img
+                        src={cover}
+                        alt={name}
+                        className="h-56 w-full object-cover cursor-zoom-in"
+                        height={224}
+                        loading="lazy"
+                      />
+                    </button>
+                  ) : null}
 
-          {showToggle && (
-            <div className="mt-2">
-              <button
-                type="button"
-                onClick={() => setExpanded((v) => !v)}
-                className="inline-flex items-center gap-1 text-xs text-white/70 hover:text-white/90"
-                aria-expanded={expanded}
-                aria-controls={`cert-extra-${name.replace(/\s+/g, "-").toLowerCase()}`}
-              >
-                {expanded ? <ChevronUp /> : <ChevronDown />}
-                {expanded ? "Hide details" : "Show details"}
-              </button>
+                  <h3 className="text-lg font-semibold leading-tight">{name}</h3>
+                  <div className="mt-1 text-sm text-white/70">
+                    {issuer && <span>{issuer}</span>}
+                    {issuer && dateLabel && <span className="mx-1">•</span>}
+                    {dateLabel && <span>{dateLabel}</span>}
+                  </div>
 
-              {expanded && (
-                <div
-                  id={`cert-extra-${name.replace(/\s+/g, "-").toLowerCase()}`}
-                  className="mt-2 rounded-lg border border-white/10 bg-white/5 p-3 text-xs text-white/80 space-y-1"
-                >
-                  {credUrl && (
-                    <div>
-                      <ExternalLink href={credUrl}>{linkLabel}</ExternalLink>
+                  {(credUrl || credId) && (
+                    <div className="mt-3 text-sm">
+                      {credUrl && (
+                        <a
+                          className="underline underline-offset-4"
+                          href={credUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Verify
+                        </a>
+                      )}
+                      {credUrl && credId && <span className="mx-2 text-white/40">|</span>}
+                      {credId && <span className="text-white/80">ID: {credId}</span>}
                     </div>
                   )}
-                  {credId && <div>Credential ID: {credId}</div>}
-                </div>
-              )}
-            </div>
-          )}
+                </article>
+              </Card>
+            );
+          })}
         </div>
-      </Card>
+      </Section>
 
-      {previewOpen && (
-        <ImageLightbox
-          src={icon}
-          alt={`${issuer || ""} certificate`}
-          onClose={() => setPreviewOpen(false)}
-          name={name}
-          issuer={issuer}
-          credUrl={credUrl}
-          credId={credId}
-        />
+      {/* Lightbox */}
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center px-4"
+          onClick={closeLightbox}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Certificate preview"
+        >
+          <div
+            className="relative max-w-4xl w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={closeLightbox}
+              className="absolute -top-10 right-0 text-white/90 hover:text-white text-2xl"
+              aria-label="Close"
+              title="Close"
+            >
+              ×
+            </button>
+
+            <div className="overflow-hidden rounded-2xl border border-white/10 bg-slate-950">
+              <img
+                src={lightbox.src}
+                alt={lightbox.name}
+                className="max-h-[80vh] w-full object-contain bg-black/20"
+                loading="eager"
+              />
+              <div className="p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                <div className="text-sm text-white/80 truncate">{lightbox.name}</div>
+                <div className="flex items-center gap-3">
+                  {lightbox.credUrl && (
+                    <a
+                      href={lightbox.credUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm hover:bg-white/15"
+                    >
+                      View on web
+                    </a>
+                  )}
+                  {lightbox.credId && (
+                    <span className="text-xs text-white/70">ID: {lightbox.credId}</span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </>
-  );
-}
-
-export default function CertificatesSection({ items, stackIndex }) {
-  return (
-    <Section id="certificates" title="Certificates" subtitle="Courses & credentials">
-      {(!items || items.length === 0) && <p className="text-white/60">No certificates yet.</p>}
-      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {items?.map((ce, idx) => (
-          <CertificateItem key={idx} ce={ce} stackIndex={stackIndex} />
-        ))}
-      </div>
-    </Section>
   );
 }
