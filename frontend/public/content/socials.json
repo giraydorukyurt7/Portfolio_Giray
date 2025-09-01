@@ -3,42 +3,49 @@
     "platform": "twitter",
     "username": "giraydorukyurt7",
     "url": "https://twitter.com/giraydorukyurt7",
-    "icon": "https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg"
+    "icon": "https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg",
+    "order_index": 0
   },
   {
     "platform": "linkedin",
     "username": "giraydorukyurt7",
     "url": "https://linkedin.com/in/giraydorukyurt7",
-    "icon": "https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg"
+    "icon": "https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg",
+    "order_index": 1
   },
   {
     "platform": "instagram",
     "username": "giraydorukyurt7",
     "url": "https://instagram.com/giraydorukyurt7",
-    "icon": "https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg"
+    "icon": "https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg",
+    "order_index": 2
   },
   {
     "platform": "youtube",
     "username": "giraydorukyurt7",
     "url": "https://www.youtube.com/@giraydorukyurt7",
-    "icon": "https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/youtube.svg"
+    "icon": "https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/youtube.svg",
+    "order_index": 3
   },
   {
     "platform": "kaggle",
     "username": "giraydorukyurt7",
     "url": "https://www.kaggle.com/giraydorukyurt7",
-    "icon": null
+    "icon": null,
+    "order_index": 4
   },
   {
     "platform": "github",
     "username": "giraydorukyurt7",
     "url": "https://github.com/giraydorukyurt7",
-    "icon": null
+    "icon": null,
+    "order_index": 5
   },
   {
     "platform": "huggingface",
     "username": "giraydorukyurt7",
     "url": "https://huggingface.co/giraydorukyurt7",
-    "icon": null
+    "icon": null,
+    "order_index": 6
   }
 ]

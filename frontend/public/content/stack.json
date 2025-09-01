@@ -4,167 +4,191 @@
     "category": "Programming Languages",
     "link": "",
     "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 0
   },
   {
     "name": "JAVA",
     "category": "Programming Languages",
     "link": "",
     "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 1
   },
   {
     "name": "C",
     "category": "Programming Languages",
     "link": "",
     "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 2
   },
   {
     "name": "C++",
     "category": "Programming Languages",
     "link": "",
     "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 3
   },
   {
     "name": "C#",
     "category": "Programming Languages",
     "link": "",
     "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 4
   },
   {
     "name": "JavaScript",
     "category": "Programming Languages",
     "link": "",
     "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 5
   },
   {
     "name": "Numpy",
     "category": "AI & Data Science",
     "link": "",
     "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/numpy/numpy-original.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 6
   },
   {
     "name": "Pandas",
     "category": "AI & Data Science",
     "link": "",
     "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/pandas/pandas-original.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 7
   },
   {
     "name": "Seaborn",
     "category": "AI & Data Science",
     "link": "",
     "logo_url": "https://seaborn.pydata.org/_images/logo-mark-lightbg.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 8
   },
   {
     "name": "Matplotlib",
     "category": "AI & Data Science",
     "link": "",
     "logo_url": "https://upload.wikimedia.org/wikipedia/commons/8/84/Matplotlib_icon.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 9
   },
   {
     "name": "SciPy",
     "category": "AI & Data Science",
     "link": "",
     "logo_url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/SCIPY_2.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 10
   },
   {
     "name": "Scikit-Learn",
     "category": "AI & Data Science",
     "link": "",
     "logo_url": "https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 11
   },
   {
     "name": "TensorFlow",
     "category": "AI & Data Science",
     "link": "",
     "logo_url": "https://www.vectorlogo.zone/logos/tensorflow/tensorflow-icon.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 12
   },
   {
     "name": "PyTorch",
     "category": "AI & Data Science",
     "link": "",
     "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/pytorch/pytorch-original.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 13
   },
   {
     "name": "HuggingFace",
     "category": "AI & Data Science",
     "link": "",
     "logo_url": "https://huggingface.co/datasets/huggingface/brand-assets/resolve/main/hf-logo.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 14
   },
   {
     "name": "PySpark",
     "category": "AI & Data Science",
     "link": "",
     "logo_url": "https://www.vectorlogo.zone/logos/apache_spark/apache_spark-icon.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 15
   },
   {
     "name": "OpenCV",
     "category": "AI & Data Science",
     "link": "",
     "logo_url": "https://www.vectorlogo.zone/logos/opencv/opencv-icon.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 16
   },
   {
     "name": "NLTK",
     "category": "AI & Data Science",
     "link": "",
     "logo_url": "https://raw.githubusercontent.com/giraydorukyurt7/giraydorukyurt7/main/logos/nltk-logo.png",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 17
   },
   {
     "name": "Whisper",
     "category": "AI & Data Science",
     "link": "",
     "logo_url": "https://raw.githubusercontent.com/giraydorukyurt7/giraydorukyurt7/main/logos/whisper-logo.png",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 18
   },
   {
     "name": "MFA",
     "category": "AI & Data Science",
     "link": "",
     "logo_url": "https://raw.githubusercontent.com/giraydorukyurt7/giraydorukyurt7/main/logos/MFA-logo.png",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 19
   },
   {
     "name": "HTML",
     "category": "Web & UI Development",
     "link": "",
     "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 20
   },
   {
     "name": "CSS",
     "category": "Web & UI Development",
     "link": "",
     "logo_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 21
   },
   {
     "name": "XML",
     "category": "Web & UI Development",
     "link": "",
     "logo_url": "https://www.vectorlogo.zone/logos/w3c_xml/w3c_xml-icon.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 22
   },
   {
     "name": "XSLT",
     "category": "Web & UI Development",
     "link": "",
     "logo_url": "https://upload.wikimedia.org/wikipedia/commons/1/15/XSLT.svg",
-    "logo_path": ""
+    "logo_path": "",
+    "order_index": 23
   }
 ]

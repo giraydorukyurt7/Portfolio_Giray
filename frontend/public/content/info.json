@@ -1,10 +1,10 @@
 {
   "profile_photo": {
-    "path": "C:/Users/Giray/Desktop/DESKTOP/cv ler/Giray Doruk Yurtseven CV/iş başvurusu için resim.jpg",
+    "path": "images/info_profile/profile_photo.jpg",
     "url": null
   },
   "university_logo": {
-    "path": "C:/Users/Giray/Desktop/logonewtr.png",
+    "path": "images/universities/Halic_University.png",
     "url": null
   },
   "full_name": "Giray Doruk Yurtseven",
@@ -13,8 +13,7 @@
   "university": "Halic University",
   "department": "Software Engineering",
   "class_year": "4th Year",
-  "gpa": "3.28",
-  "photo": "images/info_profile/Giray_Doruk_Yurtseven_1.png",
+  "gpa": "3.28/4.00",
   "logo": "",
   "title": {
     "en": "Software Engineering Student"
@@ -31,5 +30,6 @@
   "photos": [
     "images/info_profile/Giray_Doruk_Yurtseven_1.png"
   ],
-  "university_logos": []
+  "university_logos": [],
+  "photo": "images/info_profile/profile_photo.jpg"
 }

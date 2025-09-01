@@ -21,6 +21,7 @@
     "images": [
       "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_1.png"
     ],
-    "icon": "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_1.png"
+    "icon": "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_1.png",
+    "order_index": 0
   }
 ]
