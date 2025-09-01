@@ -15,7 +15,7 @@ from tabs.experience_tab import ExperienceTab
 from tabs.competitions_tab import CompetitionsTab
 from tabs.projects_tab import ProjectsTab
 from tabs.certificates_tab import CertificatesTab
-
+from tabs.courses_tab import CoursesTab          # (varsa; teknik dersler sekmesi)
 
 class EditorApp(tk.Tk):
     def __init__(self):
@@ -44,7 +44,7 @@ class EditorApp(tk.Tk):
         self.dark_var = tk.BooleanVar(value=False)
         ttk.Checkbutton(top_bar, text="Dark", variable=self.dark_var, command=self._toggle_theme, style="Switch.TCheckbutton").pack(side="right")
 
-        # Sağ tarafta genel butonlar + başarı etiketleri (sabit genişlikli, itme yok)
+        # Sağ tarafta genel butonlar
         btns = ttk.Frame(self, padding=(10, 0))
         btns.pack(fill="x", pady=(0, 6))
 
@@ -62,11 +62,6 @@ class EditorApp(tk.Tk):
         self.lbl_save_all_ok = ttk.Label(btns, text="", style="Ok.TLabel", width=12, anchor="w")
         self.lbl_save_all_ok.pack(side="left")
 
-        # after() zamanlayıcı id'leri (etiketi temizlemek için)
-        self._after_id_save_current = None
-        self._after_id_save_all = None
-
-        # Ayırıcı
         ttk.Separator(self).pack(fill="x")
 
         # Sekmeler
@@ -81,12 +76,18 @@ class EditorApp(tk.Tk):
             "projects": ProjectsTab(self.nb, self),
             "certificates": CertificatesTab(self.nb, self),
         }
+
+        # courses_tab.py dosyan varsa sekmeyi ekleyelim
+        self._try_mount_courses_tab()
+
         self.nb.add(self.tabs["info"], text="Info")
         self.nb.add(self.tabs["socials"], text="Socials")
         self.nb.add(self.tabs["experience"], text="Experience")
         self.nb.add(self.tabs["competitions"], text="Competitions")
         self.nb.add(self.tabs["projects"], text="Projects")
         self.nb.add(self.tabs["certificates"], text="Certificates")
+        if "courses" in self.tabs:
+            self.nb.add(self.tabs["courses"], text="Technical Courses")
 
         # Stack tab varsa opsiyonel ekle
         self._try_mount_stack_tab()
@@ -102,7 +103,6 @@ class EditorApp(tk.Tk):
 
     # -------------------- THEME --------------------
     def _init_theme(self):
-        # Yazı tipleri
         try:
             tkfont.nametofont("TkDefaultFont").configure(family="Segoe UI", size=10)
             tkfont.nametofont("TkTextFont").configure(family="Segoe UI", size=10)
@@ -161,60 +161,30 @@ class EditorApp(tk.Tk):
                 "TLabelframe.Label": {"configure": {"background": pal["card_bg"], "foreground": pal["fg"]}},
             })
 
-        # Paletler
         light = {
-            "bg": "#f7f8fa",
-            "card_bg": "#ffffff",
-            "fg": "#0f172a",
-            "muted": "#64748b",
-            "border": "#e5e7eb",
-            "accent": "#2563eb",
-            "accent_active": "#1d4ed8",
-            "accent_fg": "#ffffff",
-            "button_bg": "#ffffff",
-            "button_bg_active": "#f3f4f6",
-            "button_fg": "#0f172a",
-            "input_bg": "#ffffff",
-            "tab_bg": "#eef2f6",
-            "tab_bg_active": "#e7ebf0",
-            "header_bg": "#eef2f6",
-            "header_fg": "#0f172a",
-            "success": "#16a34a",
+            "bg": "#f7f8fa", "card_bg": "#ffffff", "fg": "#0f172a", "muted": "#64748b",
+            "border": "#e5e7eb", "accent": "#2563eb", "accent_active": "#1d4ed8", "accent_fg": "#ffffff",
+            "button_bg": "#ffffff", "button_bg_active": "#f3f4f6", "button_fg": "#0f172a",
+            "input_bg": "#ffffff", "tab_bg": "#eef2f6", "tab_bg_active": "#e7ebf0",
+            "header_bg": "#eef2f6", "header_fg": "#0f172a", "success": "#16a34a",
         }
         dark = {
-            "bg": "#0b1220",
-            "card_bg": "#111827",
-            "fg": "#e5e7eb",
-            "muted": "#94a3b8",
-            "border": "#1f2937",
-            "accent": "#60a5fa",
-            "accent_active": "#3b82f6",
-            "accent_fg": "#0b1220",
-            "button_bg": "#0f172a",
-            "button_bg_active": "#1f2937",
-            "button_fg": "#e5e7eb",
-            "input_bg": "#0f172a",
-            "tab_bg": "#0f172a",
-            "tab_bg_active": "#1f2937",
-            "header_bg": "#0f172a",
-            "header_fg": "#e5e7eb",
-            "success": "#22c55e",
+            "bg": "#0b1220", "card_bg": "#111827", "fg": "#e5e7eb", "muted": "#94a3b8",
+            "border": "#1f2937", "accent": "#60a5fa", "accent_active": "#3b82f6", "accent_fg": "#0b1220",
+            "button_bg": "#0f172a", "button_bg_active": "#1f2937", "button_fg": "#e5e7eb",
+            "input_bg": "#0f172a", "tab_bg": "#0f172a", "tab_bg_active": "#1f2937",
+            "header_bg": "#0f172a", "header_fg": "#e5e7eb", "success": "#22c55e",
         }
-
         create_theme("portfolio-light", light)
         create_theme("portfolio-dark", dark)
-        s.theme_use("portfolio-light")  # varsayılan
-
-        # Kaydet etiketi için stil (tema içinden de geliyor, burada garanti altına alıyoruz)
+        s.theme_use("portfolio-light")
         s.configure("Ok.TLabel", foreground=light["success"])
 
     def _toggle_theme(self):
         s = ttk.Style(self)
         s.theme_use("portfolio-dark" if self.dark_var.get() else "portfolio-light")
 
-    # -------------------- Content Root helpers --------------------
     def _apply_content_root(self):
-        """Entry'deki content root değerini normalize edip repo'ya uygula ve sekmelerde yol bilgisini güncelle."""
         try:
             self.repo.set_content_root(self.path_var.get())
         except Exception as e:
@@ -233,12 +203,9 @@ class EditorApp(tk.Tk):
             self._apply_content_root()
             self.load_all()
 
-    # -------------------- Public dir helper (tabs için yararlı) --------------------
     def get_public_dir(self) -> str:
-        """content_root = .../frontend/public/content  ==> public_dir = .../frontend/public"""
         return str(self.repo.content_root.parent)
 
-    # -------------------- Load / Save --------------------
     def load_all(self):
         self._apply_content_root()
         for name, tab in self.tabs.items():
@@ -271,7 +238,6 @@ class EditorApp(tk.Tk):
             self._flash_ok(self.lbl_save_all_ok, which="all", text="Saved ✓")
 
     def _save_tab(self, tab) -> bool:
-        """Sekmenin JSON'unu repo'ya yaz (Info serialize, list sekmeleri data). True=başarılı."""
         try:
             name = getattr(tab, "entity_name", None)
             if not name:
@@ -299,9 +265,7 @@ class EditorApp(tk.Tk):
                 f"Failed to save '{getattr(tab, 'entity_name', '?')}'\n\n{e}\n\n{tb}")
             return False
 
-    # -------------------- Optional mount: Stack tab --------------------
     def _try_mount_stack_tab(self):
-        """tabs/stack_tab.py mevcutsa içe aktarır ve Notebook'a ekler."""
         try:
             mod = importlib.import_module("tabs.stack_tab")
             StackTab = getattr(mod, "StackTab", None)
@@ -312,31 +276,34 @@ class EditorApp(tk.Tk):
         except Exception:
             pass
 
-    # -------------------- küçük yardımcı: yeşil mesajı 3 sn göster --------------------
+    def _try_mount_courses_tab(self):
+        try:
+            mod = importlib.import_module("tabs.courses_tab")
+            CoursesTab = getattr(mod, "CoursesTab", None)
+            if CoursesTab is None:
+                return
+            self.tabs["courses"] = CoursesTab(self.nb, self)
+        except Exception:
+            pass
+
     def _flash_ok(self, label: ttk.Label, which: str, text: str = "Saved ✓"):
-        # varsa önceki after() zamanlayıcısını iptal et
-        if which == "current" and self._after_id_save_current:
+        if which == "current" and hasattr(self, "_after_id_save_current") and self._after_id_save_current:
             try: self.after_cancel(self._after_id_save_current)
             except Exception: pass
-        if which == "all" and self._after_id_save_all:
+        if which == "all" and hasattr(self, "_after_id_save_all") and self._after_id_save_all:
             try: self.after_cancel(self._after_id_save_all)
             except Exception: pass
 
-        label.config(text=text)  # sabit width sayesinde layout sabit
-
-        # 3 saniye sonra temizle
+        label.config(text=text)
         def clear():
             try: label.config(text="")
             except Exception: pass
-
         after_id = self.after(3000, clear)
         if which == "current":
             self._after_id_save_current = after_id
         else:
             self._after_id_save_all = after_id
 
-
-# ------------------------------------------------------------------
 
 if __name__ == "__main__":
     EditorApp().mainloop()

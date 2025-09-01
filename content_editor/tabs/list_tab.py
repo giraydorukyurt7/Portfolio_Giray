@@ -16,7 +16,7 @@ class ListEntityTab(BaseTab):
     def record_from_form(self) -> Dict[str, Any]:  # override
         raise NotImplementedError
 
-    def set_form(self, rec: Dict[str, Any]) -> None:  # override
+    def set_form(self, rec: Dict[str, Any]):  # override
         raise NotImplementedError
 
     def summary_row(self, rec: Dict[str, Any]) -> List[Any]:  # override
@@ -32,25 +32,17 @@ class ListEntityTab(BaseTab):
     def __init__(self, master, app):
         super().__init__(master, app)
 
-        # ---------- Treeview stili: seçili satır odak kaybolsa da vurgulu ----------
+        # ---------- Treeview stili: seçili satır odağı kaybolsa da vurgulu ----------
         style = ttk.Style(self)
-        # Mevcut Treeview yerleşimini klonla ve özel isimle kullan
         try:
             base_layout = style.layout("Treeview")
             style.layout("AlwaysSelected.Treeview", base_layout)
         except Exception:
             pass
-        # Seçili ve odak dışı seçili durumları için renkler
         style.map(
             "AlwaysSelected.Treeview",
-            background=[
-                ("selected", "#2563eb"),           # mavi vurgulu
-                ("!focus selected", "#2563eb"),    # odak başka yerdeyken de aynı mavi
-            ],
-            foreground=[
-                ("selected", "white"),
-                ("!focus selected", "white"),
-            ],
+            background=[("selected", "#2563eb"), ("!focus selected", "#2563eb")],
+            foreground=[("selected", "white"), ("!focus selected", "white")],
         )
 
         root = ttk.Frame(self)
@@ -80,12 +72,9 @@ class ListEntityTab(BaseTab):
         # Sağ scrollable form alanı
         right = ttk.Frame(root)
         right.grid(row=0, column=1, sticky="nsew", padx=(12, 0))
-
-        form_container = self._make_scrollable_form(right)   # Canvas içindeki 'content' frame
-        self.form = self.build_form(form_container)          # Alt sınıf burada root frame döndürüyor
-
-        # Alt sınıf grid/pack yapmadıysa yerleştir
+        form_container = self._make_scrollable_form(right)
         try:
+            self.form = self.build_form(form_container)  # tab-specific UI
             if not self.form.winfo_manager():
                 self.form.grid(row=0, column=0, sticky="nsew")
         except Exception:
@@ -98,6 +87,9 @@ class ListEntityTab(BaseTab):
         ttk.Button(btnbar, text="New", command=self._on_new).pack(side="left")
         ttk.Button(btnbar, text="Add / Update", command=self._on_add_update).pack(side="left", padx=8)
         ttk.Button(btnbar, text="Delete", command=self._on_delete).pack(side="left")
+        ttk.Separator(btnbar, orient="vertical").pack(side="left", padx=8, fill="y")
+        ttk.Button(btnbar, text="Up", command=self._move_up).pack(side="left")
+        ttk.Button(btnbar, text="Down", command=self._move_down).pack(side="left", padx=(6, 0))
 
         # grid oranları
         root.grid_columnconfigure(0, weight=0)
@@ -114,6 +106,8 @@ class ListEntityTab(BaseTab):
 
         # Kısayol
         self.bind_all("<Alt-s>", lambda e: self._save_only())
+        self.bind_all("<Alt-Up>", lambda e: self._move_up())
+        self.bind_all("<Alt-Down>", lambda e: self._move_down())
 
     def _make_scrollable_form(self, parent) -> ttk.Frame:
         canvas = tk.Canvas(parent, highlightthickness=0)
@@ -140,16 +134,23 @@ class ListEntityTab(BaseTab):
         parent.grid_rowconfigure(0, weight=1)
         canvas.grid(row=0, column=0, sticky="nsew")
         vsb.grid(row=0, column=1, sticky="ns")
-        content.columnconfigure(0, weight=1)
-
+        canvas.configure(yscrollcommand=vsb.set)
         return content
 
-    # ---- Data IO ----
+    # ---- Repository entegrasyonu ----
+    def update_target_path(self):
+        try:
+            path = self.app.repo.path_for(self.entity_name)
+            self.set_target_path(path)
+        except Exception:
+            pass
+
     def load(self, data: List[Dict[str, Any]] | None = None):
         items = data if isinstance(data, list) else (self.app.repo.load(self.entity_name) or [])
         if not isinstance(items, list):
             items = []
         self.data = items
+        self._reindex_order()   # her yüklemede order_index güncel
         self._refresh_table()
         try:
             self.set_form({})
@@ -158,13 +159,21 @@ class ListEntityTab(BaseTab):
         self.update_target_path()
 
     def _save_only(self):
+        self._reindex_order()
         self.app.repo.save(self.entity_name, self.data)
         self.update_target_path()
 
     def _refresh_table(self):
-        self.tree.delete(*self.tree.get_children())
+        for iid in self.tree.get_children():
+            self.tree.delete(iid)
         for i, rec in enumerate(self.data):
             self.tree.insert("", "end", iid=str(i), values=self.summary_row(rec))
+
+    def _reindex_order(self):
+        # JSON’la birlikte her kayda "order_index" yaz (frontend isterse bunu baz alabilir)
+        for i, rec in enumerate(self.data):
+            if isinstance(rec, dict):
+                rec["order_index"] = i
 
     # ---- Actions ----
     def _on_new(self):
@@ -200,6 +209,34 @@ class ListEntityTab(BaseTab):
         self._save_only()
         self._refresh_table()
         self._on_new()
+
+    # ---- Reorder (anında kaydet) ----
+    def _move_selected(self, direction: int):
+        sel = self.tree.selection()
+        if not sel:
+            return
+        try:
+            idx = int(sel[0])
+        except Exception:
+            return
+        new_idx = idx + direction
+        if new_idx < 0 or new_idx >= len(self.data):
+            return
+        self.data[new_idx], self.data[idx] = self.data[idx], self.data[new_idx]
+        self._save_only()     # değişikliği hemen JSON’a yaz
+        self._refresh_table()
+        try:
+            self.tree.selection_set(str(new_idx))
+            self.tree.focus(str(new_idx))
+            self.tree.see(str(new_idx))
+        except Exception:
+            pass
+
+    def _move_up(self):
+        self._move_selected(-1)
+
+    def _move_down(self):
+        self._move_selected(1)
 
     def _on_select(self, _event=None):
         sel = self.tree.selection()
