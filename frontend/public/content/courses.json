@@ -1,1 +1,132 @@
-[]
+[
+  {
+    "name": "Data Structures and Algorithms",
+    "semester": "4th semester",
+    "type": "mandatory",
+    "order_index": 0
+  },
+  {
+    "name": "Analysis of Algorithms",
+    "semester": "5th semester",
+    "type": "mandatory",
+    "order_index": 1
+  },
+  {
+    "name": "Logic Design and Circuits",
+    "semester": "4th semester",
+    "type": "mandatory",
+    "order_index": 2
+  },
+  {
+    "name": "Object Oriented Programming 1",
+    "semester": "4th semester",
+    "type": "mandatory",
+    "order_index": 3
+  },
+  {
+    "name": "Object Oriented Programming 2",
+    "semester": "5th semester",
+    "type": "mandatory",
+    "order_index": 4
+  },
+  {
+    "name": "Database Design and Management",
+    "semester": "3rd semester",
+    "type": "mandatory",
+    "order_index": 5
+  },
+  {
+    "name": "Computer Programming 1",
+    "semester": "1st semester",
+    "type": "mandatory",
+    "order_index": 6
+  },
+  {
+    "name": "Computer Programming 2",
+    "semester": "2nd semester",
+    "type": "mandatory",
+    "order_index": 7
+  },
+  {
+    "name": "Computer Networks",
+    "semester": "5th semester",
+    "type": "mandatory",
+    "order_index": 8
+  },
+  {
+    "name": "Internet & Web Programming",
+    "semester": "5th semester",
+    "type": "mandatory",
+    "order_index": 9
+  },
+  {
+    "name": "Robot Modelling and Control",
+    "semester": "3rd semester",
+    "type": "elective",
+    "elective_type": "Area Elective",
+    "order_index": 10
+  },
+  {
+    "name": "Pattern Recognition",
+    "semester": "4th semester",
+    "type": "elective",
+    "elective_type": "Area Elective",
+    "order_index": 11
+  },
+  {
+    "name": "Artificial Intelligence",
+    "semester": "4th semester",
+    "type": "elective",
+    "elective_type": "Area Elective",
+    "order_index": 12
+  },
+  {
+    "name": "Data Mining",
+    "semester": "4th semester",
+    "type": "elective",
+    "elective_type": "Area Elective",
+    "order_index": 13
+  },
+  {
+    "name": "XML and Web Services",
+    "semester": "4th semester",
+    "type": "elective",
+    "elective_type": "Area Elective",
+    "order_index": 14
+  },
+  {
+    "name": "Internet of Things",
+    "semester": "4th semester",
+    "type": "elective",
+    "elective_type": "Area Elective",
+    "order_index": 15
+  },
+  {
+    "name": "Computer Architecture",
+    "semester": "5th semester",
+    "type": "elective",
+    "elective_type": "Area Elective",
+    "order_index": 16
+  },
+  {
+    "name": "Network Programming",
+    "semester": "5th semester",
+    "type": "elective",
+    "elective_type": "Area Elective",
+    "order_index": 17
+  },
+  {
+    "name": "Introduction to Cyber Security",
+    "semester": "5th semester",
+    "type": "elective",
+    "elective_type": "Area Elective",
+    "order_index": 18
+  },
+  {
+    "name": "Introduction to Deep Learning",
+    "semester": "5th semester",
+    "type": "elective",
+    "elective_type": "Area Elective",
+    "order_index": 19
+  }
+]

@@ -8,7 +8,7 @@
       "en": "TEAM LEADER"
     },
     "organization": "Teknofest",
-    "start": "2024/11",
+    "start": "15/11/2025",
     "end": "",
     "present": true,
     "result": "Finalist",
@@ -18,10 +18,83 @@
     "highlights": {
       "en": []
     },
+    "stack": [],
     "images": [
       "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_1.png"
     ],
     "icon": "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_1.png",
     "order_index": 0
+  },
+  {
+    "name": {
+      "en": "Rocket Competition 2025"
+    },
+    "team": "İstikbal Rocket Team",
+    "role": {
+      "en": "Software Team Member"
+    },
+    "organization": "Teknofest",
+    "start": "15/06/2024",
+    "end": "12/04/2025",
+    "present": false,
+    "result": "",
+    "details": {
+      "en": "Collaborated within a 15-person interdisciplinary team to design and implement advanced flight control algorithms for both custom\nbuilt and commercial flight control systems.\n Applied “extended Kalman filtering” techniques for enhanced sensor data fusion and noise reduction in real-time flight operations.\n Documented technical implementations and contributed to comprehensive project reports.\n Created a machine learning model for carbon emission measurement as a scientific payload component, addressing\n environmental monitoring challenges in rocket flight operations."
+    },
+    "highlights": {
+      "en": []
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 1
+  },
+  {
+    "name": {
+      "en": "Global Game Jam 2025"
+    },
+    "team": "Rose Game",
+    "role": {
+      "en": "Game Developer"
+    },
+    "organization": "",
+    "start": "24/01/2025",
+    "end": "26/01/2025",
+    "present": false,
+    "result": "",
+    "details": {
+      "en": "Theme: Bubble\n\nCreated a horror-themed game in a 48-hour sprint with a 5-member interdisciplinary team.\n Developed core gameplay mechanics using Unity and C#: implemented enemy AI behavior with NavMeshAgent for dynamic\n player pursuit, created hiding mechanics for stealth gameplay, and integrated post-processing effects for enhanced visual\n atmosphere.\n Successfully presented the completed project at the university showcase and published on itch.io gaming platform."
+    },
+    "highlights": {
+      "en": []
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 2
+  },
+  {
+    "name": {
+      "en": "Rocket Competition 2024"
+    },
+    "team": "Cumhuriyet Rocket Team",
+    "role": {
+      "en": "Software Team Member"
+    },
+    "organization": "Teknofest",
+    "start": "15/12/2023",
+    "end": "15/04/2024",
+    "present": false,
+    "result": "",
+    "details": {
+      "en": "Collaborated within a 15-person interdisciplinary team to design and implement flight control algorithms for both custom-built and\n commercial flight control systems.\n Researched and integrated sensor data acquisition methods; applied Kalman filtering to reduce noise.\n Documented research and development processes in comprehensive technical reports.\n Gained hands-on experience with STM32 microcontrollers, including STDPeriph, HAL, and register-level programming."
+    },
+    "highlights": {
+      "en": []
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 3
   }
 ]

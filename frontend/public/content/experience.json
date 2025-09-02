@@ -14,7 +14,18 @@
     "highlights": {
       "en": []
     },
-    "tech": [],
+    "stack": [
+      "Python",
+      "Whisper",
+      "MFA",
+      "Wac2Vec2"
+    ],
+    "tech": [
+      "Python",
+      "Whisper",
+      "MFA",
+      "Wac2Vec2"
+    ],
     "images": [],
     "icon": null,
     "order_index": 0
