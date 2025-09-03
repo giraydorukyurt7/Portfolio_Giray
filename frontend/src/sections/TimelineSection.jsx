@@ -18,15 +18,44 @@ function Section({ id, title, subtitle, children }) {
 /* ========== Date helpers ========== */
 function toUnix(x) {
   if (x === 0 || x) {
-    if (typeof x === "number") return x > 1e12 ? Math.floor(x / 1000) : x;
+    if (typeof x === "number") return x > 1e12 ? Math.floor(x / 1000) : x; // ms or s
     if (x instanceof Date) return Math.floor(x.getTime() / 1000);
     const s = String(x).trim();
-    const m = s.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
+    if (!s) return null;
+
+    // Y-M-D (e.g., 2025-01-15 or 2025/01/15)
+    let m = s.match(/^(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})$/);
+    if (m) {
+      const [, yyyy, mm, dd] = m;
+      const d = new Date(+yyyy, +mm - 1, +dd);
+      return isNaN(d) ? null : Math.floor(d.getTime() / 1000);
+    }
+
+    // D-M-Y (e.g., 15/11/2025)
+    m = s.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
     if (m) {
       const [, dd, mm, yyyy] = m;
       const d = new Date(+yyyy, +mm - 1, +dd);
       return isNaN(d) ? null : Math.floor(d.getTime() / 1000);
     }
+
+    // Y-M (month-only like 2025/07 -> first day of that month)
+    m = s.match(/^(\d{4})[\/.-](\d{1,2})$/);
+    if (m) {
+      const [, yyyy, mm] = m;
+      const d = new Date(+yyyy, +mm - 1, 1);
+      return isNaN(d) ? null : Math.floor(d.getTime() / 1000);
+    }
+
+    // Year-only
+    m = s.match(/^(\d{4})$/);
+    if (m) {
+      const [, yyyy] = m;
+      const d = new Date(+yyyy, 0, 1);
+      return Math.floor(d.getTime() / 1000);
+    }
+
+    // Fallback (ISO strings etc.)
     const d = new Date(s);
     return isNaN(d) ? null : Math.floor(d.getTime() / 1000);
   }
@@ -109,52 +138,74 @@ function normalizeEvents({ experience, competitions, certificates, projects, cou
   const nowU = Math.floor(Date.now() / 1000);
 
   (experience || []).forEach((e, i) => {
-    const s = toUnix(e?.start);
+    let s = toUnix(e?.start);
     const present = !!e?.present;
-    const eU = toUnix(e?.end) ?? (present ? nowU : null);
+    let eU = toUnix(e?.end);
+
+    // If "present" set but start is in the future, make it a 1-day point at start
+    if (present && !eU) eU = nowU;
+    if (s && present && s > nowU && !toUnix(e?.end)) {
+      eU = s; // clamp to start
+    }
+
     if (!s && !eU) return;
-    const startU = s ?? eU, endU = eU ?? s;
+    const startU = s ?? eU;
+    const endU = eU ?? s;
     out.push({
       id: `exp-${i}`,
       type: "experience",
       title: e?.title?.en || "Experience",
       startU,
       endU,
-      present,
+      present: present && endU >= nowU && startU <= nowU, // only mark present if actually ongoing now
       meta: { organization: e?.organization || "", team: e?.team || "", location: e?.location || "" },
     });
   });
 
   (competitions || []).forEach((c, i) => {
-    const s = toUnix(c?.start);
+    let s = toUnix(c?.start);
     const present = !!c?.present;
-    const eU = toUnix(c?.end) ?? (present ? nowU : null);
+    let eU = toUnix(c?.end);
+
+    if (present && !eU) eU = nowU;
+    if (s && present && s > nowU && !toUnix(c?.end)) {
+      eU = s; // upcoming marked as present -> show as point at start
+    }
+
     if (!s && !eU) return;
-    const startU = s ?? eU, endU = eU ?? s;
+    const startU = s ?? eU;
+    const endU = eU ?? s;
     out.push({
       id: `cmp-${i}`,
       type: "competition",
       title: c?.name?.en || c?.title?.en || "Competition",
       startU,
       endU,
-      present,
+      present: present && endU >= nowU && startU <= nowU,
       meta: { organization: c?.organization || c?.organizer || "", team: c?.team || c?.team_name || "" },
     });
   });
 
   (projects || []).forEach((p, i) => {
-    const s = toUnix(p?.start_unix) ?? toUnix(p?.start);
+    let s = toUnix(p?.start_unix) ?? toUnix(p?.start);
     const present = !!p?.present;
-    const eU = toUnix(p?.end_unix) ?? toUnix(p?.end) ?? (present ? nowU : null);
+    let eU = toUnix(p?.end_unix) ?? toUnix(p?.end);
+
+    if (present && !eU) eU = nowU;
+    if (s && present && s > nowU && !toUnix(p?.end)) {
+      eU = s;
+    }
+
     if (!s && !eU) return;
-    const startU = s ?? eU, endU = eU ?? s;
+    const startU = s ?? eU;
+    const endU = eU ?? s;
     out.push({
       id: `prj-${i}`,
       type: "project",
       title: p?.title?.en || "Project",
       startU,
       endU,
-      present,
+      present: present && endU >= nowU && startU <= nowU,
       meta: { organization: p?.organization || "", team: p?.team || "" },
     });
   });
@@ -187,6 +238,7 @@ function normalizeEvents({ experience, competitions, certificates, projects, cou
     });
   });
 
+  // fix reversed intervals if any
   out.forEach((ev) => {
     if (ev.startU && ev.endU && ev.startU > ev.endU) {
       const t = ev.startU;
@@ -197,12 +249,46 @@ function normalizeEvents({ experience, competitions, certificates, projects, cou
   return out;
 }
 
+/* ========== Color helpers (per-event shade) ========== */
+function hexToRgb(hex) {
+  let c = hex.replace('#','');
+  if (c.length === 3) c = c.split('').map(ch => ch+ch).join('');
+  const num = parseInt(c, 16);
+  return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+}
+function rgbToHex({r,g,b}) {
+  const h = (n) => n.toString(16).padStart(2,'0');
+  return `#${h(r)}${h(g)}${h(b)}`;
+}
+function mix(hex1, hex2, t) { // t in [0,1]
+  const a = hexToRgb(hex1), b = hexToRgb(hex2);
+  const r = Math.round(a.r + (b.r - a.r) * t);
+  const g = Math.round(a.g + (b.g - a.g) * t);
+  const b2 = Math.round(a.b + (b.b - a.b) * t);
+  return rgbToHex({ r, g, b: b2 });
+}
+function hashStr(s) {
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+function variantColor(baseHex, id) {
+  const MAX = 0.18; // +/- 18% mix toward white/black
+  const frac = (hashStr(String(id)) % 1000) / 999; // 0..1
+  const signed = (frac - 0.5) * 2; // -1..1
+  const amt = Math.abs(signed) * MAX;
+  if (signed >= 0) return mix(baseHex, '#ffffff', amt);
+  return mix(baseHex, '#000000', amt);
+}
+
 /* ========== Geometry & style ========== */
-const MPR = 6; // 6 months per row
+const MPR = 6; // months per row
 const CELL_W = 170;
 const ROW_H = 180;
-const MARGIN_X = 32,
-  MARGIN_Y = 28;
+const MARGIN_X = 32, MARGIN_Y = 28;
 const RAIL_W = 22;
 const BAND_W = 18;
 const TICK_H = 14;
@@ -224,8 +310,7 @@ const rowStartX = (r) => (r % 2 === 1 ? MARGIN_X + MPR * CELL_W : MARGIN_X);
 const rowEndX = (r) => (r % 2 === 1 ? MARGIN_X : MARGIN_X + MPR * CELL_W);
 
 function buildMonthsRange(events) {
-  const baseStartY = 2024,
-    baseEndY = 2025; // default window
+  const baseStartY = 2024, baseEndY = 2025; // default window
   const years = events
     .flatMap((e) => [new Date(e.startU * 1000).getFullYear(), new Date(e.endU * 1000).getFullYear()])
     .filter((y) => !Number.isNaN(y));
@@ -234,9 +319,7 @@ function buildMonthsRange(events) {
   const endU = uDecEnd(Math.max(baseEndY, years.length ? Math.max(...years) : baseEndY));
 
   const months = [];
-  for (let u = startU; u <= endU; u = addMonthsU(u, 1)) {
-    months.push({ u, key: monthKey(u), label: monthLabel(u) });
-  }
+  for (let u = startU; u <= endU; u = addMonthsU(u, 1)) months.push({ u, key: monthKey(u), label: monthLabel(u) });
   return months;
 }
 
@@ -254,69 +337,68 @@ function xForDate(u, months) {
   return { x, row, rtl, left, right, y: yCenter };
 }
 
-// === Only open lanes ABOVE center when overlapping ===
+// Only open lanes ABOVE center when overlapping
 function laneOffsetFromIndex(idx) {
   if (idx === 0) return 0; // center
   return -idx * STACK_OFFSET; // others go slightly upwards only
 }
 
-/* ========== Demo Data (kept for fallback preview) ========== */
+/* ========== DEMO DATA (from your JSONs) ========== */
 const demoData = {
   experience: [
     {
-      title: { en: "Senior Software Engineer" },
-      organization: "TechCorp Inc.",
-      team: "Frontend Team",
-      start: "2023-03-15",
+      title: { en: "Artificial Intelligence Intern" },
+      organization: "Ayasis",
+      location: "Istanbul",
+      start: "2025/07",
+      end: "2025/08",
+      present: false,
+    },
+  ],
+  projects: [],
+  competitions: [
+    {
+      name: { en: "Artificial Inteligence in Healtcare 2025" },
+      team: "NEUROCTULUS",
+      organization: "Teknofest",
+      start: "15/11/2025",
+      end: "",
       present: true,
     },
     {
-      title: { en: "Software Developer" },
-      organization: "StartupXYZ",
-      start: "2022-01-10",
-      end: "2023-02-28",
-    },
-  ],
-  projects: [
-    {
-      title: { en: "AI Dashboard" },
-      organization: "Personal",
-      start: "2024-01-15",
-      end: "2024-06-30",
+      name: { en: "Rocket Competition 2025" },
+      team: "İstikbal Rocket Team",
+      organization: "Teknofest",
+      start: "15/06/2024",
+      end: "12/04/2025",
+      present: false,
     },
     {
-      title: { en: "Mobile App" },
-      start: "2023-09-01",
-      end: "2023-12-15",
+      name: { en: "Global Game Jam 2025" },
+      team: "Rose Game",
+      role: { en: "Game Developer" },
+      start: "24/01/2025",
+      end: "26/01/2025",
+      present: false,
     },
-  ],
-  competitions: [
     {
-      name: { en: "Hackathon 2024" },
-      organizer: "Tech University",
-      start: "2024-03-20",
-      end: "2024-03-22",
+      name: { en: "Rocket Competition 2024" },
+      team: "Cumhuriyet Rocket Team",
+      organization: "Teknofest",
+      start: "15/12/2023",
+      end: "15/04/2024",
+      present: false,
     },
   ],
   certificates: [
-    {
-      name: { en: "AWS Solutions Architect" },
-      issuer: "Amazon Web Services",
-      issued_at: "2023-08-15",
-    },
-    {
-      name: { en: "React Developer Certificate" },
-      issuer: "Meta",
-      issued_at: "2024-02-10",
-    },
+    { name: { en: "Data Literacy" }, issuer: "Turkcell Geleceği Yazanlar", issued_at: "26/07/2024", issued_at_iso: "2024-07-26", issued_at_unix: 1721941200 },
+    { name: { en: "Data Manipulation 101" }, issuer: "Turkcell Geleceği Yazanlar", issued_at: "30/07/2024", issued_at_iso: "2024-07-30", issued_at_unix: 1722286800 },
+    { name: { en: "Data Manipulation 201" }, issuer: "Turkcell Geleceği Yazanlar", issued_at: "10/08/2024", issued_at_iso: "2024-08-10", issued_at_unix: 1723237200 },
+    { name: { en: "Data Visualization" }, issuer: "Turkcell Geleceği Yazanlar", issued_at: "13/08/2024", issued_at_iso: "2024-08-13", issued_at_unix: 1723496400 },
+    { name: { en: "Statistics for Data Science 101" }, issuer: "Turkcell Geleceği Yazanlar", issued_at: "14/08/2024", issued_at_iso: "2024-08-14", issued_at_unix: 1723582800 },
+    { name: { en: "Statistics for Data Science 201" }, issuer: "Turkcell Geleceği Yazanlar", issued_at: "20/08/2024", issued_at_iso: "2024-08-20", issued_at_unix: 1724101200 },
   ],
-  courses: [
-    {
-      name: "Advanced JavaScript",
-      issuer: "Online Academy",
-      date: "2023-05-20",
-    },
-  ],
+  courses: [],
 };
 
 /* ========== Component ========== */
@@ -348,18 +430,17 @@ export default function TimelineSection({ data = demoData }) {
   const idxMap = new Map(months.map((m, i) => [m.key, i]));
   const idxFromU = (u) => idxMap.get(monthKey(startOfMonthU(u)));
 
-  const H = []; // horizontal band segments
+  const H = []; // horizontal segments
   const V_raw = []; // vertical connectors (raw)
-  const P_raw = []; // points (single-day)
+  const P_raw = []; // single-day points
 
-  // === Build geometry ===
+  // Build geometry
   events.forEach((ev) => {
     const a = idxFromU(ev.startU);
     const b = idxFromU(ev.endU);
     if (a == null && b == null) return;
 
-    let i0 = a ?? 0,
-      i1 = b ?? months.length - 1;
+    let i0 = a ?? 0, i1 = b ?? months.length - 1;
     if (i0 > i1) [i0, i1] = [i1, i0];
 
     const sameMonth = i0 === i1;
@@ -379,29 +460,16 @@ export default function TimelineSection({ data = demoData }) {
         const { x, row } = xForDate(ev.startU, months);
         P_raw.push({ id: ev.id, x, row, event: ev });
       } else {
-        let x1,
-          x2,
-          isLastSeg = false,
-          dir = 0;
+        let x1, x2, isLastSeg = false, dir = 0;
 
         if (r === firstRow && r === lastRow) {
-          x1 = startX;
-          x2 = endX;
-          dir = x2 >= x1 ? 1 : -1;
-          isLastSeg = true;
+          x1 = startX; x2 = endX; dir = x2 >= x1 ? 1 : -1; isLastSeg = true;
         } else if (r === firstRow) {
-          x1 = startX;
-          x2 = rowEndX(r); // crop to row end
-          dir = x2 >= x1 ? 1 : -1;
+          x1 = startX; x2 = rowEndX(r); dir = x2 >= x1 ? 1 : -1;
         } else if (r === lastRow) {
-          x1 = rowStartX(r); // start at row start
-          x2 = endX;
-          dir = x2 >= x1 ? 1 : -1;
-          isLastSeg = true;
+          x1 = rowStartX(r); x2 = endX; dir = x2 >= x1 ? 1 : -1; isLastSeg = true;
         } else {
-          x1 = rowStartX(r);
-          x2 = rowEndX(r);
-          dir = x2 >= x1 ? 1 : -1;
+          x1 = rowStartX(r); x2 = rowEndX(r); dir = x2 >= x1 ? 1 : -1;
         }
 
         H.push({ id: ev.id, row: r, x1, x2, event: ev, isLastSeg, dir });
@@ -414,7 +482,7 @@ export default function TimelineSection({ data = demoData }) {
     }
   });
 
-  // === Lane assignment per row (open second band only when overlapping) ===
+  // Lane assignment per row
   const byRow = Array.from({ length: rows }, () => []);
   H.forEach((s) => byRow[s.row].push(s));
 
@@ -428,10 +496,7 @@ export default function TimelineSection({ data = demoData }) {
     for (const s of segs) {
       let lane = -1;
       for (let L = 0; L <= laneEnds.length; L++) {
-        if (laneEnds[L] == null || s.x1 >= laneEnds[L] + 2) {
-          lane = L;
-          break;
-        }
+        if (laneEnds[L] == null || s.x1 >= laneEnds[L] + 2) { lane = L; break; }
       }
       if (lane === -1) lane = laneEnds.length; // open a new (upper) lane ONLY if needed
 
@@ -451,7 +516,7 @@ export default function TimelineSection({ data = demoData }) {
     return { ...v, y1: laneY(v.rowFrom, laneFrom), y2: laneY(v.rowTo, laneTo) };
   });
 
-  // cluster same-day points with small y offsets
+  // cluster same-day points
   const P = [];
   const clusters = new Map();
   const OFFSETS = [0, -10, -20, -30, -40, -50];
@@ -467,29 +532,16 @@ export default function TimelineSection({ data = demoData }) {
     P.push({ ...p, y: railY(p.row) + yOffset });
   });
 
-  // compute weighted label anchor (emoji + type)
+  // weighted label anchors
   const labelByEvent = new Map();
   {
     const segsWithY = H.map((s) => ({ ...s, y: laneY(s.row, segLane.get(s) ?? 0) }));
     const byId = new Map();
-    segsWithY.forEach((s) => {
-      if (!byId.has(s.id)) byId.set(s.id, []);
-      byId.get(s.id).push(s);
-    });
-
+    segsWithY.forEach((s) => { if (!byId.has(s.id)) byId.set(s.id, []); byId.get(s.id).push(s); });
     byId.forEach((arr, id) => {
-      let sumW = 0,
-        sumX = 0,
-        sumY = 0;
-      arr.forEach((s) => {
-        const w = Math.abs(s.x2 - s.x1);
-        sumW += w;
-        sumX += ((s.x1 + s.x2) / 2) * w;
-        sumY += s.y * w;
-      });
-      if (sumW > 0) {
-        labelByEvent.set(id, { x: sumX / sumW, y: sumY / sumW + 18 });
-      }
+      let sumW = 0, sumX = 0, sumY = 0;
+      arr.forEach((s) => { const w = Math.abs(s.x2 - s.x1); sumW += w; sumX += ((s.x1 + s.x2) / 2) * w; sumY += s.y * w; });
+      if (sumW > 0) labelByEvent.set(id, { x: sumX / sumW, y: sumY / sumW + 18 });
     });
   }
 
@@ -498,11 +550,7 @@ export default function TimelineSection({ data = demoData }) {
     const mEnd = endOfMonthU(months[index].u);
     const items = events
       .filter((ev) => ev.endU >= mStart && ev.startU <= mEnd)
-      .map((ev) => ({
-        ev,
-        showStart: Math.max(ev.startU, mStart),
-        showEnd: Math.min(ev.endU, mEnd),
-      }))
+      .map((ev) => ({ ev, showStart: Math.max(ev.startU, mStart), showEnd: Math.min(ev.endU, mEnd) }))
       .sort((a, b) => a.showStart - b.showStart);
     setOpenMonth({ index, items });
   };
@@ -514,7 +562,8 @@ export default function TimelineSection({ data = demoData }) {
   const renderTooltip = () => {
     if (!hoverState) return null;
     const ev = hoverState.ev;
-    const col = TYPE_COLOR[ev.type] || "#fff";
+    const baseCol = TYPE_COLOR[ev.type] || "#fff";
+    const col = variantColor(baseCol, ev.id);
     const clean = (t) => (t && String(t).trim().length ? String(t).trim() : null);
 
     const lines = [
@@ -522,9 +571,7 @@ export default function TimelineSection({ data = demoData }) {
       clean(ev.title),
       clean(ev.meta?.team),
       clean(ev.meta?.organization),
-      ev.startU === ev.endU
-        ? `${fmtDate(ev.startU)}`
-        : `${fmtDate(ev.startU)} → ${ev.present ? "Present" : fmtDate(ev.endU)}`,
+      ev.startU === ev.endU ? `${fmtDate(ev.startU)}` : `${fmtDate(ev.startU)} → ${ev.present ? "Present" : fmtDate(ev.endU)}`,
     ].filter(Boolean);
 
     const w = Math.min(460, Math.max(240, 28 + 7 * Math.max(...lines.map((t) => t.length))));
@@ -537,8 +584,8 @@ export default function TimelineSection({ data = demoData }) {
     return (
       <g className="pointer-events-none">
         <rect x={x + 2} y={y + 3} width={w} height={h} rx="12" fill="rgba(0,0,0,0.35)" />
-        <rect x={x} y={y} width={w} height={h} rx="12" fill="#0f172a" opacity="0.98" stroke={col} strokeOpacity="0.6" />
-        <rect x={x} y={y} width="7" height={h} rx="12" fill={col} opacity="0.95" />
+        <rect x={x} y={y} width={w} height={h} rx="12" fill="#0f172a" opacity="0.98" stroke={baseCol} strokeOpacity="0.6" />
+        <rect x={x} y={y} width="7" height={h} rx="12" fill={baseCol} opacity="0.95" />
         {lines.map((t, i) => (
           <text key={i} x={x + 16} y={y + 22 + 18 * i} fill="#fff" fontSize={i <= 1 ? 13 : 12} fontWeight={i <= 1 ? 700 : 500}>
             {t}
@@ -550,186 +597,158 @@ export default function TimelineSection({ data = demoData }) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900">
-      <Section id="timeline" title="Timeline" subtitle="6 ay/satır • ikinci bant sadece çakışmada açılır">
-        <div className="relative w-full overflow-x-auto">
-          <svg
-            viewBox={`0 0 ${width} ${height}`}
-            width="100%"
-            height={Math.max(480, height)}
-            role="img"
-            aria-label="Serpentine timeline"
-            className="bg-slate-900"
-          >
-            {/* Rails (serpentine) */}
-            {Array.from({ length: rows }).map((_, r) => {
-              const xL = MARGIN_X,
-                xR = MARGIN_X + MPR * CELL_W;
-              const [xs, xe] = r % 2 === 1 ? [xR, xL] : [xL, xR];
-              const y = railY(r);
+    <Section id="timeline" title="Timeline" subtitle="Veri-formatı toleranslı • 6 ay/satır • ikinci bant sadece çakışmada">
+      <div className="relative z-20 overflow-x-auto overflow-y-visible isolate">
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          width="100%"
+          height={Math.max(480, height)}
+          role="img"
+          aria-label="Serpentine timeline"
+          className="bg-slate-900"
+          style={{ display: 'block' }}
+        >
+          {/* Rails (serpentine) */}
+          {Array.from({ length: rows }).map((_, r) => {
+            const xL = MARGIN_X, xR = MARGIN_X + MPR * CELL_W;
+            const [xs, xe] = r % 2 === 1 ? [xR, xL] : [xL, xR];
+            const y = MARGIN_Y + r * ROW_H + ROW_H / 2;
+            return (
+              <g key={`rail-${r}`}>
+                <line x1={xs} y1={y} x2={xe} y2={y} stroke="rgba(255,255,255,0.22)" strokeWidth={RAIL_W} strokeLinecap="round" />
+                {r < rows - 1 && (
+                  <line x1={xe} y1={y} x2={xe} y2={MARGIN_Y + (r + 1) * ROW_H + ROW_H / 2} stroke="rgba(255,255,255,0.22)" strokeWidth={RAIL_W} strokeLinecap="round" />
+                )}
+              </g>
+            );
+          })}
+
+          {/* Month ticks & labels */}
+          {months.map((m, i) => {
+            const { left, center, yCenter } = posOfMonth(i);
+            const labelY = yCenter - RAIL_W - 16;
+            const rectY = yCenter - (RAIL_W + 24);
+            return (
+              <g key={`m-${m.key}`} className="cursor-pointer" onClick={() => openMonthPanel(i)}>
+                <rect x={left} y={rectY} width={CELL_W} height={RAIL_W + 48} fill="transparent" />
+                <line x1={center} y1={yCenter - TICK_H / 2} x2={center} y2={yCenter + TICK_H / 2} stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" />
+                <text x={center} y={labelY} textAnchor="middle" fontSize="12" fill="rgba(255,255,255,0.9)">{m.label}</text>
+              </g>
+            );
+          })}
+
+          {/* Horizontal bands (events spanning months) */}
+          {[...H]
+            .sort((a, b) => {
+              const la = segLane.get(a) ?? 0, lb = segLane.get(b) ?? 0;
+              const ya = (MARGIN_Y + a.row * ROW_H + ROW_H / 2) + laneOffsetFromIndex(la);
+              const yb = (MARGIN_Y + b.row * ROW_H + ROW_H / 2) + laneOffsetFromIndex(lb);
+              return ya - yb || a.x1 - b.x1;
+            })
+            .map((s, i) => {
+              const baseCol = TYPE_COLOR[s.event.type] || "white";
+              const col = variantColor(baseCol, `${s.id}-${s.row}`);
+              const lane = segLane.get(s) ?? 0;
+              const y = (MARGIN_Y + s.row * ROW_H + ROW_H / 2) + laneOffsetFromIndex(lane);
+              const anchorX = (s.x1 + s.x2) / 2;
+              const isLast = s.isLastSeg && s.event.present;
+
               return (
-                <g key={`rail-${r}`}>
-                  <line x1={xs} y1={y} x2={xe} y2={y} stroke="rgba(255,255,255,0.22)" strokeWidth={RAIL_W} strokeLinecap="round" />
-                  {r < rows - 1 && (
-                    <line x1={xe} y1={y} x2={xe} y2={railY(r + 1)} stroke="rgba(255,255,255,0.22)" strokeWidth={RAIL_W} strokeLinecap="round" />
+                <g key={`seg-${i}`} className="cursor-pointer"
+                  onMouseEnter={() => setHoverState({ x: anchorX, y, ev: s.event })}
+                  onMouseLeave={() => setHoverState(null)}
+                  onClick={() => openEventPanel(s.event)}>
+                  <line x1={s.x1} y1={y} x2={s.x2} y2={y} stroke={col} strokeWidth={BAND_W} strokeLinecap="round" opacity="0.97" />
+                  {isLast && (
+                    <path d={s.dir >= 0 ? `M ${s.x2} ${y} l 10 -6 l 0 12 z` : `M ${s.x2} ${y} l -10 -6 l 0 12 z`} fill={col} opacity="0.95" />
                   )}
                 </g>
               );
             })}
 
-            {/* Month ticks & labels */}
-            {months.map((m, i) => {
-              const { left, center, yCenter } = posOfMonth(i);
-              const labelY = yCenter - RAIL_W - 16;
-              const rectY = yCenter - (RAIL_W + 24);
-              return (
-                <g key={`m-${m.key}`} className="cursor-pointer" onClick={() => openMonthPanel(i)}>
-                  <rect x={left} y={rectY} width={CELL_W} height={RAIL_W + 48} fill="transparent" />
-                  <line x1={center} y1={yCenter - TICK_H / 2} x2={center} y2={yCenter + TICK_H / 2} stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" />
-                  <text x={center} y={labelY} textAnchor="middle" fontSize="12" fill="rgba(255,255,255,0.9)">
-                    {m.label}
-                  </text>
-                </g>
-              );
-            })}
+          {/* Weighted labels for each event */}
+          {[...labelByEvent.entries()].map(([id, L]) => {
+            const ev = events.find((e) => e.id === id);
+            if (!ev) return null;
+            return (
+              <text key={`lbl-${id}`} x={L.x} y={L.y} textAnchor="middle" fontSize="12" fill="rgba(255,255,255,0.92)" className="cursor-pointer" onClick={() => openEventPanel(ev)}>
+                {EMOJI[ev.type]} {TYPE_LABEL[ev.type]}
+              </text>
+            );
+          })}
 
-            {/* Horizontal bands (events spanning months) */}
-            {[...H]
-              .sort((a, b) => {
-                const la = segLane.get(a) ?? 0,
-                  lb = segLane.get(b) ?? 0;
-                const ya = laneY(a.row, la),
-                  yb = laneY(b.row, lb);
-                return ya - yb || a.x1 - b.x1;
-              })
-              .map((s, i) => {
-                const col = TYPE_COLOR[s.event.type] || "white";
-                const lane = segLane.get(s) ?? 0;
-                const y = laneY(s.row, lane);
-                const anchorX = (s.x1 + s.x2) / 2;
-                const isLast = s.isLastSeg && s.event.present;
+          {/* Vertical connectors between rows */}
+          {[...V].sort((a,b)=>Math.min(b.y1,b.y2)-Math.min(a.y1,a.y2)).map((v, i) => {
+            const baseCol = TYPE_COLOR[v.event.type] || "white";
+            const col = variantColor(baseCol, `${v.id}-${v.rowFrom}`);
+            const anchorX = v.x, anchorY = (v.y1 + v.y2) / 2;
+            return (
+              <g key={`v-${i}`} className="cursor-pointer"
+                onMouseEnter={() => setHoverState({ x: anchorX, y: anchorY, ev: v.event })}
+                onMouseLeave={() => setHoverState(null)}
+                onClick={() => openEventPanel(v.event)}>
+                <line x1={v.x} y1={v.y1} x2={v.x} y2={v.y2} stroke={col} strokeWidth={BAND_W} strokeLinecap="round" opacity="0.97" />
+              </g>
+            );
+          })}
 
-                return (
-                  <g
-                    key={`seg-${i}`}
-                    className="cursor-pointer"
-                    onMouseEnter={() => setHoverState({ x: anchorX, y, ev: s.event })}
-                    onMouseLeave={() => setHoverState(null)}
-                    onClick={() => openEventPanel(s.event)}
-                  >
-                    <line x1={s.x1} y1={y} x2={s.x2} y2={y} stroke={col} strokeWidth={BAND_W} strokeLinecap="round" opacity="0.97" />
-                    {isLast && (
-                      <path d={s.dir >= 0 ? `M ${s.x2} ${y} l 10 -6 l 0 12 z` : `M ${s.x2} ${y} l -10 -6 l 0 12 z`} fill={col} opacity="0.95" />
-                    )}
-                  </g>
-                );
-              })}
+          {/* Single-day points */}
+          {P.map((p, i) => {
+            const baseCol = TYPE_COLOR[p.event.type] || "white";
+            const col = variantColor(baseCol, `${p.id}-pt-${i}`);
+            const r = BAND_W / 2;
+            return (
+              <g key={`pt-${i}`} className="cursor-pointer"
+                onMouseEnter={() => setHoverState({ x: p.x, y: p.y, ev: p.event })}
+                onMouseLeave={() => setHoverState(null)}
+                onClick={() => openEventPanel(p.event)}>
+                <circle cx={p.x} cy={p.y} r={r} fill={col} opacity="0.97" />
+              </g>
+            );
+          })}
 
-            {/* Weighted labels for each event */}
-            {[...labelByEvent.entries()].map(([id, L]) => {
-              const ev = events.find((e) => e.id === id);
-              if (!ev) return null;
-              return (
-                <text key={`lbl-${id}`} x={L.x} y={L.y} textAnchor="middle" fontSize="12" fill="rgba(255,255,255,0.92)" className="cursor-pointer" onClick={() => openEventPanel(ev)}>
-                  {EMOJI[ev.type]} {TYPE_LABEL[ev.type]}
-                </text>
-              );
-            })}
+          {renderTooltip()}
+        </svg>
 
-            {/* Vertical connectors between rows */}
-            {V.map((v, i) => {
-              const col = TYPE_COLOR[v.event.type] || "white";
-              const anchorX = v.x,
-                anchorY = (v.y1 + v.y2) / 2;
-              return (
-                <g
-                  key={`v-${i}`}
-                  className="cursor-pointer"
-                  onMouseEnter={() => setHoverState({ x: anchorX, y: anchorY, ev: v.event })}
-                  onMouseLeave={() => setHoverState(null)}
-                  onClick={() => openEventPanel(v.event)}
-                >
-                  <line x1={v.x} y1={v.y1} x2={v.x} y2={v.y2} stroke={col} strokeWidth={BAND_W} strokeLinecap="round" opacity="0.97" />
-                </g>
-              );
-            })}
+        {/* Month Panel */}
+        {openMonth && (
+          <div className="month-panel absolute bg-slate-800 border border-slate-700 rounded-lg p-4 shadow-xl"
+            style={{ left: posOfMonth(openMonth.index).center, top: (MARGIN_Y + Math.floor(openMonth.index / MPR) * ROW_H) + 8, transform: "translateX(-50%)", minWidth: "260px", zIndex: 80 }}
+          >
+            <button className="absolute top-2 right-2 text-white" onClick={closeMonthPanel}>✕</button>
+            <h3 className="text-white font-bold mb-3">{monthLabel(months[openMonth.index].u)}</h3>
+            <ul className="text-white text-sm space-y-1 max-h-64 overflow-y-auto pr-1">
+              {openMonth.items.map(({ ev, showStart, showEnd }, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <span className="shrink-0">{EMOJI[ev.type]}</span>
+                  <div className="leading-tight">
+                    <div className="font-medium">{ev.title}</div>
+                    <div className="text-xs text-slate-300">{fmtDate(showStart)} → {ev.present && showEnd === ev.endU ? "Present" : fmtDate(showEnd)}</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
-            {/* Single-day points */}
-            {P.map((p, i) => {
-              const col = TYPE_COLOR[p.event.type] || "white";
-              const r = BAND_W / 2;
-              return (
-                <g
-                  key={`pt-${i}`}
-                  className="cursor-pointer"
-                  onMouseEnter={() => setHoverState({ x: p.x, y: p.y, ev: p.event })}
-                  onMouseLeave={() => setHoverState(null)}
-                  onClick={() => openEventPanel(p.event)}
-                >
-                  <circle cx={p.x} cy={p.y} r={r} fill={col} opacity="0.97" />
-                </g>
-              );
-            })}
-
-            {renderTooltip()}
-          </svg>
-
-          {/* Month Panel */}
-          {openMonth && (
-            <div
-              className="month-panel absolute bg-slate-800 border border-slate-700 rounded-lg p-4 shadow-xl"
-              style={{
-                left: posOfMonth(openMonth.index).center,
-                top: (MARGIN_Y + Math.floor(openMonth.index / MPR) * ROW_H) + 8,
-                transform: "translateX(-50%)",
-                minWidth: "260px",
-                zIndex: 50,
-              }}
-            >
-              <button className="absolute top-2 right-2 text-white" onClick={closeMonthPanel}>
-                ✕
-              </button>
-              <h3 className="text-white font-bold mb-3">{monthLabel(months[openMonth.index].u)}</h3>
-              <ul className="text-white text-sm space-y-1 max-h-64 overflow-y-auto pr-1">
-                {openMonth.items.map(({ ev, showStart, showEnd }, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <span className="shrink-0">{EMOJI[ev.type]}</span>
-                    <div className="leading-tight">
-                      <div className="font-medium">{ev.title}</div>
-                      <div className="text-xs text-slate-300">
-                        {fmtDate(showStart)} → {ev.present && showEnd === ev.endU ? "Present" : fmtDate(showEnd)}
-                      </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Event Panel */}
-          {selectedEvent && (
-            <div
-              className="event-panel absolute bg-slate-800 border border-slate-700 rounded-lg p-4 shadow-xl"
-              style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)", minWidth: "320px", zIndex: 50 }}
-            >
-              <button className="absolute top-2 right-2 text-white" onClick={closeEventPanel}>
-                ✕
-              </button>
-              <h3 className="text-white font-bold mb-2">
-                {EMOJI[selectedEvent.type]} {TYPE_LABEL[selectedEvent.type]}
-              </h3>
-              <p className="text-white">{selectedEvent.title}</p>
-              {selectedEvent.meta.organization && <p className="text-gray-400">Organization: {selectedEvent.meta.organization}</p>}
-              {selectedEvent.meta.team && <p className="text-gray-400">Team: {selectedEvent.meta.team}</p>}
-              <p className="text-gray-400">
-                {selectedEvent.startU === selectedEvent.endU
-                  ? fmtDate(selectedEvent.startU)
-                  : `${fmtDate(selectedEvent.startU)} → ${selectedEvent.present ? "Present" : fmtDate(selectedEvent.endU)}`}
-              </p>
-            </div>
-          )}
-        </div>
-      </Section>
-    </div>
+        {/* Event Panel */}
+        {selectedEvent && (
+          <div className="event-panel absolute bg-slate-800 border border-slate-700 rounded-lg p-4 shadow-xl"
+            style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)", minWidth: "320px", zIndex: 80 }}
+          >
+            <button className="absolute top-2 right-2 text-white" onClick={closeEventPanel}>✕</button>
+            <h3 className="text-white font-bold mb-2">{EMOJI[selectedEvent.type]} {TYPE_LABEL[selectedEvent.type]}</h3>
+            <p className="text-white">{selectedEvent.title}</p>
+            {selectedEvent.meta.organization && <p className="text-gray-400">Organization: {selectedEvent.meta.organization}</p>}
+            {selectedEvent.meta.team && <p className="text-gray-400">Team: {selectedEvent.meta.team}</p>}
+            <p className="text-gray-400">
+              {selectedEvent.startU === selectedEvent.endU
+                ? fmtDate(selectedEvent.startU)
+                : `${fmtDate(selectedEvent.startU)} → ${selectedEvent.present ? "Present" : fmtDate(selectedEvent.endU)}`}
+            </p>
+          </div>
+        )}
+      </div>
+    </Section>
   );
 }
