@@ -8,7 +8,7 @@
       "en": "TEAM LEADER"
     },
     "organization": "Teknofest",
-    "start": "15/11/2025",
+    "start": "15/11/2024",
     "end": "",
     "present": true,
     "result": "Finalist",
@@ -96,5 +96,77 @@
     "images": [],
     "icon": null,
     "order_index": 3
+  },
+  {
+    "name": {
+      "en": "BTK Hackathon 2025"
+    },
+    "team": "PromptiTron",
+    "role": {
+      "en": "Software Team Member"
+    },
+    "organization": "BTK",
+    "start": "23/07/2025",
+    "end": "6/08/2025",
+    "present": false,
+    "result": "",
+    "details": {
+      "en": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 4
+  },
+  {
+    "name": {
+      "en": "E-Ticaret Hackathonu 2025"
+    },
+    "team": "Shopelope",
+    "role": {
+      "en": "Software Team Member"
+    },
+    "organization": "Teknofest & Trendyol",
+    "start": "08/08/2025",
+    "end": "22/08/2025",
+    "present": false,
+    "result": "",
+    "details": {
+      "en": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 5
+  },
+  {
+    "name": {
+      "en": "BTK Datathon 2025"
+    },
+    "team": "",
+    "role": {
+      "en": "Software Team Member"
+    },
+    "organization": "BTK",
+    "start": "25/08/2025",
+    "end": "31/08/2025",
+    "present": false,
+    "result": "",
+    "details": {
+      "en": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 6
   }
 ]
