@@ -1,6 +1,62 @@
 import React, { useMemo, useState, useEffect } from "react";
+import {
+  EMOJI,
+  TYPE_COLOR,
+  TYPE_LABEL,
+  normalizeEvents,
+  monthLabel,
+  fmtDate,
+  MPR,
+  CELL_W,
+  MARGIN_X,
+  MARGIN_Y,
+  RAIL_W,
+  BAND_W,
+  buildMonthsRange,
+  endOfMonthU,
+  mix,
+  hashStr,
+} from "../lib/timeline-utils";
 
-// Section component wrapper
+/* ---------- LTR yardımcıları (dikey ay yok) ---------- */
+const ROW_H = 160;                   // rahat bir yükseklik
+const LANE_STEP = 12;                // lane step (aşağı doğru)
+const LANE_EXTRA_GAP = 6;            // şeritler arası ufak boşluk
+const BORDER_DELTA = 2;              // border için dış stroke farkı
+const CHEV_W = 14, CHEV_H = 9;       // büyütülmüş devam üçgeni
+const PANEL_HALF_W = 180;            // paneli kenarlarda kırpmak için yaklaşık yarı genişlik
+
+function posOfMonthLTR(index) {
+  const row = Math.floor(index / MPR);
+  const col = index % MPR; // LTR
+  const left = MARGIN_X + col * CELL_W;
+  const center = left + CELL_W / 2;
+  const right = left + CELL_W;
+  const yCenter = MARGIN_Y + row * ROW_H + ROW_H / 2;
+  return { row, left, center, right, yCenter };
+}
+function xForDateLTR(u, months) {
+  const idxMap = new Map(months.map((m, i) => [m.key, i]));
+  const d = new Date(u * 1000);
+  const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+  const i = idxMap.get(key);
+  if (i == null) return { x: null, row: 0, left: 0, right: 0, y: 0 };
+  const { row, left, right, yCenter } = posOfMonthLTR(i);
+  const days = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+  const frac = Math.max(0, Math.min(1, d.getDate() / Math.max(1, days)));
+  const x = left + frac * CELL_W; // LTR
+  return { x, row, left, right, y: yCenter };
+}
+
+/* Daha güçlü ton varyasyonu (±%35 beyaz/siyah karışım) */
+function variantColorStrong(baseHex, id) {
+  const MAX = 0.35;
+  const frac = (hashStr(String(id)) % 1000) / 999; // 0..1
+  const signed = (frac - 0.5) * 2;                 // -1..1
+  const amt = Math.abs(signed) * MAX;
+  return signed >= 0 ? mix(baseHex, "#ffffff", amt) : mix(baseHex, "#000000", amt);
+}
+
 function Section({ id, title, subtitle, children }) {
   return (
     <section id={id} className="py-12 px-4">
@@ -15,396 +71,13 @@ function Section({ id, title, subtitle, children }) {
   );
 }
 
-/* ========== Date helpers ========== */
-function toUnix(x) {
-  if (x === 0 || x) {
-    if (typeof x === "number") return x > 1e12 ? Math.floor(x / 1000) : x; // ms or s
-    if (x instanceof Date) return Math.floor(x.getTime() / 1000);
-    const s = String(x).trim();
-    if (!s) return null;
-
-    // Y-M-D (e.g., 2025-01-15 or 2025/01/15)
-    let m = s.match(/^(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})$/);
-    if (m) {
-      const [, yyyy, mm, dd] = m;
-      const d = new Date(+yyyy, +mm - 1, +dd);
-      return isNaN(d) ? null : Math.floor(d.getTime() / 1000);
-    }
-
-    // D-M-Y (e.g., 15/11/2025)
-    m = s.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
-    if (m) {
-      const [, dd, mm, yyyy] = m;
-      const d = new Date(+yyyy, +mm - 1, +dd);
-      return isNaN(d) ? null : Math.floor(d.getTime() / 1000);
-    }
-
-    // Y-M (month-only like 2025/07 -> first day of that month)
-    m = s.match(/^(\d{4})[\/.-](\d{1,2})$/);
-    if (m) {
-      const [, yyyy, mm] = m;
-      const d = new Date(+yyyy, +mm - 1, 1);
-      return isNaN(d) ? null : Math.floor(d.getTime() / 1000);
-    }
-
-    // Year-only
-    m = s.match(/^(\d{4})$/);
-    if (m) {
-      const [, yyyy] = m;
-      const d = new Date(+yyyy, 0, 1);
-      return Math.floor(d.getTime() / 1000);
-    }
-
-    // Fallback (ISO strings etc.)
-    const d = new Date(s);
-    return isNaN(d) ? null : Math.floor(d.getTime() / 1000);
-  }
-  return null;
-}
-
-const uJan = (Y) => Math.floor(new Date(Y, 0, 1).getTime() / 1000);
-const uDecEnd = (Y) => Math.floor(new Date(Y, 11, 31, 23, 59, 59).getTime() / 1000);
-
-function startOfMonthU(u) {
-  const d = new Date((u ?? Date.now()) * 1000);
-  return Math.floor(new Date(d.getFullYear(), d.getMonth(), 1).getTime() / 1000);
-}
-
-function endOfMonthU(u) {
-  const d = new Date((u ?? Date.now()) * 1000);
-  return Math.floor(new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59).getTime() / 1000);
-}
-
-function addMonthsU(u, k) {
-  const d = new Date(u * 1000);
-  const nd = new Date(d.getFullYear(), d.getMonth() + k, 1);
-  return Math.floor(nd.getTime() / 1000);
-}
-
-function monthKey(u) {
-  const d = new Date(u * 1000);
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-}
-
-function monthLabel(u) {
-  const d = new Date(u * 1000);
-  const mo = d.toLocaleString("en-US", { month: "short" });
-  const yy = String(d.getFullYear()).slice(-2);
-  return `${mo} ’${yy}`; // Jan ’24 format
-}
-
-function fmtDate(u) {
-  if (u == null) return "";
-  const d = new Date(u * 1000);
-  return d.toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" });
-}
-
-function daysInMonthFromUnix(u) {
-  const d = new Date(u * 1000);
-  return new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
-}
-
-function dayOfMonthFromUnix(u) {
-  return new Date(u * 1000).getDate();
-}
-
-/* ========== Data normalize ========== */
-const EMOJI = {
-  experience: "💼",
-  competition: "🏆",
-  project: "🧪",
-  certificate: "📜",
-  course: "📚",
-};
-
-const TYPE_COLOR = {
-  experience: "#38bdf8",
-  competition: "#e879f9",
-  project: "#34d399",
-  certificate: "#fbbf24",
-  course: "#a78bfa",
-};
-
-const TYPE_LABEL = {
-  experience: "Experience",
-  competition: "Competition",
-  project: "Project",
-  certificate: "Certificate",
-  course: "Course",
-};
-
-function normalizeEvents({ experience, competitions, certificates, projects, courses }) {
-  const out = [];
-  const nowU = Math.floor(Date.now() / 1000);
-
-  (experience || []).forEach((e, i) => {
-    let s = toUnix(e?.start);
-    const present = !!e?.present;
-    let eU = toUnix(e?.end);
-
-    // If "present" set but start is in the future, make it a 1-day point at start
-    if (present && !eU) eU = nowU;
-    if (s && present && s > nowU && !toUnix(e?.end)) {
-      eU = s; // clamp to start
-    }
-
-    if (!s && !eU) return;
-    const startU = s ?? eU;
-    const endU = eU ?? s;
-    out.push({
-      id: `exp-${i}`,
-      type: "experience",
-      title: e?.title?.en || "Experience",
-      startU,
-      endU,
-      present: present && endU >= nowU && startU <= nowU, // only mark present if actually ongoing now
-      meta: { organization: e?.organization || "", team: e?.team || "", location: e?.location || "" },
-    });
-  });
-
-  (competitions || []).forEach((c, i) => {
-    let s = toUnix(c?.start);
-    const present = !!c?.present;
-    let eU = toUnix(c?.end);
-
-    if (present && !eU) eU = nowU;
-    if (s && present && s > nowU && !toUnix(c?.end)) {
-      eU = s; // upcoming marked as present -> show as point at start
-    }
-
-    if (!s && !eU) return;
-    const startU = s ?? eU;
-    const endU = eU ?? s;
-    out.push({
-      id: `cmp-${i}`,
-      type: "competition",
-      title: c?.name?.en || c?.title?.en || "Competition",
-      startU,
-      endU,
-      present: present && endU >= nowU && startU <= nowU,
-      meta: { organization: c?.organization || c?.organizer || "", team: c?.team || c?.team_name || "" },
-    });
-  });
-
-  (projects || []).forEach((p, i) => {
-    let s = toUnix(p?.start_unix) ?? toUnix(p?.start);
-    const present = !!p?.present;
-    let eU = toUnix(p?.end_unix) ?? toUnix(p?.end);
-
-    if (present && !eU) eU = nowU;
-    if (s && present && s > nowU && !toUnix(p?.end)) {
-      eU = s;
-    }
-
-    if (!s && !eU) return;
-    const startU = s ?? eU;
-    const endU = eU ?? s;
-    out.push({
-      id: `prj-${i}`,
-      type: "project",
-      title: p?.title?.en || "Project",
-      startU,
-      endU,
-      present: present && endU >= nowU && startU <= nowU,
-      meta: { organization: p?.organization || "", team: p?.team || "" },
-    });
-  });
-
-  (certificates || []).forEach((c, i) => {
-    const when = toUnix(c?.issued_at_unix) ?? toUnix(c?.issued_at_iso) ?? toUnix(c?.issued_at);
-    if (!when) return;
-    out.push({
-      id: `crt-${i}`,
-      type: "certificate",
-      title: c?.name?.en || "Certificate",
-      startU: when,
-      endU: when,
-      present: false,
-      meta: { organization: c?.issuer || "" },
-    });
-  });
-
-  (courses || []).forEach((c, i) => {
-    const when = toUnix(c?.date);
-    if (!when) return;
-    out.push({
-      id: `crs-${i}`,
-      type: "course",
-      title: c?.name || "Course",
-      startU: when,
-      endU: when,
-      present: false,
-      meta: { organization: c?.issuer || "" },
-    });
-  });
-
-  // fix reversed intervals if any
-  out.forEach((ev) => {
-    if (ev.startU && ev.endU && ev.startU > ev.endU) {
-      const t = ev.startU;
-      ev.startU = ev.endU;
-      ev.endU = t;
-    }
-  });
-  return out;
-}
-
-/* ========== Color helpers (per-event shade) ========== */
-function hexToRgb(hex) {
-  let c = hex.replace('#','');
-  if (c.length === 3) c = c.split('').map(ch => ch+ch).join('');
-  const num = parseInt(c, 16);
-  return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
-}
-function rgbToHex({r,g,b}) {
-  const h = (n) => n.toString(16).padStart(2,'0');
-  return `#${h(r)}${h(g)}${h(b)}`;
-}
-function mix(hex1, hex2, t) { // t in [0,1]
-  const a = hexToRgb(hex1), b = hexToRgb(hex2);
-  const r = Math.round(a.r + (b.r - a.r) * t);
-  const g = Math.round(a.g + (b.g - a.g) * t);
-  const b2 = Math.round(a.b + (b.b - a.b) * t);
-  return rgbToHex({ r, g, b: b2 });
-}
-function hashStr(s) {
-  let h = 2166136261 >>> 0;
-  for (let i = 0; i < s.length; i++) {
-    h ^= s.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return h >>> 0;
-}
-function variantColor(baseHex, id) {
-  const MAX = 0.18; // +/- 18% mix toward white/black
-  const frac = (hashStr(String(id)) % 1000) / 999; // 0..1
-  const signed = (frac - 0.5) * 2; // -1..1
-  const amt = Math.abs(signed) * MAX;
-  if (signed >= 0) return mix(baseHex, '#ffffff', amt);
-  return mix(baseHex, '#000000', amt);
-}
-
-/* ========== Geometry & style ========== */
-const MPR = 6; // months per row
-const CELL_W = 170;
-const ROW_H = 180;
-const MARGIN_X = 32, MARGIN_Y = 28;
-const RAIL_W = 22;
-const BAND_W = 18;
-const TICK_H = 14;
-const STACK_OFFSET = 12; // lane offset (px)
-
-function posOfMonth(index) {
-  const row = Math.floor(index / MPR);
-  const col = index % MPR;
-  const rtl = row % 2 === 1;
-  const vCol = rtl ? MPR - 1 - col : col;
-  const left = MARGIN_X + vCol * CELL_W;
-  const center = left + CELL_W / 2;
-  const right = left + CELL_W;
-  const yCenter = MARGIN_Y + row * ROW_H + ROW_H / 2;
-  return { row, rtl, left, center, right, yCenter };
-}
-
-const rowStartX = (r) => (r % 2 === 1 ? MARGIN_X + MPR * CELL_W : MARGIN_X);
-const rowEndX = (r) => (r % 2 === 1 ? MARGIN_X : MARGIN_X + MPR * CELL_W);
-
-function buildMonthsRange(events) {
-  const baseStartY = 2024, baseEndY = 2025; // default window
-  const years = events
-    .flatMap((e) => [new Date(e.startU * 1000).getFullYear(), new Date(e.endU * 1000).getFullYear()])
-    .filter((y) => !Number.isNaN(y));
-
-  const startU = uJan(Math.min(baseStartY, years.length ? Math.min(...years) : baseStartY));
-  const endU = uDecEnd(Math.max(baseEndY, years.length ? Math.max(...years) : baseEndY));
-
-  const months = [];
-  for (let u = startU; u <= endU; u = addMonthsU(u, 1)) months.push({ u, key: monthKey(u), label: monthLabel(u) });
-  return months;
-}
-
-function xForDate(u, months) {
-  const idxMap = new Map(months.map((m, i) => [m.key, i]));
-  const key = monthKey(startOfMonthU(u));
-  const i = idxMap.get(key);
-  if (i == null) return { x: null, row: 0, rtl: false, left: 0, right: 0, y: 0 };
-
-  const { row, rtl, left, right, yCenter } = posOfMonth(i);
-  const day = dayOfMonthFromUnix(u);
-  const days = daysInMonthFromUnix(u);
-  const frac = Math.max(0, Math.min(1, day / Math.max(1, days)));
-  const x = rtl ? right - frac * CELL_W : left + frac * CELL_W;
-  return { x, row, rtl, left, right, y: yCenter };
-}
-
-// Only open lanes ABOVE center when overlapping
-function laneOffsetFromIndex(idx) {
-  if (idx === 0) return 0; // center
-  return -idx * STACK_OFFSET; // others go slightly upwards only
-}
-
-/* ========== DEMO DATA (from your JSONs) ========== */
-const demoData = {
-  experience: [
-    {
-      title: { en: "Artificial Intelligence Intern" },
-      organization: "Ayasis",
-      location: "Istanbul",
-      start: "2025/07",
-      end: "2025/08",
-      present: false,
-    },
-  ],
-  projects: [],
-  competitions: [
-    {
-      name: { en: "Artificial Inteligence in Healtcare 2025" },
-      team: "NEUROCTULUS",
-      organization: "Teknofest",
-      start: "15/11/2025",
-      end: "",
-      present: true,
-    },
-    {
-      name: { en: "Rocket Competition 2025" },
-      team: "İstikbal Rocket Team",
-      organization: "Teknofest",
-      start: "15/06/2024",
-      end: "12/04/2025",
-      present: false,
-    },
-    {
-      name: { en: "Global Game Jam 2025" },
-      team: "Rose Game",
-      role: { en: "Game Developer" },
-      start: "24/01/2025",
-      end: "26/01/2025",
-      present: false,
-    },
-    {
-      name: { en: "Rocket Competition 2024" },
-      team: "Cumhuriyet Rocket Team",
-      organization: "Teknofest",
-      start: "15/12/2023",
-      end: "15/04/2024",
-      present: false,
-    },
-  ],
-  certificates: [
-    { name: { en: "Data Literacy" }, issuer: "Turkcell Geleceği Yazanlar", issued_at: "26/07/2024", issued_at_iso: "2024-07-26", issued_at_unix: 1721941200 },
-    { name: { en: "Data Manipulation 101" }, issuer: "Turkcell Geleceği Yazanlar", issued_at: "30/07/2024", issued_at_iso: "2024-07-30", issued_at_unix: 1722286800 },
-    { name: { en: "Data Manipulation 201" }, issuer: "Turkcell Geleceği Yazanlar", issued_at: "10/08/2024", issued_at_iso: "2024-08-10", issued_at_unix: 1723237200 },
-    { name: { en: "Data Visualization" }, issuer: "Turkcell Geleceği Yazanlar", issued_at: "13/08/2024", issued_at_iso: "2024-08-13", issued_at_unix: 1723496400 },
-    { name: { en: "Statistics for Data Science 101" }, issuer: "Turkcell Geleceği Yazanlar", issued_at: "14/08/2024", issued_at_iso: "2024-08-14", issued_at_unix: 1723582800 },
-    { name: { en: "Statistics for Data Science 201" }, issuer: "Turkcell Geleceği Yazanlar", issued_at: "20/08/2024", issued_at_iso: "2024-08-20", issued_at_unix: 1724101200 },
-  ],
-  courses: [],
-};
-
-/* ========== Component ========== */
-export default function TimelineSection({ data = demoData }) {
+export default function TimelineSection({ data }) {
   const events = useMemo(() => normalizeEvents(data || {}), [data]);
   const months = useMemo(() => buildMonthsRange(events), [events]);
+
+  const rows = Math.ceil(months.length / MPR);
+  const width = MARGIN_X * 2 + MPR * CELL_W;
+  const height = MARGIN_Y * 2 + rows * ROW_H;
 
   const [hoverState, setHoverState] = useState(null);
   const [openMonth, setOpenMonth] = useState(null);
@@ -423,27 +96,30 @@ export default function TimelineSection({ data = demoData }) {
     return <Section id="timeline" title="Timeline" subtitle="No dated events to show yet." />;
   }
 
-  const rows = Math.ceil(months.length / MPR);
-  const width = MARGIN_X * 2 + MPR * CELL_W;
-  const height = MARGIN_Y * 2 + rows * ROW_H;
-
   const idxMap = new Map(months.map((m, i) => [m.key, i]));
-  const idxFromU = (u) => idxMap.get(monthKey(startOfMonthU(u)));
+  const monthIndexFromU = (u) => {
+    const d = new Date(u * 1000);
+    return idxMap.get(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`);
+  };
 
-  const H = []; // horizontal segments
-  const V_raw = []; // vertical connectors (raw)
-  const P_raw = []; // single-day points
+  const H = [];     // yatay segmentler
+  const P_raw = []; // tek günlük noktalar
 
-  // Build geometry
+  // geometri — LTR 6 ay/satır, dikey bağlayıcı yok
   events.forEach((ev) => {
-    const a = idxFromU(ev.startU);
-    const b = idxFromU(ev.endU);
+    const a = monthIndexFromU(ev.startU);
+    const b = monthIndexFromU(ev.endU);
     if (a == null && b == null) return;
+
+    if (ev.startU === ev.endU) {
+      const { x, row } = xForDateLTR(ev.startU, months);
+      P_raw.push({ id: ev.id, x, row, event: ev });
+      return;
+    }
 
     let i0 = a ?? 0, i1 = b ?? months.length - 1;
     if (i0 > i1) [i0, i1] = [i1, i0];
 
-    const sameMonth = i0 === i1;
     const firstRow = Math.floor(i0 / MPR);
     const lastRow = Math.floor(i1 / MPR);
 
@@ -453,73 +129,45 @@ export default function TimelineSection({ data = demoData }) {
       const sIdx = Math.max(i0, rowStart);
       const eIdx = Math.min(i1, rowEnd);
 
-      const startX = xForDate(ev.startU, months).x ?? posOfMonth(sIdx).left;
-      const endX = xForDate(ev.endU, months).x ?? posOfMonth(eIdx).right;
+      const startX = (r === firstRow)
+        ? xForDateLTR(ev.startU, months).x
+        : posOfMonthLTR(sIdx).left;
+      const endX = (r === lastRow)
+        ? xForDateLTR(ev.endU, months).x
+        : posOfMonthLTR(eIdx).right;
 
-      if (sameMonth) {
-        const { x, row } = xForDate(ev.startU, months);
-        P_raw.push({ id: ev.id, x, row, event: ev });
-      } else {
-        let x1, x2, isLastSeg = false, dir = 0;
-
-        if (r === firstRow && r === lastRow) {
-          x1 = startX; x2 = endX; dir = x2 >= x1 ? 1 : -1; isLastSeg = true;
-        } else if (r === firstRow) {
-          x1 = startX; x2 = rowEndX(r); dir = x2 >= x1 ? 1 : -1;
-        } else if (r === lastRow) {
-          x1 = rowStartX(r); x2 = endX; dir = x2 >= x1 ? 1 : -1; isLastSeg = true;
-        } else {
-          x1 = rowStartX(r); x2 = rowEndX(r); dir = x2 >= x1 ? 1 : -1;
-        }
-
-        H.push({ id: ev.id, row: r, x1, x2, event: ev, isLastSeg, dir });
-
-        if (!isLastSeg) {
-          const x = rowEndX(r);
-          V_raw.push({ id: ev.id, x, rowFrom: r, rowTo: r + 1, event: ev });
-        }
-      }
+      const contLeft = r > firstRow;
+      const contRight = r < lastRow;
+      H.push({ id: ev.id, row: r, x1: startX, x2: endX, event: ev, contLeft, contRight });
     }
   });
 
-  // Lane assignment per row
+  // Lane hesaplama — AŞAĞI doğru aç
   const byRow = Array.from({ length: rows }, () => []);
   H.forEach((s) => byRow[s.row].push(s));
 
   const segLane = new Map();
-  const laneByIdRow = new Map();
-
   for (let r = 0; r < rows; r++) {
     const segs = byRow[r].sort((a, b) => a.x1 - b.x1);
     const laneEnds = [];
-
     for (const s of segs) {
       let lane = -1;
       for (let L = 0; L <= laneEnds.length; L++) {
         if (laneEnds[L] == null || s.x1 >= laneEnds[L] + 2) { lane = L; break; }
       }
-      if (lane === -1) lane = laneEnds.length; // open a new (upper) lane ONLY if needed
-
+      if (lane === -1) lane = laneEnds.length;
       laneEnds[lane] = Math.max(laneEnds[lane] ?? -Infinity, s.x2);
       segLane.set(s, lane);
-      laneByIdRow.set(`${s.id}#${s.row}`, lane);
     }
   }
 
   const railY = (row) => MARGIN_Y + row * ROW_H + ROW_H / 2;
-  const laneY = (row, lane) => railY(row) + laneOffsetFromIndex(lane);
+  const laneY = (row, lane) => railY(row) + lane * (LANE_STEP + LANE_EXTRA_GAP); // ↓ aşağı doğru
 
-  // vertical connectors aligned to actual lane heights
-  const V = V_raw.map((v) => {
-    const laneFrom = laneByIdRow.get(`${v.id}#${v.rowFrom}`) ?? 0;
-    const laneTo = laneByIdRow.get(`${v.id}#${v.rowTo}`) ?? 0;
-    return { ...v, y1: laneY(v.rowFrom, laneFrom), y2: laneY(v.rowTo, laneTo) };
-  });
-
-  // cluster same-day points
+  // tek gün noktalar — kümelenip ufak y ofset
   const P = [];
   const clusters = new Map();
-  const OFFSETS = [0, -10, -20, -30, -40, -50];
+  const OFFSETS = [0, 10, 20, 30, 40, 50]; // noktalar için aşağı yönde
   P_raw.forEach((p, idx) => {
     const key = `${p.row}:${Math.round(p.x)}`;
     if (!clusters.has(key)) clusters.set(key, []);
@@ -532,7 +180,7 @@ export default function TimelineSection({ data = demoData }) {
     P.push({ ...p, y: railY(p.row) + yOffset });
   });
 
-  // weighted label anchors
+  // etiket konumları (ağırlıklı)
   const labelByEvent = new Map();
   {
     const segsWithY = H.map((s) => ({ ...s, y: laneY(s.row, segLane.get(s) ?? 0) }));
@@ -554,7 +202,6 @@ export default function TimelineSection({ data = demoData }) {
       .sort((a, b) => a.showStart - b.showStart);
     setOpenMonth({ index, items });
   };
-
   const closeMonthPanel = () => setOpenMonth(null);
   const openEventPanel = (ev) => setSelectedEvent(ev);
   const closeEventPanel = () => setSelectedEvent(null);
@@ -563,7 +210,7 @@ export default function TimelineSection({ data = demoData }) {
     if (!hoverState) return null;
     const ev = hoverState.ev;
     const baseCol = TYPE_COLOR[ev.type] || "#fff";
-    const col = variantColor(baseCol, ev.id);
+    const col = variantColorStrong(baseCol, ev.id);
     const clean = (t) => (t && String(t).trim().length ? String(t).trim() : null);
 
     const lines = [
@@ -577,9 +224,9 @@ export default function TimelineSection({ data = demoData }) {
     const w = Math.min(460, Math.max(240, 28 + 7 * Math.max(...lines.map((t) => t.length))));
     const h = 16 + 22 * lines.length + 12;
     const x = Math.max(8, Math.min(width - w - 8, hoverState.x - w / 2));
-    const upY = hoverState.y - RAIL_W - 18 - h;
-    const downY = hoverState.y + RAIL_W + 18;
-    const y = upY > 8 ? upY : downY;
+    const y = (hoverState.y - RAIL_W - 18 - h > 8)
+      ? (hoverState.y - RAIL_W - 18 - h)
+      : (hoverState.y + RAIL_W + 18);
 
     return (
       <g className="pointer-events-none">
@@ -596,112 +243,151 @@ export default function TimelineSection({ data = demoData }) {
     );
   };
 
+  // Yardımcı: ay panelinde tarih etiketini yaz
+  const rangeLabel = (ev, showStart, showEnd) => {
+    // Sertifika (veya tek günlük her şey) için tek tarih yeterli
+    if (ev.type === "certificate" || ev.startU === ev.endU) {
+      return fmtDate(showStart);
+    }
+    // Diğerleri için aralık / present
+    return `${fmtDate(showStart)} → ${ev.present && showEnd === ev.endU ? "Present" : fmtDate(showEnd)}`;
+  };
+
   return (
-    <Section id="timeline" title="Timeline" subtitle="Veri-formatı toleranslı • 6 ay/satır • ikinci bant sadece çakışmada">
+    <Section id="timeline" title="Timeline" subtitle="Her satır 6 ay • Laneler aşağı doğru • Present halka">
       <div className="relative z-20 overflow-x-auto overflow-y-visible isolate">
         <svg
           viewBox={`0 0 ${width} ${height}`}
           width="100%"
-          height={Math.max(480, height)}
+          height={Math.max(420, height)}
           role="img"
-          aria-label="Serpentine timeline"
+          aria-label="LTR half-year rows timeline"
           className="bg-slate-900"
-          style={{ display: 'block' }}
+          style={{ display: "block" }}
         >
-          {/* Rails (serpentine) */}
+          {/* Raylar (her satır için) */}
           {Array.from({ length: rows }).map((_, r) => {
             const xL = MARGIN_X, xR = MARGIN_X + MPR * CELL_W;
-            const [xs, xe] = r % 2 === 1 ? [xR, xL] : [xL, xR];
             const y = MARGIN_Y + r * ROW_H + ROW_H / 2;
             return (
               <g key={`rail-${r}`}>
-                <line x1={xs} y1={y} x2={xe} y2={y} stroke="rgba(255,255,255,0.22)" strokeWidth={RAIL_W} strokeLinecap="round" />
-                {r < rows - 1 && (
-                  <line x1={xe} y1={y} x2={xe} y2={MARGIN_Y + (r + 1) * ROW_H + ROW_H / 2} stroke="rgba(255,255,255,0.22)" strokeWidth={RAIL_W} strokeLinecap="round" />
-                )}
+                <line
+                  x1={xL}
+                  y1={y}
+                  x2={xR}
+                  y2={y}
+                  stroke="rgba(255,255,255,0.18)"
+                  strokeWidth={RAIL_W}
+                  strokeLinecap="round"
+                  opacity={r % 2 === 0 ? 1 : 0.85}
+                />
               </g>
             );
           })}
 
-          {/* Month ticks & labels */}
+          {/* Ay başlıkları — SOLA YASLI */}
           {months.map((m, i) => {
-            const { left, center, yCenter } = posOfMonth(i);
-            const labelY = yCenter - RAIL_W - 16;
-            const rectY = yCenter - (RAIL_W + 24);
+            const { left, yCenter } = posOfMonthLTR(i);
+            const labelY = yCenter - RAIL_W - 14;
             return (
               <g key={`m-${m.key}`} className="cursor-pointer" onClick={() => openMonthPanel(i)}>
-                <rect x={left} y={rectY} width={CELL_W} height={RAIL_W + 48} fill="transparent" />
-                <line x1={center} y1={yCenter - TICK_H / 2} x2={center} y2={yCenter + TICK_H / 2} stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" />
-                <text x={center} y={labelY} textAnchor="middle" fontSize="12" fill="rgba(255,255,255,0.9)">{m.label}</text>
+                <text
+                  x={left + 8}
+                  y={labelY}
+                  textAnchor="start"
+                  fontSize="12"
+                  fill="rgba(255,255,255,0.9)"
+                >
+                  {m.label}
+                </text>
               </g>
             );
           })}
 
-          {/* Horizontal bands (events spanning months) */}
+          {/* Yatay şeritler (border + iç renk + present halka) */}
           {[...H]
             .sort((a, b) => {
               const la = segLane.get(a) ?? 0, lb = segLane.get(b) ?? 0;
-              const ya = (MARGIN_Y + a.row * ROW_H + ROW_H / 2) + laneOffsetFromIndex(la);
-              const yb = (MARGIN_Y + b.row * ROW_H + ROW_H / 2) + laneOffsetFromIndex(lb);
-              return ya - yb || a.x1 - b.x1;
+              const ya = laneY(a.row, la);
+              const yb = laneY(b.row, lb);
+              return (yb - ya) || (a.x1 - b.x1);
             })
             .map((s, i) => {
               const baseCol = TYPE_COLOR[s.event.type] || "white";
-              const col = variantColor(baseCol, `${s.id}-${s.row}`);
+              const col = variantColorStrong(baseCol, `${s.id}-${s.row}`);
               const lane = segLane.get(s) ?? 0;
-              const y = (MARGIN_Y + s.row * ROW_H + ROW_H / 2) + laneOffsetFromIndex(lane);
+              const y = laneY(s.row, lane);
               const anchorX = (s.x1 + s.x2) / 2;
-              const isLast = s.isLastSeg && s.event.present;
+              const borderCol = mix(col, "#000000", 0.35);
+              const isPresentEnd = s.event.present && !s.contRight; // son segment ve present
 
               return (
-                <g key={`seg-${i}`} className="cursor-pointer"
+                <g
+                  key={`seg-${i}`}
+                  className="cursor-pointer"
                   onMouseEnter={() => setHoverState({ x: anchorX, y, ev: s.event })}
                   onMouseLeave={() => setHoverState(null)}
-                  onClick={() => openEventPanel(s.event)}>
+                  onClick={() => openEventPanel(s.event)}
+                >
+                  {/* dış ince border */}
+                  <line x1={s.x1} y1={y} x2={s.x2} y2={y} stroke={borderCol} strokeWidth={BAND_W + BORDER_DELTA} strokeLinecap="round" opacity="0.95" />
+                  {/* iç renk */}
                   <line x1={s.x1} y1={y} x2={s.x2} y2={y} stroke={col} strokeWidth={BAND_W} strokeLinecap="round" opacity="0.97" />
-                  {isLast && (
-                    <path d={s.dir >= 0 ? `M ${s.x2} ${y} l 10 -6 l 0 12 z` : `M ${s.x2} ${y} l -10 -6 l 0 12 z`} fill={col} opacity="0.95" />
+
+                  {/* Satırdan taşan devam okları */}
+                  {s.contLeft && (
+                    <path d={`M ${s.x1} ${y} l ${-CHEV_W} ${-CHEV_H} l 0 ${2 * CHEV_H} z`} fill={col} opacity="0.95" />
+                  )}
+                  {s.contRight && (
+                    <path d={`M ${s.x2} ${y} l ${CHEV_W} ${-CHEV_H} l 0 ${2 * CHEV_H} z`} fill={col} opacity="0.95" />
+                  )}
+
+                  {/* Present (devam eden) — halka işaretleyici */}
+                  {isPresentEnd && (
+                    <>
+                      <circle cx={s.x2} cy={y} r={BAND_W / 2 + 4} fill="none" stroke={borderCol} strokeWidth="2" />
+                      <circle cx={s.x2} cy={y} r={BAND_W / 2 - 1} fill={col} />
+                    </>
                   )}
                 </g>
               );
             })}
 
-          {/* Weighted labels for each event */}
+          {/* Etiketler */}
           {[...labelByEvent.entries()].map(([id, L]) => {
             const ev = events.find((e) => e.id === id);
             if (!ev) return null;
             return (
-              <text key={`lbl-${id}`} x={L.x} y={L.y} textAnchor="middle" fontSize="12" fill="rgba(255,255,255,0.92)" className="cursor-pointer" onClick={() => openEventPanel(ev)}>
+              <text
+                key={`lbl-${id}`}
+                x={L.x}
+                y={L.y}
+                textAnchor="middle"
+                fontSize="12"
+                fill="rgba(255,255,255,0.92)"
+                className="cursor-pointer"
+                onClick={() => openEventPanel(ev)}
+              >
                 {EMOJI[ev.type]} {TYPE_LABEL[ev.type]}
               </text>
             );
           })}
 
-          {/* Vertical connectors between rows */}
-          {[...V].sort((a,b)=>Math.min(b.y1,b.y2)-Math.min(a.y1,a.y2)).map((v, i) => {
-            const baseCol = TYPE_COLOR[v.event.type] || "white";
-            const col = variantColor(baseCol, `${v.id}-${v.rowFrom}`);
-            const anchorX = v.x, anchorY = (v.y1 + v.y2) / 2;
-            return (
-              <g key={`v-${i}`} className="cursor-pointer"
-                onMouseEnter={() => setHoverState({ x: anchorX, y: anchorY, ev: v.event })}
-                onMouseLeave={() => setHoverState(null)}
-                onClick={() => openEventPanel(v.event)}>
-                <line x1={v.x} y1={v.y1} x2={v.x} y2={v.y2} stroke={col} strokeWidth={BAND_W} strokeLinecap="round" opacity="0.97" />
-              </g>
-            );
-          })}
-
-          {/* Single-day points */}
+          {/* Tek günlük noktalar (ince border + iç renk) */}
           {P.map((p, i) => {
             const baseCol = TYPE_COLOR[p.event.type] || "white";
-            const col = variantColor(baseCol, `${p.id}-pt-${i}`);
+            const col = variantColorStrong(baseCol, `${p.id}-pt-${i}`);
             const r = BAND_W / 2;
+            const borderCol = mix(col, "#000000", 0.35);
             return (
-              <g key={`pt-${i}`} className="cursor-pointer"
+              <g
+                key={`pt-${i}`}
+                className="cursor-pointer"
                 onMouseEnter={() => setHoverState({ x: p.x, y: p.y, ev: p.event })}
                 onMouseLeave={() => setHoverState(null)}
-                onClick={() => openEventPanel(p.event)}>
+                onClick={() => openEventPanel(p.event)}
+              >
+                <circle cx={p.x} cy={p.y} r={r + BORDER_DELTA / 2} fill={borderCol} opacity="0.95" />
                 <circle cx={p.x} cy={p.y} r={r} fill={col} opacity="0.97" />
               </g>
             );
@@ -710,37 +396,44 @@ export default function TimelineSection({ data = demoData }) {
           {renderTooltip()}
         </svg>
 
-        {/* Month Panel */}
-        {openMonth && (
-          <div className="month-panel absolute bg-slate-800 border border-slate-700 rounded-lg p-4 shadow-xl"
-            style={{ left: posOfMonth(openMonth.index).center, top: (MARGIN_Y + Math.floor(openMonth.index / MPR) * ROW_H) + 8, transform: "translateX(-50%)", minWidth: "260px", zIndex: 80 }}
-          >
-            <button className="absolute top-2 right-2 text-white" onClick={closeMonthPanel}>✕</button>
-            <h3 className="text-white font-bold mb-3">{monthLabel(months[openMonth.index].u)}</h3>
-            <ul className="text-white text-sm space-y-1 max-h-64 overflow-y-auto pr-1">
-              {openMonth.items.map(({ ev, showStart, showEnd }, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <span className="shrink-0">{EMOJI[ev.type]}</span>
-                  <div className="leading-tight">
-                    <div className="font-medium">{ev.title}</div>
-                    <div className="text-xs text-slate-300">{fmtDate(showStart)} → {ev.present && showEnd === ev.endU ? "Present" : fmtDate(showEnd)}</div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        {/* Ay Paneli — X pozisyonu clamp'li (sol/sağ taşma yok) */}
+        {openMonth && (() => {
+          const center = posOfMonthLTR(openMonth.index).center;
+          const clampedX = Math.max(PANEL_HALF_W + 8, Math.min(width - PANEL_HALF_W - 8, center));
+          const top = MARGIN_Y + Math.floor(openMonth.index / MPR) * ROW_H + 8;
+          return (
+            <div
+              className="month-panel absolute bg-slate-800 border border-slate-700 rounded-lg p-4 shadow-xl"
+              style={{ left: clampedX, top, transform: "translateX(-50%)", minWidth: "260px", zIndex: 80 }}
+            >
+              <button className="absolute top-2 right-2 text-white" onClick={closeMonthPanel}>✕</button>
+              <h3 className="text-white font-bold mb-3">{monthLabel(months[openMonth.index].u)}</h3>
+              <ul className="text-white text-sm space-y-2 max-h-64 overflow-y-auto pr-1">
+                {openMonth.items.map(({ ev, showStart, showEnd }, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="shrink-0 mt-0.5">{EMOJI[ev.type]}</span>
+                    <div className="leading-tight">
+                      <div className="font-medium hover:underline cursor-default">{ev.title}</div>
+                      <div className="text-xs text-slate-300">{rangeLabel(ev, showStart, showEnd)}</div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })()}
 
         {/* Event Panel */}
         {selectedEvent && (
-          <div className="event-panel absolute bg-slate-800 border border-slate-700 rounded-lg p-4 shadow-xl"
+          <div
+            className="event-panel absolute bg-slate-800 border border-slate-700 rounded-lg p-4 shadow-xl"
             style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)", minWidth: "320px", zIndex: 80 }}
           >
             <button className="absolute top-2 right-2 text-white" onClick={closeEventPanel}>✕</button>
             <h3 className="text-white font-bold mb-2">{EMOJI[selectedEvent.type]} {TYPE_LABEL[selectedEvent.type]}</h3>
             <p className="text-white">{selectedEvent.title}</p>
-            {selectedEvent.meta.organization && <p className="text-gray-400">Organization: {selectedEvent.meta.organization}</p>}
-            {selectedEvent.meta.team && <p className="text-gray-400">Team: {selectedEvent.meta.team}</p>}
+            {selectedEvent.meta?.organization && <p className="text-gray-400">Organization: {selectedEvent.meta.organization}</p>}
+            {selectedEvent.meta?.team && <p className="text-gray-400">Team: {selectedEvent.meta.team}</p>}
             <p className="text-gray-400">
               {selectedEvent.startU === selectedEvent.endU
                 ? fmtDate(selectedEvent.startU)
