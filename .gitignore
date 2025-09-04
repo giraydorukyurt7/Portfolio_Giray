@@ -24,3 +24,8 @@ tools/**/*.pyc
 data_cv
 
 __pycache__
+
+content_editor\tabs\__pycache__
+content_editor\widgets\__pycache__
+content_editor\services\__pycache__
+content_editor\__pycache__
