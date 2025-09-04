@@ -1,78 +1,96 @@
 from __future__ import annotations
+import tkinter as tk
 from tkinter import ttk
-from typing import Any, Dict, List, Optional
-import re
-from datetime import datetime
+from typing import Any, Dict, List
 
-from widgets.fields import LabeledEntry, LabeledText, DateRange, CommaListEntry
+from widgets.fields import LabeledEntry, CommaListEntry
 from widgets.i18n_fields import EnOnlyEntry, EnOnlyText, EnOnlyList
 from widgets.multi_image_picker import MultiImagePicker
+from widgets.date_widgets import DatePicker
 from .list_tab import ListEntityTab
-
-
-def _to_iso_and_unix(raw: Optional[str]) -> (Optional[str], Optional[int]):
-    if not raw:
-        return None, None
-    s = str(raw).strip()
-    if not s:
-        return None, None
-    fmts = ["%d/%m/%Y", "%Y-%m-%d", "%Y/%m/%d", "%d-%m-%Y", "%m/%d/%Y", "%Y-%m", "%Y/%m"]
-    for f in fmts:
-        try:
-            dt = datetime.strptime(s, f)
-            # YYYY-MM ise 1. gün varsay
-            if f in ("%Y-%m", "%Y/%m"):
-                dt = datetime(dt.year, dt.month, 1)
-            return dt.strftime("%Y-%m-%d"), int(dt.timestamp())
-        except Exception:
-            pass
-    m = re.match(r"^\s*(\d{4})\s*$", s)
-    if m:
-        y = int(m.group(1)); dt = datetime(y, 1, 1)
-        return dt.strftime("%Y-%m-%d"), int(dt.timestamp())
-    return None, None
-
 
 class ProjectsTab(ListEntityTab):
     entity_name = "projects"
-    columns = ["title", "start", "stack"]
+    # Liste kolonlarını koruyoruz; istersen origin'i de listeye ekleyebilirim.
+    columns = ["title", "date", "stack"]
 
     def build_form(self, parent):
         f = ttk.Frame(parent)
 
+        # --- Temel alanlar
         self.title_en = EnOnlyEntry(f, "Title (EN)")
         self.summary_en = EnOnlyText(f, "Summary (EN)", height=6)
 
-        self.dr = DateRange(f)  # start / end / present
+        # --- Kaynak (Personal vs Tutorial/Course)
+        self.source_var = tk.StringVar(value="Personal")
+        src_frame = ttk.Frame(f)
+        ttk.Label(src_frame, text="Source").grid(row=0, column=0, sticky="w")
+        self.source_cb = ttk.Combobox(
+            src_frame, state="readonly", width=24, textvariable=self.source_var,
+            values=["Personal", "Tutorial/Course"]
+        )
+        self.source_cb.grid(row=0, column=1, padx=(6, 0), sticky="w")
+
+        # --- Tek tarih seçici
+        self.date_picker = DatePicker(f, title="Date", year_min=2020)
+
+        # --- Diğer alanlar
         self.stack = CommaListEntry(f, "Stack (comma separated)")
         self.link_gh = LabeledEntry(f, "GitHub URL", width=60)
         self.link_demo = LabeledEntry(f, "Demo URL", width=60)
         self.highlights_en = EnOnlyList(f, "Highlights (EN)")
+
+        # --- Görsel/kapak
         self.gallery = MultiImagePicker(
             f, public_dir_cb=self.public_dir, tab_key="projects_tab",
             name_cb=lambda: (self.title_en.get().get("en") or "project"),
             title="Images & Cover"
         )
 
+        # --- Yerleşim
         r = 0
-        for w in [self.title_en, self.summary_en, self.dr, self.stack, self.link_gh, self.link_demo, self.highlights_en, self.gallery]:
+        for w in [self.title_en, self.summary_en]:
+            w.grid(row=r, column=0, sticky="ew", pady=6); r += 1
+
+        src_frame.grid(row=r, column=0, sticky="w", pady=6); r += 1
+        self.date_picker.grid(row=r, column=0, sticky="ew", pady=6); r += 1
+        for w in [self.stack, self.link_gh, self.link_demo, self.highlights_en, self.gallery]:
             w.grid(row=r, column=0, sticky="ew", pady=6); r += 1
 
         f.columnconfigure(0, weight=1)
         return f
 
     def record_from_form(self) -> Dict[str, Any]:
-        dr = self.dr.get()  # {"start": "...", "end": "...", "present": bool}
-        start_iso, start_unix = _to_iso_and_unix(dr["start"])
-        end_iso, end_unix = _to_iso_and_unix(dr["end"])
+        # Tarih
+        date_str = self.date_picker.get()
+        date_iso, date_unix = self.date_picker.get_iso_unix()
+
+        # Source mapping
+        src_map = {"Personal": "personal", "Tutorial/Course": "tutorial"}
+        origin = src_map.get(self.source_var.get(), "personal")
+
+        # Görseller
         g = self.gallery.get()
         stack_list = self.stack.get_list()
+
         return {
             "title": self.title_en.get(),
             "summary": self.summary_en.get(),
-            "start": dr["start"], "end": dr["end"], "present": dr["present"],
-            "start_iso": start_iso, "end_iso": end_iso,
-            "start_unix": start_unix, "end_unix": end_unix,
+
+            # Yeni alan
+            "origin": origin,  # "personal" | "tutorial"
+            "origin_label": self.source_var.get(),  # UI etiketini de istersen tutuyoruz
+
+            # Tek-tarih alanları
+            "date": date_str,
+            "date_iso": date_iso,
+            "date_unix": date_unix,
+
+            # Geri uyumluluk: start/end/present
+            "start": date_str,
+            "end": None,
+            "present": False,
+
             "stack": stack_list,
             "links": {"github": self.link_gh.get(), "demo": self.link_demo.get()},
             "highlights": self.highlights_en.get(),
@@ -83,17 +101,26 @@ class ProjectsTab(ListEntityTab):
     def set_form(self, rec: Dict[str, Any]):
         self.title_en.set(rec.get("title"))
         self.summary_en.set(rec.get("summary"))
-        self.dr.set(rec.get("start"), rec.get("end"), rec.get("present", False))
-        # eski veriler 'tech' kullanıyorsa koru
+
+        # Source mapping (geri uyumluluk: "origin" yoksa "source")
+        inv_map = {"personal": "Personal", "tutorial": "Tutorial/Course"}
+        src_val = rec.get("origin") or rec.get("source") or "personal"
+        self.source_var.set(inv_map.get(src_val, "Personal"))
+
+        # Tarih
+        self.date_picker.set(rec.get("date") or rec.get("start"))
+
+        # Stack & linkler
         stack_in = rec.get("stack") or rec.get("tech") or []
         self.stack.set_list(stack_in)
         links = rec.get("links", {}) or {}
         self.link_gh.set(links.get("github"))
         self.link_demo.set(links.get("demo"))
+
         self.highlights_en.set(rec.get("highlights"))
         self.gallery.set(rec.get("images") or [], rec.get("icon"))
 
     def summary_row(self, rec: Dict[str, Any]) -> List[Any]:
         title = (rec.get("title", {}) or {}).get("en", "")
         stack = ", ".join((rec.get("stack") or [])[:3])
-        return [title, rec.get("start", ""), stack]
+        return [title, rec.get("date", "") or rec.get("start", ""), stack]
