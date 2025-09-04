@@ -1,9 +1,11 @@
 from __future__ import annotations
 from tkinter import ttk
 from typing import Any, Dict, List
-from widgets.fields import LabeledEntry, DateRange, CommaListEntry
+
+from widgets.fields import LabeledEntry, CommaListEntry
 from widgets.i18n_fields import EnOnlyEntry, EnOnlyText, EnOnlyList
 from widgets.multi_image_picker import MultiImagePicker
+from widgets.date_widgets import DateRangePicker
 from .list_tab import ListEntityTab
 
 class ExperienceTab(ListEntityTab):
@@ -16,7 +18,7 @@ class ExperienceTab(ListEntityTab):
         self.title_en = EnOnlyEntry(f, "Title (EN)")
         self.org = LabeledEntry(f, "Organization")
         self.loc = LabeledEntry(f, "Location")
-        self.dr = DateRange(f)
+        self.dr = DateRangePicker(f, title="Date Range")
         self.details_en = EnOnlyText(f, "Details (EN)", height=6)
         self.highlights_en = EnOnlyList(f, "Highlights (EN)", height=6)
         self.stack = CommaListEntry(f, "Stack (comma separated)")
@@ -43,10 +45,12 @@ class ExperienceTab(ListEntityTab):
             "organization": self.org.get(),
             "location": self.loc.get(),
             "start": dr["start"], "end": dr["end"], "present": dr["present"],
+            "start_iso": dr.get("start_iso"), "start_unix": dr.get("start_unix"),
+            "end_iso": dr.get("end_iso"), "end_unix": dr.get("end_unix"),
             "details": self.details_en.get(),
             "highlights": self.highlights_en.get(),
-            "stack": stack_list,          # ✅ yeni alan
-            "tech": stack_list,           # (geri uyum için aynısını yazıyoruz)
+            "stack": stack_list,
+            "tech": stack_list,  # backward compat
             "images": g["images"],
             "icon": g["cover"],
         }
@@ -58,10 +62,8 @@ class ExperienceTab(ListEntityTab):
         self.dr.set(rec.get("start"), rec.get("end"), rec.get("present", False))
         self.details_en.set(rec.get("details"))
         self.highlights_en.set(rec.get("highlights"))
-        stack_in = rec.get("stack")
-        if not stack_in:
-            stack_in = rec.get("tech")  # eski verilerde 'tech' vardı
-        self.stack.set_list(stack_in or [])
+        stack_in = rec.get("stack") or rec.get("tech") or []
+        self.stack.set_list(stack_in)
         self.gallery.set(rec.get("images") or [], rec.get("icon"))
 
     def summary_row(self, rec: Dict[str, Any]) -> List[Any]:

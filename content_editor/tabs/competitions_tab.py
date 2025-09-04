@@ -1,9 +1,11 @@
 from __future__ import annotations
 from tkinter import ttk
 from typing import Any, Dict, List
-from widgets.fields import LabeledEntry, DateRange, CommaListEntry
+
+from widgets.fields import LabeledEntry, CommaListEntry
 from widgets.i18n_fields import EnOnlyEntry, EnOnlyText, EnOnlyList
 from widgets.multi_image_picker import MultiImagePicker
+from widgets.date_widgets import DateRangePicker
 from .list_tab import ListEntityTab
 
 class CompetitionsTab(ListEntityTab):
@@ -17,7 +19,7 @@ class CompetitionsTab(ListEntityTab):
         self.team = LabeledEntry(f, "Team Name")
         self.role_en = EnOnlyEntry(f, "Role (optional, EN)")
         self.org = LabeledEntry(f, "Organization")
-        self.dr = DateRange(f)
+        self.dr = DateRangePicker(f, title="Date Range")
         self.result = LabeledEntry(f, "Result")
         self.details_en = EnOnlyText(f, "Details (EN)", height=6)
         self.highlights_en = EnOnlyList(f, "Highlights (EN)", height=6)
@@ -45,10 +47,12 @@ class CompetitionsTab(ListEntityTab):
             "role": self.role_en.get(),
             "organization": self.org.get(),
             "start": dr["start"], "end": dr["end"], "present": dr["present"],
+            "start_iso": dr.get("start_iso"), "start_unix": dr.get("start_unix"),
+            "end_iso": dr.get("end_iso"), "end_unix": dr.get("end_unix"),
             "result": self.result.get(),
             "details": self.details_en.get(),
             "highlights": self.highlights_en.get(),
-            "stack": self.stack.get_list(),     # ✅ yeni alan
+            "stack": self.stack.get_list(),
             "images": g["images"],
             "icon": g["cover"],
         }

@@ -1,40 +1,12 @@
 from __future__ import annotations
 from tkinter import ttk
-from typing import Any, Dict, List, Optional
-import re
-from datetime import datetime
+from typing import Any, Dict, List
 
 from widgets.fields import LabeledEntry, CommaListEntry
 from widgets.i18n_fields import EnOnlyEntry, EnOnlyText
 from widgets.multi_image_picker import MultiImagePicker
+from widgets.date_widgets import DatePicker
 from .list_tab import ListEntityTab
-
-
-def _to_iso_and_unix(raw: str) -> (Optional[str], Optional[int]):
-    if not raw:
-        return None, None
-    s = raw.strip()
-    if not s:
-        return None, None
-    fmts = ["%d/%m/%Y", "%Y-%m-%d", "%Y/%m/%d", "%d-%m-%Y", "%m/%d/%Y"]
-    for f in fmts:
-        try:
-            dt = datetime.strptime(s, f)
-            return dt.strftime("%Y-%m-%d"), int(dt.timestamp())
-        except Exception:
-            pass
-    m = re.match(r"^\s*(\d{4})[/-](\d{1,2})\s*$", s)
-    if m:
-        y = int(m.group(1)); mth = max(1, min(12, int(m.group(2))))
-        dt = datetime(y, mth, 1)
-        return dt.strftime("%Y-%m-%d"), int(dt.timestamp())
-    m = re.match(r"^\s*(\d{4})\s*$", s)
-    if m:
-        y = int(m.group(1))
-        dt = datetime(y, 1, 1)
-        return dt.strftime("%Y-%m-%d"), int(dt.timestamp())
-    return None, None
-
 
 class CertificatesTab(ListEntityTab):
     entity_name = "certificates"
@@ -45,7 +17,7 @@ class CertificatesTab(ListEntityTab):
 
         self.name_en = EnOnlyEntry(f, "Name (EN)")
         self.issuer = LabeledEntry(f, "Issuer")
-        self.issued_at = LabeledEntry(f, "Issued at (free format)")
+        self.issued_picker = DatePicker(f, title="Issued at", year_min=2020)
         self.cred_id = LabeledEntry(f, "Credential ID")
         self.cred_url = LabeledEntry(f, "Credential URL", 60)
         self.details_en = EnOnlyText(f, "Details (EN)", height=6)
@@ -57,21 +29,21 @@ class CertificatesTab(ListEntityTab):
         )
 
         r = 0
-        for w in [self.name_en, self.issuer, self.issued_at, self.cred_id, self.cred_url, self.details_en, self.stack, self.gallery]:
+        for w in [self.name_en, self.issuer, self.issued_picker, self.cred_id, self.cred_url, self.details_en, self.stack, self.gallery]:
             w.grid(row=r, column=0, sticky="ew", pady=6); r += 1
         f.columnconfigure(0, weight=1)
         return f
 
     def record_from_form(self) -> Dict[str, Any]:
-        raw = self.issued_at.get().strip()
-        iso, unix = _to_iso_and_unix(raw)
+        issued_str = self.issued_picker.get()
+        issued_iso, issued_unix = self.issued_picker.get_iso_unix()
         g = self.gallery.get()
         return {
             "name": self.name_en.get(),
             "issuer": self.issuer.get(),
-            "issued_at": raw,
-            "issued_at_iso": iso,
-            "issued_at_unix": unix,
+            "issued_at": issued_str,
+            "issued_at_iso": issued_iso,
+            "issued_at_unix": issued_unix,
             "credential_id": self.cred_id.get(),
             "credential_url": self.cred_url.get(),
             "details": self.details_en.get(),
@@ -83,8 +55,7 @@ class CertificatesTab(ListEntityTab):
     def set_form(self, rec: Dict[str, Any]):
         self.name_en.set(rec.get("name"))
         self.issuer.set(rec.get("issuer"))
-        raw = rec.get("issued_at") or rec.get("end") or rec.get("start") or ""
-        self.issued_at.set(raw)
+        self.issued_picker.set(rec.get("issued_at") or rec.get("end") or rec.get("start"))
         self.cred_id.set(rec.get("credential_id"))
         self.cred_url.set(rec.get("credential_url"))
         self.details_en.set(rec.get("details"))
