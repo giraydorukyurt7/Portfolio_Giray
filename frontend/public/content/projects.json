@@ -1,23 +1,27 @@
 [
   {
     "title": {
-      "en": "Optimal Plant Care Website (XML-Based)"
+      "en": "Classifier for Shells of Nuts"
     },
     "summary": {
-      "en": "-Developed a website using XML, XSLT, JavaScript, and CSS.\n\n-Recommends the optimal plants for the user to grow based on conditions and advises whether to increase or decrease environmental factors."
+      "en": "-Collected and labeled a custom dataset from self-taken photographs, including 6 types of nuts and their shelled versions.\n\n-Developed a convolutional neural network (CNN) model for multi-class classification."
     },
-    "start": "",
-    "end": "",
+    "origin": "personal",
+    "origin_label": "Personal",
+    "date": "2024-12-15",
+    "date_iso": "2024-12-15",
+    "date_unix": 1734210000,
+    "start": "2024-12-15",
+    "end": null,
     "present": false,
     "stack": [
-      "XML",
-      "XSLT",
-      "JavaScript",
-      "CSS"
+      "Python",
+      "Tensorflow",
+      "CNN"
     ],
     "links": {
-      "github": "https://github.com/giraydorukyurt7/OptimalPlantCareXML",
-      "demo": "https://giraydorukyurt7.github.io/OptimalPlantCareXML/OptimalPlantCare.xml"
+      "github": "https://github.com/giraydorukyurt7/Classifier-For-Shells-Of-Nuts",
+      "demo": ""
     },
     "highlights": {
       "en": []
@@ -33,8 +37,13 @@
     "summary": {
       "en": "-Built a convolutional neural network (CNN) model for binary classification using medical imaging data."
     },
-    "start": "",
-    "end": "",
+    "origin": "personal",
+    "origin_label": "Personal",
+    "date": "2025-01-15",
+    "date_iso": "2025-01-15",
+    "date_unix": 1736888400,
+    "start": "2025-01-15",
+    "end": null,
     "present": false,
     "stack": [
       "Python",
@@ -54,22 +63,28 @@
   },
   {
     "title": {
-      "en": "Classifier for Shells of Nuts"
+      "en": "Optimal Plant Care Website (XML-Based)"
     },
     "summary": {
-      "en": "-Collected and labeled a custom dataset from self-taken photographs, including 6 types of nuts and their shelled versions.\n\n-Developed a convolutional neural network (CNN) model for multi-class classification."
+      "en": "-Developed a website using XML, XSLT, JavaScript, and CSS.\n\n-Recommends the optimal plants for the user to grow based on conditions and advises whether to increase or decrease environmental factors."
     },
-    "start": "",
-    "end": "",
+    "origin": "personal",
+    "origin_label": "Personal",
+    "date": "2024-12-25",
+    "date_iso": "2024-12-25",
+    "date_unix": 1735074000,
+    "start": "2024-12-25",
+    "end": null,
     "present": false,
     "stack": [
-      "Python",
-      "Tensorflow",
-      "CNN"
+      "XML",
+      "XSLT",
+      "JavaScript",
+      "CSS"
     ],
     "links": {
-      "github": "https://github.com/giraydorukyurt7/Classifier-For-Shells-Of-Nuts",
-      "demo": ""
+      "github": "https://github.com/giraydorukyurt7/OptimalPlantCareXML",
+      "demo": "https://giraydorukyurt7.github.io/OptimalPlantCareXML/OptimalPlantCare.xml"
     },
     "highlights": {
       "en": []
@@ -77,5 +92,253 @@
     "images": [],
     "icon": null,
     "order_index": 2
+  },
+  {
+    "title": {
+      "en": "Environmental Monitoring System (IoT)"
+    },
+    "summary": {
+      "en": "-Designed and implemented two systems using ESP32 with Arduino.\n-One system records environmental data (such as temperature and soil moisture) from plants and sends it to a web server.\n-The second system reads this data and controls servos to open valves or roofs automatically."
+    },
+    "origin": "personal",
+    "origin_label": "Personal",
+    "date": "2025-12-25",
+    "date_iso": "2025-12-25",
+    "date_unix": 1766610000,
+    "start": "2025-12-25",
+    "end": null,
+    "present": false,
+    "stack": [
+      "Arduino"
+    ],
+    "links": {
+      "github": "",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 3
+  },
+  {
+    "title": {
+      "en": "Wikimedia WordCloud Generator"
+    },
+    "summary": {
+      "en": "-Developed a website using Python Flask, JavaScript, HTML, and CSS.\n-Processed a dataset from Wikimedia to analyze word frequency on selected pages.\n-Created both a bar plot for frequent words and a word cloud visualization."
+    },
+    "origin": "personal",
+    "origin_label": "Personal",
+    "date": "2024-12-28",
+    "date_iso": "2024-12-28",
+    "date_unix": 1735333200,
+    "start": "2024-12-28",
+    "end": null,
+    "present": false,
+    "stack": [
+      "Python",
+      "Flask",
+      "JavaScript",
+      "HTML",
+      "CSS"
+    ],
+    "links": {
+      "github": "",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 4
+  },
+  {
+    "title": {
+      "en": "Kozmos Sentiment Analysis"
+    },
+    "summary": {
+      "en": "-Developed a sentiment analysis tool using customer reviews from Amazon (collected via Kozmos).\n-Determines if a review is positive or negative.\n-Added a user input feature to allow real-time sentiment testing of custom comments."
+    },
+    "origin": "personal",
+    "origin_label": "Personal",
+    "date": "2024-11-27",
+    "date_iso": "2024-11-27",
+    "date_unix": 1732654800,
+    "start": "2024-11-27",
+    "end": null,
+    "present": false,
+    "stack": [
+      "Python",
+      "Flask",
+      "JavaScript",
+      "HTML",
+      "CSS"
+    ],
+    "links": {
+      "github": "",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 5
+  },
+  {
+    "title": {
+      "en": "Safety Helmet Object Detection"
+    },
+    "summary": {
+      "en": "-Developed an object detection model using RCNN to detect whether workers are wearing safety helmets."
+    },
+    "origin": "personal",
+    "origin_label": "Personal",
+    "date": "2025-04-05",
+    "date_iso": "2025-04-05",
+    "date_unix": 1743800400,
+    "start": "2025-04-05",
+    "end": null,
+    "present": false,
+    "stack": [
+      "Python",
+      "RCNN"
+    ],
+    "links": {
+      "github": "",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 6
+  },
+  {
+    "title": {
+      "en": "Sea Animal Classifier"
+    },
+    "summary": {
+      "en": "-Designed a convolutional neural network (CNN) to classify 23 different species of sea animals."
+    },
+    "origin": "personal",
+    "origin_label": "Personal",
+    "date": "2025-01-23",
+    "date_iso": "2025-01-23",
+    "date_unix": 1737579600,
+    "start": "2025-01-23",
+    "end": null,
+    "present": false,
+    "stack": [
+      "Python",
+      "CNN"
+    ],
+    "links": {
+      "github": "",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 7
+  },
+  {
+    "title": {
+      "en": "Character Arena Website"
+    },
+    "summary": {
+      "en": "Designed a dynamic tournament-style favourite character selection battle game with React, Flask (Python), and MySQL."
+    },
+    "origin": "personal",
+    "origin_label": "Personal",
+    "date": "2025-05-02",
+    "date_iso": "2025-05-02",
+    "date_unix": 1746133200,
+    "start": "2025-05-02",
+    "end": null,
+    "present": false,
+    "stack": [
+      "Python",
+      "Flask",
+      "React",
+      "MySQL"
+    ],
+    "links": {
+      "github": "",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 8
+  },
+  {
+    "title": {
+      "en": "Rent Estimation System"
+    },
+    "summary": {
+      "en": "-Developed a rent price prediction system using various regression models, including KNN, SVR, Decision Tree, Random Forest, XGBoost, and LightGBM.\n-Integrated stacking and averaging ensemble methods and improved prediction performance."
+    },
+    "origin": "personal",
+    "origin_label": "Personal",
+    "date": "2025-05-20",
+    "date_iso": "2025-05-20",
+    "date_unix": 1747688400,
+    "start": "2025-05-20",
+    "end": null,
+    "present": false,
+    "stack": [
+      "Python",
+      "Scikit-learn"
+    ],
+    "links": {
+      "github": "",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 9
+  },
+  {
+    "title": {
+      "en": "Image Captioning with NLP and CV"
+    },
+    "summary": {
+      "en": "-Developed an image captioning system combining Natural Language Processing and Computer Vision.\n-Utilized models such as BLIP-2, GPT-2, CLIP, and ensemble strategies to generate descriptive captions from images.\n-Example Output: \"A boy in a sports uniform dribbles a basketball, while a referee watches nearby during a game.\""
+    },
+    "origin": "personal",
+    "origin_label": "Personal",
+    "date": "2025-05-26",
+    "date_iso": "2025-05-26",
+    "date_unix": 1748206800,
+    "start": "2025-05-26",
+    "end": null,
+    "present": false,
+    "stack": [
+      "Python",
+      "NLP",
+      "CV"
+    ],
+    "links": {
+      "github": "",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 10
   }
 ]
