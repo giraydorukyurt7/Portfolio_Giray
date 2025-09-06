@@ -112,7 +112,7 @@
       "Arduino"
     ],
     "links": {
-      "github": "",
+      "github": "https://github.com/giraydorukyurt7/Environmental-Monitoring-System-For-Plants-And-Plant-Care-System-IOT",
       "demo": ""
     },
     "highlights": {
@@ -145,7 +145,7 @@
       "CSS"
     ],
     "links": {
-      "github": "",
+      "github": "https://github.com/giraydorukyurt7/WIKIMEDIA-WORDCLOUD-GENERATOR",
       "demo": ""
     },
     "highlights": {
@@ -178,7 +178,7 @@
       "CSS"
     ],
     "links": {
-      "github": "",
+      "github": "https://github.com/giraydorukyurt7/KOZMOS-SENTIMENT-ANALYSIS-NLP",
       "demo": ""
     },
     "highlights": {
@@ -208,7 +208,7 @@
       "RCNN"
     ],
     "links": {
-      "github": "",
+      "github": "https://github.com/giraydorukyurt7/Safety-Helmet-Object-Detection",
       "demo": ""
     },
     "highlights": {
@@ -238,7 +238,7 @@
       "CNN"
     ],
     "links": {
-      "github": "",
+      "github": "https://github.com/giraydorukyurt7/Sea_Animal_Classifier_Multi_CNN_Architectures",
       "demo": ""
     },
     "highlights": {
@@ -270,7 +270,7 @@
       "MySQL"
     ],
     "links": {
-      "github": "",
+      "github": "https://github.com/giraydorukyurt7/CHARACTER-ARENA",
       "demo": ""
     },
     "highlights": {
@@ -300,7 +300,7 @@
       "Scikit-learn"
     ],
     "links": {
-      "github": "",
+      "github": "https://github.com/giraydorukyurt7/Rent-Estimation-System",
       "demo": ""
     },
     "highlights": {
@@ -331,7 +331,7 @@
       "CV"
     ],
     "links": {
-      "github": "",
+      "github": "https://github.com/giraydorukyurt7/IMAGE_CAPTIONING_Combining_NLP_With_CV",
       "demo": ""
     },
     "highlights": {
@@ -340,5 +340,437 @@
     "images": [],
     "icon": null,
     "order_index": 10
+  },
+  {
+    "title": {
+      "en": "ANN - MNIST Number Classification"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "",
+    "date_iso": null,
+    "date_unix": null,
+    "start": "",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/ANN_MNIST_NUMBER_CLASSIFICATION",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 11
+  },
+  {
+    "title": {
+      "en": "ANN - CIFAR10 Image Classification"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "",
+    "date_iso": null,
+    "date_unix": null,
+    "start": "",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/ANN_CIFAR10_IMAGE_CLASSIFICATION",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 12
+  },
+  {
+    "title": {
+      "en": "CNN - Garbage Classification"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "",
+    "date_iso": null,
+    "date_unix": null,
+    "start": "",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/CNN_GARBAGE_CLASSIFICATION",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 13
+  },
+  {
+    "title": {
+      "en": "RNN - Airplane Passenger Estimation"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "",
+    "date_iso": null,
+    "date_unix": null,
+    "start": "",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/RNN_AIRPLANE_PASSENGER_NUMBER_ESTIMATION",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 14
+  },
+  {
+    "title": {
+      "en": "LSTM - Tesla Stock Forecast"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "",
+    "date_iso": null,
+    "date_unix": null,
+    "start": "",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/LSTM_TESLA_STOCK_FORECAST_ESTIMATION",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 15
+  },
+  {
+    "title": {
+      "en": "LSTM - IMDB Movie Reviews"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "",
+    "date_iso": null,
+    "date_unix": null,
+    "start": "",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/LSTM_IMDB_MOVIE_REVIEWS",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 16
+  },
+  {
+    "title": {
+      "en": "GAN - MNIST Image Generator"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "",
+    "date_iso": null,
+    "date_unix": null,
+    "start": "",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/GAN_MNIST_NUMBER_IMAGE_GENERATOR",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 17
+  },
+  {
+    "title": {
+      "en": "Autoencoder - Fashion Classification"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "",
+    "date_iso": null,
+    "date_unix": null,
+    "start": "",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/AUTOENCODER_FASHION_MNIST_CLOTHING_CLASSIFICATION",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 18
+  },
+  {
+    "title": {
+      "en": "Transformers - Sentiment Analysis"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "",
+    "date_iso": null,
+    "date_unix": null,
+    "start": "",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/TRANSFORMERS_IMDB_REVIEWS_SENTIMENT_ANALYSIS",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 19
+  },
+  {
+    "title": {
+      "en": "Transfer Learning - Drug Classifier"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "",
+    "date_iso": null,
+    "date_unix": null,
+    "start": "",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/TRANSFER_LEARNING_DRUG_VISION_DRUG_CLASSIFIER",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 20
+  },
+  {
+    "title": {
+      "en": "Face Evaluator"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "",
+    "date_iso": null,
+    "date_unix": null,
+    "start": "",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/OTHERS/FACE_EVALUATOR",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 21
+  },
+  {
+    "title": {
+      "en": "DNN - Image Classification"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "",
+    "date_iso": null,
+    "date_unix": null,
+    "start": "",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/OpenCV/06_OpenCV_APPLICATIONS/02_DNN_APPLICATION_IMAGE_CLASSIFICATION",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 22
+  },
+  {
+    "title": {
+      "en": "DNN with SSD - Single Class"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "",
+    "date_iso": null,
+    "date_unix": null,
+    "start": "",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/OpenCV/06_OpenCV_APPLICATIONS/03_DNN_WITH_SSD_MODEL_APPLICATION_SINGLE_CLASS_IMAGE_CLASSIFICATION",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 23
+  },
+  {
+    "title": {
+      "en": "Real-Time Object Recognition"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "",
+    "date_iso": null,
+    "date_unix": null,
+    "start": "",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/OpenCV/06_OpenCV_APPLICATIONS/04_DNN_WITH_SSD_MODEL_APPLICATION_REAL-TIME_OBJECT_RECOGNITION",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 24
+  },
+  {
+    "title": {
+      "en": "Video Face Detection"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "",
+    "date_iso": null,
+    "date_unix": null,
+    "start": "",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/OpenCV/06_OpenCV_APPLICATIONS/05_DNN_APPLICATION_VIDEO_FACE_DETECTION_BASED_ON_RESIDUAL_NETWORK",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 25
+  },
+  {
+    "title": {
+      "en": "Sentiment Analysis (Amazon)"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "",
+    "date_iso": null,
+    "date_unix": null,
+    "start": "",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Natural_Language_Processing",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 26
   }
 ]
