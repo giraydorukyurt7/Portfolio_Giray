@@ -11,41 +11,77 @@ function Badge({ children, intent = "default" }) {
     sub: "border-white/10 bg-white/5 text-white/70",
   }[intent];
   return (
-    <span className={cn("inline-flex items-center rounded-full border px-2 py-0.5 text-[11px]", cls)}>
+    <span
+      className={cn(
+        "inline-flex items-center rounded-full border px-1.5 py-0 text-[10px] leading-5",
+        cls
+      )}
+    >
       {children}
     </span>
   );
 }
 
-export default function CoursesSection({ items }) {
+function GroupCard({ title, items, type }) {
+  return (
+    <Card>
+      <div className="space-y-2">
+        {/* Mini başlık */}
+        <div className="flex items-center gap-2">
+          <span className="uppercase tracking-wider text-[11px] text-white/60">
+            {title}
+          </span>
+          <span className="h-px flex-1 bg-white/10" />
+        </div>
+
+        {/* Yoğun liste */}
+        {items.length === 0 ? (
+          <div className="text-xs text-white/40">No {title.toLowerCase()} courses.</div>
+        ) : (
+          <ul className="divide-y divide-white/5">
+            {items.map((c, i) => {
+              const name = c?.name || "Course";
+              const semester = c?.semester; // e.g., "5th semester"
+              const electiveSub = c?.elective_type; // Area / Non-area / University
+
+              return (
+                <li key={i} className="flex items-center justify-between py-1.5">
+                  <span className="truncate text-sm leading-5">{name}</span>
+                  <div className="ml-3 flex items-center gap-2">
+                    {semester && (
+                      <span className="text-[11px] leading-5 text-white/50">{semester}</span>
+                    )}
+                    {type === "elective" && electiveSub && (
+                      <Badge intent="sub">{electiveSub}</Badge>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
+    </Card>
+  );
+}
+
+export default function CoursesSection({ items = [] }) {
   const has = Array.isArray(items) && items.length > 0;
+  const elective = has ? items.filter((c) => c?.type === "elective") : [];
+  const mandatory = has ? items.filter((c) => c?.type !== "elective") : [];
 
   return (
-    <Section id="courses" title="Technical Courses" subtitle="Career-related courses only">
+    <Section
+      id="courses"
+      title="Technical Courses"
+      subtitle="Compact view (career-related)"
+    >
       {!has && <p className="text-white/60">No courses yet.</p>}
-      {has && (
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {items.map((c, i) => {
-            const name = c?.name || "Course";
-            const semester = c?.semester; // e.g., "5th semester"
-            const type = c?.type === "elective" ? "elective" : "mandatory";
-            const sub = c?.elective_type; // "Area Elective" | "Non-area Elective" | "Universitive Elective"
 
-            return (
-              <Card key={i}>
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-semibold leading-tight">{name}</h3>
-                    <div className="flex items-center gap-2">
-                      <Badge intent={type}>{type === "elective" ? "Elective" : "Mandatory"}</Badge>
-                    </div>
-                  </div>
-                  {semester && <div className="text-xs text-white/60">{semester}</div>}
-                  {type === "elective" && sub && <Badge intent="sub">{sub}</Badge>}
-                </div>
-              </Card>
-            );
-          })}
+      {has && (
+        <div className="grid md:grid-cols-2 gap-4">
+          <GroupCard title="Mandatory" items={mandatory} type="mandatory" />
+          <GroupCard title="Elective" items={elective} type="elective" />
         </div>
       )}
     </Section>
