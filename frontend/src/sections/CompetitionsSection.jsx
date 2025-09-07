@@ -1,8 +1,8 @@
 // src/sections/CompetitionsSection.jsx
-import Section from "./components/Section";
-import Card from "./components/Card";
-import StackBadge from "./components/StackBadge";
-import { safeGet } from "./lib/utils";
+import Section from "../components/Section";
+import Card from "../components/Card";
+import StackBadge from "../components/StackBadge";
+import { safeGet } from "../lib/utils";
 
 // TR kısaltmalı ay isimleri
 const MONTHS_TR = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
@@ -60,14 +60,14 @@ export default function CompetitionsSection({ items, stackIndex }) {
         {items?.map((c, idx) => {
           const name = safeGet(c, "name.en") || safeGet(c, "title.en");
           const role = safeGet(c, "role.en");
-          const org = c.organization;
-          const result = c.result;
+          const org = c?.organization;
+          const result = c?.result;
           const details = safeGet(c, "details.en");
           const highlights = safeGet(c, "highlights.en", []);
-          const start = formatYMStrict(c.start);
-          const end = c.present ? "Present" : formatYMStrict(c.end);
+          const start = formatYMStrict(c?.start);
+          const end = c?.present ? "Present" : formatYMStrict(c?.end);
           const range = [start, end].filter(Boolean).join(" — ");
-          const stack = Array.isArray(c.stack) ? c.stack : [];
+          const stack = Array.isArray(c?.stack) ? c.stack : [];
 
           return (
             <Card key={idx}>
