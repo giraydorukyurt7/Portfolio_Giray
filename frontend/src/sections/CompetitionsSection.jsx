@@ -1,8 +1,56 @@
 // src/sections/CompetitionsSection.jsx
-import Section from "../components/Section";
-import Card from "../components/Card";
-import StackBadge from "../components/StackBadge";
-import { safeGet, formatYM } from "../lib/utils";
+import Section from "./components/Section";
+import Card from "./components/Card";
+import StackBadge from "./components/StackBadge";
+import { safeGet } from "./lib/utils";
+
+// TR kısaltmalı ay isimleri
+const MONTHS_TR = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
+
+// "DD/MM/YYYY" (tek haneli gün/ay da olur), "YYYY-MM-DD", "YYYY/MM/DD", "MM/YYYY", "YYYY"
+function parseToYearMonth(input) {
+  if (!input || typeof input !== "string") return null;
+  const s = input.trim();
+  if (!s) return null;
+
+  // D/M/YYYY veya DD/MM/YYYY (ayırıcı: / . -)
+  let m = s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);
+  if (m) {
+    const day = parseInt(m[1], 10);
+    const month = parseInt(m[2], 10);
+    const year = parseInt(m[3], 10);
+    if (month >= 1 && month <= 12) return { y: year, m: month };
+  }
+
+  // YYYY-M-D veya YYYY/M/D (gün opsiyonel)
+  m = s.match(/^(\d{4})[\/\-\.](\d{1,2})(?:[\/\-\.](\d{1,2}))?$/);
+  if (m) {
+    const year = parseInt(m[1], 10);
+    const month = parseInt(m[2], 10);
+    if (month >= 1 && month <= 12) return { y: year, m: month };
+  }
+
+  // MM/YYYY
+  m = s.match(/^(\d{1,2})[\/\-\.](\d{4})$/);
+  if (m) {
+    const month = parseInt(m[1], 10);
+    const year = parseInt(m[2], 10);
+    if (month >= 1 && month <= 12) return { y: year, m: month };
+  }
+
+  // YYYY
+  m = s.match(/^(\d{4})$/);
+  if (m) return { y: parseInt(m[1], 10), m: null };
+
+  return null;
+}
+
+function formatYMStrict(value) {
+  const d = parseToYearMonth(value);
+  if (!d) return "";
+  if (d.m == null) return String(d.y);
+  return `${MONTHS_TR[d.m - 1]} ${d.y}`;
+}
 
 export default function CompetitionsSection({ items, stackIndex }) {
   return (
@@ -16,8 +64,8 @@ export default function CompetitionsSection({ items, stackIndex }) {
           const result = c.result;
           const details = safeGet(c, "details.en");
           const highlights = safeGet(c, "highlights.en", []);
-          const start = formatYM(c.start);
-          const end = c.present ? "Present" : formatYM(c.end);
+          const start = formatYMStrict(c.start);
+          const end = c.present ? "Present" : formatYMStrict(c.end);
           const range = [start, end].filter(Boolean).join(" — ");
           const stack = Array.isArray(c.stack) ? c.stack : [];
 
