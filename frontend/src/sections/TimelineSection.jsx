@@ -254,7 +254,7 @@ export default function TimelineSection({ data }) {
   };
 
   return (
-    <Section id="timeline" title="Timeline" subtitle="Her satır 6 ay • Laneler aşağı doğru • Present halka">
+    <Section id="timeline" title="Timeline" subtitle="">
       <div className="relative z-20 overflow-x-auto overflow-y-visible isolate">
         <svg
           viewBox={`0 0 ${width} ${height}`}
