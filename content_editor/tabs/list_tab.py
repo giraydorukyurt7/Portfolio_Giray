@@ -1,10 +1,8 @@
-# tabs/list_tab.py
 from __future__ import annotations
 import tkinter as tk
 from tkinter import ttk
 from typing import Any, Dict, List
 from .base_tab import BaseTab
-
 
 class ListEntityTab(BaseTab):
     entity_name = ""
@@ -47,10 +45,18 @@ class ListEntityTab(BaseTab):
 
         root = ttk.Frame(self)
         root.pack(fill="both", expand=True, padx=10, pady=8)
+        root.grid_columnconfigure(0, weight=1)
+        root.grid_rowconfigure(0, weight=1)
 
-        # Sol liste
-        left = ttk.Frame(root)
-        left.grid(row=0, column=0, sticky="nsew")
+        # ---- Panedwindow (sol liste <-> sağ form) ----
+        paned = ttk.Panedwindow(root, orient="horizontal")
+        paned.grid(row=0, column=0, sticky="nsew")
+
+        # Sol panel: liste
+        left = ttk.Frame(paned)
+        left.grid_columnconfigure(0, weight=1)
+        left.grid_rowconfigure(0, weight=1)
+
         self.tree = ttk.Treeview(
             left,
             columns=self.columns,
@@ -62,16 +68,17 @@ class ListEntityTab(BaseTab):
         for col in self.columns:
             self.tree.heading(col, text=col)
             self.tree.column(col, width=160, stretch=True)
+
         ysb = ttk.Scrollbar(left, orient="vertical", command=self.tree.yview)
         self.tree.configure(yscrollcommand=ysb.set)
         self.tree.grid(row=0, column=0, sticky="nsew")
         ysb.grid(row=0, column=1, sticky="ns")
-        left.grid_columnconfigure(0, weight=1)
-        left.grid_rowconfigure(0, weight=1)
 
-        # Sağ scrollable form alanı
-        right = ttk.Frame(root)
-        right.grid(row=0, column=1, sticky="nsew", padx=(12, 0))
+        # Sağ panel: scrollable form alanı
+        right = ttk.Frame(paned)
+        right.grid_columnconfigure(0, weight=1)
+        right.grid_rowconfigure(0, weight=1)
+
         form_container = self._make_scrollable_form(right)
         try:
             self.form = self.build_form(form_container)  # tab-specific UI
@@ -81,20 +88,34 @@ class ListEntityTab(BaseTab):
             pass
         form_container.columnconfigure(0, weight=1)
 
+        # Paned'e ekle (sürükle-bırakla boyutlanır)
+        # NOT: weight'leri eşit veriyoruz ki resize'da alan eşit paylaşılsın.
+        paned.add(left, weight=1)
+        paned.add(right, weight=1)
+
+        # İlk yerleşimde AYRAÇ ORTADA: bir kez ortala (kullanıcı sürüklerse karışma)
+        self._sash_centered_once = False
+        def _center_sash_once(_=None):
+            if self._sash_centered_once:
+                return
+            total = paned.winfo_width()
+            if total and total > 2:
+                try:
+                    paned.sashpos(0, total // 2)
+                    self._sash_centered_once = True
+                except Exception:
+                    pass
+        paned.bind("<Configure>", _center_sash_once)
+
         # Alt buton çubuğu
         btnbar = ttk.Frame(root)
-        btnbar.grid(row=1, column=1, sticky="e", pady=(8, 0))
+        btnbar.grid(row=1, column=0, sticky="e", pady=(8, 0))
         ttk.Button(btnbar, text="New", command=self._on_new).pack(side="left")
         ttk.Button(btnbar, text="Add / Update", command=self._on_add_update).pack(side="left", padx=8)
         ttk.Button(btnbar, text="Delete", command=self._on_delete).pack(side="left")
         ttk.Separator(btnbar, orient="vertical").pack(side="left", padx=8, fill="y")
         ttk.Button(btnbar, text="Up", command=self._move_up).pack(side="left")
         ttk.Button(btnbar, text="Down", command=self._move_down).pack(side="left", padx=(6, 0))
-
-        # grid oranları
-        root.grid_columnconfigure(0, weight=0)
-        root.grid_columnconfigure(1, weight=1)
-        root.grid_rowconfigure(0, weight=1)
 
         # Olaylar
         self.tree.bind("<<TreeviewSelect>>", self._on_select)
@@ -150,7 +171,7 @@ class ListEntityTab(BaseTab):
         if not isinstance(items, list):
             items = []
         self.data = items
-        self._reindex_order()   # her yüklemede order_index güncel
+        self._reindex_order()
         self._refresh_table()
         try:
             self.set_form({})
@@ -170,7 +191,6 @@ class ListEntityTab(BaseTab):
             self.tree.insert("", "end", iid=str(i), values=self.summary_row(rec))
 
     def _reindex_order(self):
-        # JSON’la birlikte her kayda "order_index" yaz (frontend isterse bunu baz alabilir)
         for i, rec in enumerate(self.data):
             if isinstance(rec, dict):
                 rec["order_index"] = i
@@ -223,7 +243,7 @@ class ListEntityTab(BaseTab):
         if new_idx < 0 or new_idx >= len(self.data):
             return
         self.data[new_idx], self.data[idx] = self.data[idx], self.data[new_idx]
-        self._save_only()     # değişikliği hemen JSON’a yaz
+        self._save_only()
         self._refresh_table()
         try:
             self.tree.selection_set(str(new_idx))
