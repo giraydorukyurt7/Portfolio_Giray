@@ -5,11 +5,15 @@
     },
     "organization": "Ayasis",
     "location": "Istanbul",
-    "start": "2025/07",
-    "end": "2025/08",
+    "start": "2025-07-21",
+    "end": "2025-08-29",
     "present": false,
+    "start_iso": "2025-07-21",
+    "start_unix": 1753045200,
+    "end_iso": "2025-08-29",
+    "end_unix": 1756414800,
     "details": {
-      "en": "-Working in a R&D project."
+      "en": "-Worked in a R&D project."
     },
     "highlights": {
       "en": []
