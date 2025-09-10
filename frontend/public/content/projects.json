@@ -16,7 +16,13 @@
     "present": false,
     "stack": [
       "Python",
-      "Tensorflow",
+      "Tensorflow"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
       "CNN"
     ],
     "links": {
@@ -47,7 +53,13 @@
     "present": false,
     "stack": [
       "Python",
-      "Tensorflow",
+      "Tensorflow"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
       "CNN"
     ],
     "links": {
@@ -82,6 +94,10 @@
       "JavaScript",
       "CSS"
     ],
+    "areas": [
+      "Web Programming"
+    ],
+    "topics": [],
     "links": {
       "github": "https://github.com/giraydorukyurt7/OptimalPlantCareXML",
       "demo": "https://giraydorukyurt7.github.io/OptimalPlantCareXML/OptimalPlantCare.xml"
@@ -98,7 +114,7 @@
       "en": "Environmental Monitoring System (IoT)"
     },
     "summary": {
-      "en": "-Designed and implemented two systems using ESP32 with Arduino.\n-One system records environmental data (such as temperature and soil moisture) from plants and sends it to a web server.\n-The second system reads this data and controls servos to open valves or roofs automatically."
+      "en": "-Designed and implemented two systems using ESP32 with Arduino.\n\n-One system records environmental data (such as temperature and soil moisture) from plants and sends it to a web server.\n\n-The second system reads this data and controls servos to open valves or roofs automatically."
     },
     "origin": "personal",
     "origin_label": "Personal",
@@ -110,6 +126,13 @@
     "present": false,
     "stack": [
       "Arduino"
+    ],
+    "areas": [
+      "Embedded Systems",
+      "Internet Of Things"
+    ],
+    "topics": [
+      "ESP32"
     ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Environmental-Monitoring-System-For-Plants-And-Plant-Care-System-IOT",
@@ -127,7 +150,7 @@
       "en": "Wikimedia WordCloud Generator"
     },
     "summary": {
-      "en": "-Developed a website using Python Flask, JavaScript, HTML, and CSS.\n-Processed a dataset from Wikimedia to analyze word frequency on selected pages.\n-Created both a bar plot for frequent words and a word cloud visualization."
+      "en": "-Developed a website using Python Flask, JavaScript, HTML, and CSS.\n\n-Processed a dataset from Wikimedia to analyze word frequency on selected pages.\n\n-Created both a bar plot for frequent words and a word cloud visualization."
     },
     "origin": "personal",
     "origin_label": "Personal",
@@ -143,6 +166,14 @@
       "JavaScript",
       "HTML",
       "CSS"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence",
+      "Web Programming"
+    ],
+    "topics": [
+      "Natural Language Processing"
     ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/WIKIMEDIA-WORDCLOUD-GENERATOR",
@@ -160,7 +191,7 @@
       "en": "Kozmos Sentiment Analysis"
     },
     "summary": {
-      "en": "-Developed a sentiment analysis tool using customer reviews from Amazon (collected via Kozmos).\n-Determines if a review is positive or negative.\n-Added a user input feature to allow real-time sentiment testing of custom comments."
+      "en": "-Developed a sentiment analysis tool using customer reviews from Amazon (collected via Kozmos).\n\n-Determines if a review is positive or negative.\n\n-Added a user input feature to allow real-time sentiment testing of custom comments."
     },
     "origin": "personal",
     "origin_label": "Personal",
@@ -176,6 +207,15 @@
       "JavaScript",
       "HTML",
       "CSS"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence",
+      "Web Programming"
+    ],
+    "topics": [
+      "Natural Language Processing",
+      "Sentiment Analysis"
     ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/KOZMOS-SENTIMENT-ANALYSIS-NLP",
@@ -205,7 +245,16 @@
     "present": false,
     "stack": [
       "Python",
-      "RCNN"
+      "Tensorflow",
+      "Pytorch"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "RCNN",
+      "Object Detection"
     ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Safety-Helmet-Object-Detection",
@@ -235,6 +284,13 @@
     "present": false,
     "stack": [
       "Python",
+      "Tensorflow"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
       "CNN"
     ],
     "links": {
@@ -253,7 +309,7 @@
       "en": "Character Arena Website"
     },
     "summary": {
-      "en": "Designed a dynamic tournament-style favourite character selection battle game with React, Flask (Python), and MySQL."
+      "en": "-Designed a dynamic tournament-style favourite character selection battle game with React, Flask (Python), and MySQL."
     },
     "origin": "personal",
     "origin_label": "Personal",
@@ -269,6 +325,10 @@
       "React",
       "MySQL"
     ],
+    "areas": [
+      "Web Programming"
+    ],
+    "topics": [],
     "links": {
       "github": "https://github.com/giraydorukyurt7/CHARACTER-ARENA",
       "demo": ""
@@ -285,7 +345,7 @@
       "en": "Rent Estimation System"
     },
     "summary": {
-      "en": "-Developed a rent price prediction system using various regression models, including KNN, SVR, Decision Tree, Random Forest, XGBoost, and LightGBM.\n-Integrated stacking and averaging ensemble methods and improved prediction performance."
+      "en": "-Developed a rent price prediction system using various regression models, including KNN, SVR, Decision Tree, Random Forest, XGBoost, and LightGBM.\n\n-Integrated stacking and averaging ensemble methods and improved prediction performance."
     },
     "origin": "personal",
     "origin_label": "Personal",
@@ -298,6 +358,13 @@
     "stack": [
       "Python",
       "Scikit-learn"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "Machine Learning"
     ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Rent-Estimation-System",
@@ -315,7 +382,7 @@
       "en": "Image Captioning with NLP and CV"
     },
     "summary": {
-      "en": "-Developed an image captioning system combining Natural Language Processing and Computer Vision.\n-Utilized models such as BLIP-2, GPT-2, CLIP, and ensemble strategies to generate descriptive captions from images.\n-Example Output: \"A boy in a sports uniform dribbles a basketball, while a referee watches nearby during a game.\""
+      "en": "-Developed an image captioning system combining Natural Language Processing and Computer Vision.\n\n-Utilized models such as BLIP-2, GPT-2, CLIP, and ensemble strategies to generate descriptive captions from images.\n\n-Example Output: \"A boy in a sports uniform dribbles a basketball, while a referee watches nearby during a game.\""
     },
     "origin": "personal",
     "origin_label": "Personal",
@@ -326,9 +393,15 @@
     "end": null,
     "present": false,
     "stack": [
-      "Python",
-      "NLP",
-      "CV"
+      "Python"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "Computer Vision",
+      "Natural Language Processing"
     ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/IMAGE_CAPTIONING_Combining_NLP_With_CV",
@@ -762,6 +835,11 @@
     "end": null,
     "present": false,
     "stack": [],
+    "areas": [],
+    "topics": [
+      "Natural Language Processing",
+      "Sentiment Analysis"
+    ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Natural_Language_Processing",
       "demo": ""
