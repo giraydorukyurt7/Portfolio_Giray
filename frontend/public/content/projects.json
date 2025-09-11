@@ -429,7 +429,17 @@
     "start": "",
     "end": null,
     "present": false,
-    "stack": [],
+    "stack": [
+      "Python",
+      "Tensorflow"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "ANN"
+    ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/ANN_MNIST_NUMBER_CLASSIFICATION",
       "demo": ""
@@ -456,7 +466,17 @@
     "start": "",
     "end": null,
     "present": false,
-    "stack": [],
+    "stack": [
+      "Python",
+      "Tensorflow"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "ANN"
+    ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/ANN_CIFAR10_IMAGE_CLASSIFICATION",
       "demo": ""
@@ -483,7 +503,17 @@
     "start": "",
     "end": null,
     "present": false,
-    "stack": [],
+    "stack": [
+      "Python",
+      "Tensorflow"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "CNN"
+    ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/CNN_GARBAGE_CLASSIFICATION",
       "demo": ""
@@ -510,7 +540,17 @@
     "start": "",
     "end": null,
     "present": false,
-    "stack": [],
+    "stack": [
+      "Python",
+      "Tensorflow"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "RNN"
+    ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/RNN_AIRPLANE_PASSENGER_NUMBER_ESTIMATION",
       "demo": ""
@@ -537,7 +577,17 @@
     "start": "",
     "end": null,
     "present": false,
-    "stack": [],
+    "stack": [
+      "Python",
+      "Tensorflow"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "LSTM"
+    ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/LSTM_TESLA_STOCK_FORECAST_ESTIMATION",
       "demo": ""
@@ -564,7 +614,17 @@
     "start": "",
     "end": null,
     "present": false,
-    "stack": [],
+    "stack": [
+      "Python",
+      "Tensorflow"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "LSTM"
+    ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/LSTM_IMDB_MOVIE_REVIEWS",
       "demo": ""
@@ -591,7 +651,17 @@
     "start": "",
     "end": null,
     "present": false,
-    "stack": [],
+    "stack": [
+      "Python",
+      "Tensorflow"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "GAN"
+    ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/GAN_MNIST_NUMBER_IMAGE_GENERATOR",
       "demo": ""
@@ -618,7 +688,17 @@
     "start": "",
     "end": null,
     "present": false,
-    "stack": [],
+    "stack": [
+      "Python",
+      "Tensorflow"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "AUTOENCODER"
+    ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/AUTOENCODER_FASHION_MNIST_CLOTHING_CLASSIFICATION",
       "demo": ""
@@ -645,7 +725,17 @@
     "start": "",
     "end": null,
     "present": false,
-    "stack": [],
+    "stack": [
+      "Python",
+      "Tensorflow"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "TRANSFORMERS"
+    ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/TRANSFORMERS_IMDB_REVIEWS_SENTIMENT_ANALYSIS",
       "demo": ""
@@ -672,7 +762,17 @@
     "start": "",
     "end": null,
     "present": false,
-    "stack": [],
+    "stack": [
+      "Python",
+      "Tensorflow"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "CNN"
+    ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/TRANSFER_LEARNING_DRUG_VISION_DRUG_CLASSIFIER",
       "demo": ""
@@ -699,7 +799,14 @@
     "start": "",
     "end": null,
     "present": false,
-    "stack": [],
+    "stack": [
+      "Python"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/Deep_Learning/OTHERS/FACE_EVALUATOR",
       "demo": ""
@@ -726,7 +833,18 @@
     "start": "",
     "end": null,
     "present": false,
-    "stack": [],
+    "stack": [
+      "Python",
+      "OpenCV"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "DNN",
+      "PRE-TRAINED"
+    ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/OpenCV/06_OpenCV_APPLICATIONS/02_DNN_APPLICATION_IMAGE_CLASSIFICATION",
       "demo": ""
@@ -753,7 +871,19 @@
     "start": "",
     "end": null,
     "present": false,
-    "stack": [],
+    "stack": [
+      "Python",
+      "OpenCV"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "DNN",
+      "SSD",
+      "PRE-TRAINED"
+    ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/OpenCV/06_OpenCV_APPLICATIONS/03_DNN_WITH_SSD_MODEL_APPLICATION_SINGLE_CLASS_IMAGE_CLASSIFICATION",
       "demo": ""
@@ -780,7 +910,19 @@
     "start": "",
     "end": null,
     "present": false,
-    "stack": [],
+    "stack": [
+      "Python",
+      "OpenCV"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "DNN",
+      "SSD",
+      "PRE-TRAINED"
+    ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/OpenCV/06_OpenCV_APPLICATIONS/04_DNN_WITH_SSD_MODEL_APPLICATION_REAL-TIME_OBJECT_RECOGNITION",
       "demo": ""
@@ -807,7 +949,15 @@
     "start": "",
     "end": null,
     "present": false,
-    "stack": [],
+    "stack": [
+      "Python",
+      "OpenCV"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/tree/main/OpenCV/06_OpenCV_APPLICATIONS/05_DNN_APPLICATION_VIDEO_FACE_DETECTION_BASED_ON_RESIDUAL_NETWORK",
       "demo": ""
@@ -834,8 +984,15 @@
     "start": "",
     "end": null,
     "present": false,
-    "stack": [],
-    "areas": [],
+    "stack": [
+      "Python",
+      "Tensorflow",
+      "NLTK"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
     "topics": [
       "Natural Language Processing",
       "Sentiment Analysis"
