@@ -4,7 +4,7 @@
       "en": "Data Literacy"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
-    "issued_at": "26/07/2024",
+    "issued_at": "2024-07-26",
     "issued_at_iso": "2024-07-26",
     "issued_at_unix": 1721941200,
     "credential_id": "",
@@ -24,7 +24,7 @@
       "en": "Data Manipulation 101"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
-    "issued_at": "30/07/2024",
+    "issued_at": "2024-07-30",
     "issued_at_iso": "2024-07-30",
     "issued_at_unix": 1722286800,
     "credential_id": "",
@@ -44,7 +44,7 @@
       "en": "Data Manipulation 201"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
-    "issued_at": "10/08/2024",
+    "issued_at": "2024-08-10",
     "issued_at_iso": "2024-08-10",
     "issued_at_unix": 1723237200,
     "credential_id": "",
@@ -64,7 +64,7 @@
       "en": "Data Visualization"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
-    "issued_at": "13/08/2024",
+    "issued_at": "2024-08-13",
     "issued_at_iso": "2024-08-13",
     "issued_at_unix": 1723496400,
     "credential_id": "",
@@ -84,7 +84,7 @@
       "en": "Statistics for Data Science 101"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
-    "issued_at": "14/08/2024",
+    "issued_at": "2024-08-14",
     "issued_at_iso": "2024-08-14",
     "issued_at_unix": 1723582800,
     "credential_id": "",
@@ -104,7 +104,7 @@
       "en": "Statistics for Data Science 201"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
-    "issued_at": "20/08/2024",
+    "issued_at": "2024-08-20",
     "issued_at_iso": "2024-08-20",
     "issued_at_unix": 1724101200,
     "credential_id": "",
@@ -118,5 +118,261 @@
     ],
     "icon": "images/certificates_tab/Statistics_for_Data_Science_201_1.png",
     "order_index": 5
+  },
+  {
+    "name": {
+      "en": "Deep Learning - ANN"
+    },
+    "issuer": "",
+    "issued_at": "2024-09-26",
+    "issued_at_iso": "2024-09-26",
+    "issued_at_unix": 1727298000,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [
+      "Tensorflow"
+    ],
+    "images": [
+      "images/certificates_tab/Deep_Learning_-_ANN_1.png"
+    ],
+    "icon": "images/certificates_tab/Deep_Learning_-_ANN_1.png",
+    "order_index": 6
+  },
+  {
+    "name": {
+      "en": "Deep Learning - CNN"
+    },
+    "issuer": "",
+    "issued_at": "2024-09-29",
+    "issued_at_iso": "2024-09-29",
+    "issued_at_unix": 1727557200,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 7
+  },
+  {
+    "name": {
+      "en": "Deep Learning - RNN"
+    },
+    "issuer": "",
+    "issued_at": "2024-10-01",
+    "issued_at_iso": "2024-10-01",
+    "issued_at_unix": 1727730000,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 8
+  },
+  {
+    "name": {
+      "en": "Deep Learning - LSTM"
+    },
+    "issuer": "",
+    "issued_at": "2024-10-04",
+    "issued_at_iso": "2024-10-04",
+    "issued_at_unix": 1727989200,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 9
+  },
+  {
+    "name": {
+      "en": "Deep Learning - GAN, TRANSFORMERS, AUTOENCODER, TRANSFER LEARNING"
+    },
+    "issuer": "",
+    "issued_at": "2025-04-02",
+    "issued_at_iso": "2025-04-02",
+    "issued_at_unix": 1743541200,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 10
+  },
+  {
+    "name": {
+      "en": "Machine Learning 101"
+    },
+    "issuer": "",
+    "issued_at": "2024-08-25",
+    "issued_at_iso": "2024-08-25",
+    "issued_at_unix": 1724533200,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 11
+  },
+  {
+    "name": {
+      "en": "Machine Learning 201"
+    },
+    "issuer": "",
+    "issued_at": "2024-09-04",
+    "issued_at_iso": "2024-09-04",
+    "issued_at_unix": 1725397200,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 12
+  },
+  {
+    "name": {
+      "en": "Machine Learning 301"
+    },
+    "issuer": "",
+    "issued_at": "2024-09-16",
+    "issued_at_iso": "2024-09-16",
+    "issued_at_unix": 1726434000,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 13
+  },
+  {
+    "name": {
+      "en": "Machine Learning 401"
+    },
+    "issuer": "",
+    "issued_at": "2024-09-18",
+    "issued_at_iso": "2024-09-18",
+    "issued_at_unix": 1726606800,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 14
+  },
+  {
+    "name": {
+      "en": "Machine Learning 501"
+    },
+    "issuer": "",
+    "issued_at": "2024-09-19",
+    "issued_at_iso": "2024-09-19",
+    "issued_at_unix": 1726693200,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 15
+  },
+  {
+    "name": {
+      "en": "OpenCV 201"
+    },
+    "issuer": "",
+    "issued_at": "2024-10-08",
+    "issued_at_iso": "2024-10-08",
+    "issued_at_unix": 1728334800,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 16
+  },
+  {
+    "name": {
+      "en": "OpenCV 301"
+    },
+    "issuer": "",
+    "issued_at": "2024-10-26",
+    "issued_at_iso": "2024-10-26",
+    "issued_at_unix": 1729890000,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 17
+  },
+  {
+    "name": {
+      "en": "OpenCV 401"
+    },
+    "issuer": "",
+    "issued_at": "2024-10-27",
+    "issued_at_iso": "2024-10-27",
+    "issued_at_unix": 1729976400,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 18
+  },
+  {
+    "name": {
+      "en": "OpenCV 501"
+    },
+    "issuer": "",
+    "issued_at": "2024-11-01",
+    "issued_at_iso": "2024-11-01",
+    "issued_at_unix": 1730408400,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 19
   }
 ]
