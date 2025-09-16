@@ -32,7 +32,9 @@
     "details": {
       "en": ""
     },
-    "stack": [],
+    "stack": [
+      "Numpy"
+    ],
     "images": [
       "images/certificates_tab/Data_Manipulation_101_1.png"
     ],
@@ -52,7 +54,9 @@
     "details": {
       "en": ""
     },
-    "stack": [],
+    "stack": [
+      "Pandas"
+    ],
     "images": [
       "images/certificates_tab/Data_Manipulation_201_1.png"
     ],
@@ -72,7 +76,9 @@
     "details": {
       "en": ""
     },
-    "stack": [],
+    "stack": [
+      "Seaborn"
+    ],
     "images": [
       "images/certificates_tab/Data_Visualization_1.png"
     ],
@@ -374,5 +380,23 @@
     "images": [],
     "icon": null,
     "order_index": 19
+  },
+  {
+    "name": {
+      "en": "Data Science Project Cycle"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "issued_at": "2024-09-23",
+    "issued_at_iso": "2024-09-23",
+    "issued_at_unix": 1727038800,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 20
   }
 ]
