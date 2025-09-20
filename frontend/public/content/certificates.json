@@ -1,12 +1,74 @@
 [
   {
     "name": {
-      "en": "Data Literacy"
+      "en": "Artificial Intelligence Literacy and Technologies"
     },
-    "issuer": "Turkcell Geleceği Yazanlar",
-    "issued_at": "2024-07-26",
-    "issued_at_iso": "2024-07-26",
-    "issued_at_unix": 1721941200,
+    "issuer": "TECHPRO EDUCATION",
+    "issued_at": "2024-05-17",
+    "issued_at_iso": "2024-05-17",
+    "issued_at_unix": 1715893200,
+    "credential_id": "0373549289GY",
+    "credential_url": "https://lms.techproeducation.com/admin/tool/certificate/index.php?code=0373549289GY",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [
+      "images/certificates_tab/Artificial_Intelligence_Literacy_and_Technologies_1.png"
+    ],
+    "icon": "images/certificates_tab/Artificial_Intelligence_Literacy_and_Technologies_1.png",
+    "order_index": 0
+  },
+  {
+    "name": {
+      "en": "Informatics and Innovation Summit"
+    },
+    "issuer": "Halic - Y.B.S Club",
+    "issued_at": "2024-05-09",
+    "issued_at_iso": "2024-05-09",
+    "issued_at_unix": 1715202000,
+    "credential_id": "DC-92V7djo5",
+    "credential_url": "https://digicertify.net/c/92V7djo5",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [
+      "images/certificates_tab/Informatics_and_Innovation_Summit_1.png"
+    ],
+    "icon": "images/certificates_tab/Informatics_and_Innovation_Summit_1.png",
+    "order_index": 1
+  },
+  {
+    "name": {
+      "en": "EMK Academy Matlab"
+    },
+    "issuer": "ISU Energy and Engineering Club",
+    "issued_at": "2024-05-23",
+    "issued_at_iso": "2024-05-23",
+    "issued_at_unix": 1716411600,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [
+      "MatLab"
+    ],
+    "images": [
+      "images/certificates_tab/EMK_Academy_Matlab_1.png"
+    ],
+    "icon": "images/certificates_tab/EMK_Academy_Matlab_1.png",
+    "order_index": 2
+  },
+  {
+    "name": {
+      "en": "Discover the Future: Artificial Intelligence"
+    },
+    "issuer": "Halic - Y.B.S Club",
+    "issued_at": "2023-12-22",
+    "issued_at_iso": "2023-12-22",
+    "issued_at_unix": 1703192400,
     "credential_id": "",
     "credential_url": "",
     "details": {
@@ -14,119 +76,49 @@
     },
     "stack": [],
     "images": [
-      "images/certificates_tab/Data_Literacy_1.png"
+      "images/certificates_tab/Discover_the_Future_Artificial_Intelligence_1.png"
     ],
-    "icon": "images/certificates_tab/Data_Literacy_1.png",
-    "order_index": 0
-  },
-  {
-    "name": {
-      "en": "Data Manipulation 101"
-    },
-    "issuer": "Turkcell Geleceği Yazanlar",
-    "issued_at": "2024-07-30",
-    "issued_at_iso": "2024-07-30",
-    "issued_at_unix": 1722286800,
-    "credential_id": "",
-    "credential_url": "",
-    "details": {
-      "en": ""
-    },
-    "stack": [
-      "Numpy"
-    ],
-    "images": [
-      "images/certificates_tab/Data_Manipulation_101_1.png"
-    ],
-    "icon": "images/certificates_tab/Data_Manipulation_101_1.png",
-    "order_index": 1
-  },
-  {
-    "name": {
-      "en": "Data Manipulation 201"
-    },
-    "issuer": "Turkcell Geleceği Yazanlar",
-    "issued_at": "2024-08-10",
-    "issued_at_iso": "2024-08-10",
-    "issued_at_unix": 1723237200,
-    "credential_id": "",
-    "credential_url": "",
-    "details": {
-      "en": ""
-    },
-    "stack": [
-      "Pandas"
-    ],
-    "images": [
-      "images/certificates_tab/Data_Manipulation_201_1.png"
-    ],
-    "icon": "images/certificates_tab/Data_Manipulation_201_1.png",
-    "order_index": 2
-  },
-  {
-    "name": {
-      "en": "Data Visualization"
-    },
-    "issuer": "Turkcell Geleceği Yazanlar",
-    "issued_at": "2024-08-13",
-    "issued_at_iso": "2024-08-13",
-    "issued_at_unix": 1723496400,
-    "credential_id": "",
-    "credential_url": "",
-    "details": {
-      "en": ""
-    },
-    "stack": [
-      "Seaborn"
-    ],
-    "images": [
-      "images/certificates_tab/Data_Visualization_1.png"
-    ],
-    "icon": "images/certificates_tab/Data_Visualization_1.png",
+    "icon": "images/certificates_tab/Discover_the_Future_Artificial_Intelligence_1.png",
     "order_index": 3
   },
   {
     "name": {
-      "en": "Statistics for Data Science 101"
+      "en": "Networking: Building and Managing a Business Network"
     },
-    "issuer": "Turkcell Geleceği Yazanlar",
-    "issued_at": "2024-08-14",
-    "issued_at_iso": "2024-08-14",
-    "issued_at_unix": 1723582800,
-    "credential_id": "",
+    "issuer": "Halic - Career Center",
+    "issued_at": "2023-12-27",
+    "issued_at_iso": "2023-12-27",
+    "issued_at_unix": 1703624400,
+    "credential_id": "UN_041096237561053243619",
     "credential_url": "",
     "details": {
       "en": ""
     },
-    "stack": [
-      "Scipy"
-    ],
+    "stack": [],
     "images": [
-      "images/certificates_tab/Statistics_for_Data_Science_101_1.png"
+      "images/certificates_tab/Networking_Building_and_Managing_a_Business_Network_1.png"
     ],
-    "icon": "images/certificates_tab/Statistics_for_Data_Science_101_1.png",
+    "icon": "images/certificates_tab/Networking_Building_and_Managing_a_Business_Network_1.png",
     "order_index": 4
   },
   {
     "name": {
-      "en": "Statistics for Data Science 201"
+      "en": "ITU Artificial Intelligence Summit"
     },
-    "issuer": "Turkcell Geleceği Yazanlar",
-    "issued_at": "2024-08-20",
-    "issued_at_iso": "2024-08-20",
-    "issued_at_unix": 1724101200,
-    "credential_id": "",
-    "credential_url": "",
+    "issuer": "ITU AI Club",
+    "issued_at": "2024-03-04",
+    "issued_at_iso": "2024-03-04",
+    "issued_at_unix": 1709499600,
+    "credential_id": "62468935287861",
+    "credential_url": "https://verified.sertifier.com/en/verify/62468935287861/?ref=email",
     "details": {
       "en": ""
     },
-    "stack": [
-      "Scipy"
-    ],
+    "stack": [],
     "images": [
-      "images/certificates_tab/Statistics_for_Data_Science_201_1.png"
+      "images/certificates_tab/ITU_Artificial_Intelligence_Summit_1.png"
     ],
-    "icon": "images/certificates_tab/Statistics_for_Data_Science_201_1.png",
+    "icon": "images/certificates_tab/ITU_Artificial_Intelligence_Summit_1.png",
     "order_index": 5
   },
   {
@@ -167,8 +159,10 @@
     "stack": [
       "Tensorflow"
     ],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/certificates_tab/Deep_Learning_-_CNN_1.png"
+    ],
+    "icon": "images/certificates_tab/Deep_Learning_-_CNN_1.png",
     "order_index": 7
   },
   {
@@ -187,8 +181,10 @@
     "stack": [
       "Tensorflow"
     ],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/certificates_tab/Deep_Learning_-_RNN_1.png"
+    ],
+    "icon": "images/certificates_tab/Deep_Learning_-_RNN_1.png",
     "order_index": 8
   },
   {
@@ -207,8 +203,10 @@
     "stack": [
       "Tensorflow"
     ],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/certificates_tab/Deep_Learning_-_LSTM_1.png"
+    ],
+    "icon": "images/certificates_tab/Deep_Learning_-_LSTM_1.png",
     "order_index": 9
   },
   {
@@ -227,8 +225,10 @@
     "stack": [
       "Tensorflow"
     ],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/certificates_tab/Deep_Learning_-_GAN_TRANSFORMERS_AUTOENCODER_TRANSFER_LEARNING_1.png"
+    ],
+    "icon": "images/certificates_tab/Deep_Learning_-_GAN_TRANSFORMERS_AUTOENCODER_TRANSFER_LEARNING_1.png",
     "order_index": 10
   },
   {
@@ -247,8 +247,10 @@
     "stack": [
       "Scikit-learn"
     ],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/certificates_tab/Machine_Learning_101_1.png"
+    ],
+    "icon": "images/certificates_tab/Machine_Learning_101_1.png",
     "order_index": 11
   },
   {
@@ -267,8 +269,10 @@
     "stack": [
       "Scikit-learn"
     ],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/certificates_tab/Machine_Learning_201_1.png"
+    ],
+    "icon": "images/certificates_tab/Machine_Learning_201_1.png",
     "order_index": 12
   },
   {
@@ -287,8 +291,10 @@
     "stack": [
       "Scikit-learn"
     ],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/certificates_tab/Machine_Learning_301_1.png"
+    ],
+    "icon": "images/certificates_tab/Machine_Learning_301_1.png",
     "order_index": 13
   },
   {
@@ -307,8 +313,10 @@
     "stack": [
       "Scikit-learn"
     ],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/certificates_tab/Machine_Learning_401_1.png"
+    ],
+    "icon": "images/certificates_tab/Machine_Learning_401_1.png",
     "order_index": 14
   },
   {
@@ -327,8 +335,10 @@
     "stack": [
       "Scikit-learn"
     ],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/certificates_tab/Machine_Learning_501_1.png"
+    ],
+    "icon": "images/certificates_tab/Machine_Learning_501_1.png",
     "order_index": 15
   },
   {
@@ -347,8 +357,10 @@
     "stack": [
       "OpenCV"
     ],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/certificates_tab/OpenCV_201_1.png"
+    ],
+    "icon": "images/certificates_tab/OpenCV_201_1.png",
     "order_index": 16
   },
   {
@@ -367,8 +379,10 @@
     "stack": [
       "OpenCV"
     ],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/certificates_tab/OpenCV_301_1.png"
+    ],
+    "icon": "images/certificates_tab/OpenCV_301_1.png",
     "order_index": 17
   },
   {
@@ -387,8 +401,10 @@
     "stack": [
       "OpenCV"
     ],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/certificates_tab/OpenCV_401_1.png"
+    ],
+    "icon": "images/certificates_tab/OpenCV_401_1.png",
     "order_index": 18
   },
   {
@@ -407,9 +423,55 @@
     "stack": [
       "OpenCV"
     ],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/certificates_tab/OpenCV_501_1.png"
+    ],
+    "icon": "images/certificates_tab/OpenCV_501_1.png",
     "order_index": 19
+  },
+  {
+    "name": {
+      "en": "Statistics for Data Science 101"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "issued_at": "2024-08-14",
+    "issued_at_iso": "2024-08-14",
+    "issued_at_unix": 1723582800,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [
+      "Scipy"
+    ],
+    "images": [
+      "images/certificates_tab/Statistics_for_Data_Science_101_1.png"
+    ],
+    "icon": "images/certificates_tab/Statistics_for_Data_Science_101_1.png",
+    "order_index": 20
+  },
+  {
+    "name": {
+      "en": "Statistics for Data Science 201"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "issued_at": "2024-08-20",
+    "issued_at_iso": "2024-08-20",
+    "issued_at_unix": 1724101200,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [
+      "Scipy"
+    ],
+    "images": [
+      "images/certificates_tab/Statistics_for_Data_Science_201_1.png"
+    ],
+    "icon": "images/certificates_tab/Statistics_for_Data_Science_201_1.png",
+    "order_index": 21
   },
   {
     "name": {
@@ -425,8 +487,116 @@
       "en": ""
     },
     "stack": [],
-    "images": [],
-    "icon": null,
-    "order_index": 20
+    "images": [
+      "images/certificates_tab/Data_Science_Project_Cycle_1.png"
+    ],
+    "icon": "images/certificates_tab/Data_Science_Project_Cycle_1.png",
+    "order_index": 22
+  },
+  {
+    "name": {
+      "en": "Data Visualization"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "issued_at": "2024-08-13",
+    "issued_at_iso": "2024-08-13",
+    "issued_at_unix": 1723496400,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [
+      "Seaborn"
+    ],
+    "images": [
+      "images/certificates_tab/Data_Visualization_1.png"
+    ],
+    "icon": "images/certificates_tab/Data_Visualization_1.png",
+    "order_index": 23
+  },
+  {
+    "name": {
+      "en": "Data Manipulation 101"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "issued_at": "2024-07-30",
+    "issued_at_iso": "2024-07-30",
+    "issued_at_unix": 1722286800,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [
+      "Numpy"
+    ],
+    "images": [
+      "images/certificates_tab/Data_Manipulation_101_1.png"
+    ],
+    "icon": "images/certificates_tab/Data_Manipulation_101_1.png",
+    "order_index": 24
+  },
+  {
+    "name": {
+      "en": "Data Manipulation 201"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "issued_at": "2024-08-10",
+    "issued_at_iso": "2024-08-10",
+    "issued_at_unix": 1723237200,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [
+      "Pandas"
+    ],
+    "images": [
+      "images/certificates_tab/Data_Manipulation_201_1.png"
+    ],
+    "icon": "images/certificates_tab/Data_Manipulation_201_1.png",
+    "order_index": 25
+  },
+  {
+    "name": {
+      "en": "Data Literacy"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "issued_at": "2024-07-26",
+    "issued_at_iso": "2024-07-26",
+    "issued_at_unix": 1721941200,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [
+      "images/certificates_tab/Data_Literacy_1.png"
+    ],
+    "icon": "images/certificates_tab/Data_Literacy_1.png",
+    "order_index": 26
+  },
+  {
+    "name": {
+      "en": "Data Preprocessing"
+    },
+    "issuer": "Turkcell Geleceği Yazanlar",
+    "issued_at": "2024-08-25",
+    "issued_at_iso": "2024-08-25",
+    "issued_at_unix": 1724533200,
+    "credential_id": "",
+    "credential_url": "",
+    "details": {
+      "en": ""
+    },
+    "stack": [],
+    "images": [
+      "images/certificates_tab/Data_Preprocessing_1.png"
+    ],
+    "icon": "images/certificates_tab/Data_Preprocessing_1.png",
+    "order_index": 27
   }
 ]
