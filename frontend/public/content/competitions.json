@@ -8,19 +8,29 @@
       "en": "TEAM LEADER"
     },
     "organization": "Teknofest",
-    "start": "15/11/2024",
-    "end": "",
-    "present": true,
-    "result": "Finalist",
+    "start": "2024-11-15",
+    "end": "2025-09-18",
+    "present": false,
+    "start_iso": "2024-11-15",
+    "start_unix": 1731618000,
+    "end_iso": "2025-09-18",
+    "end_unix": 1758142800,
+    "result": "Finalist (15th place in 3271 teams)",
     "details": {
-      "en": "*Leading a 5-member interdisciplinary team developing AI-based stroke detection and temporal classification systems.\n\n*Phase 1: Developed a binary classification model using brain CT scans to detect stroke presence/absence (ischemic or hemorrhagic) with TensorFlow and PyTorch.\n\n*Phase 2: Currently implementing temporal classification of ischemic stroke using MRI scans. Creating a three-class classifier for Hyperacute-Acute, Subacute, and Chronic stages.\n\n*Coordinating project planning, dataset preprocessing, model development, and technical documentation across competition phases."
+      "en": "-Led a 5-member interdisciplinary team (medical doctor + software engineers) in developing AI-based stroke detection and temporal classification systems.\n\n-Phase 1: Built an ensemble CNN model on brain CT scans to detect stroke presence (ischemic/hemorrhagic).\n\n-Phase 2: Designed a hierarchical deep learning pipeline on MRI Type (ADC, DWI, T2A) to classify stroke stages (Hyperacute–Acute, Subacute, Chronic).\n\n-Gained hands-on expertise in deep learning for medical imaging, DICOM/NIfTI processing, dataset curation, and large-scale experimentation.\n\n-Strengthened skills in project management, technical documentation, and interdisciplinary coordination."
     },
     "highlights": {
       "en": []
     },
     "stack": [],
     "images": [
-      "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_1.png"
+      "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_1.png",
+      "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_1.png",
+      "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_2.png",
+      "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_3.png",
+      "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_4.png",
+      "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_5.png",
+      "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_6.png"
     ],
     "icon": "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_1.png",
     "order_index": 0
@@ -34,19 +44,25 @@
       "en": "Software Team Member"
     },
     "organization": "Teknofest",
-    "start": "15/06/2024",
-    "end": "12/04/2025",
+    "start": "2024-06-15",
+    "end": "2025-04-12",
     "present": false,
+    "start_iso": "2024-06-15",
+    "start_unix": 1718398800,
+    "end_iso": "2025-04-12",
+    "end_unix": 1744405200,
     "result": "",
     "details": {
-      "en": "Collaborated within a 15-person interdisciplinary team to design and implement advanced flight control algorithms for both custom\nbuilt and commercial flight control systems.\n Applied “extended Kalman filtering” techniques for enhanced sensor data fusion and noise reduction in real-time flight operations.\n Documented technical implementations and contributed to comprehensive project reports.\n Created a machine learning model for carbon emission measurement as a scientific payload component, addressing\n environmental monitoring challenges in rocket flight operations."
+      "en": "-Collaborated within a 15-person interdisciplinary team to design and implement advanced flight control algorithms for both custom\n\n-built and commercial flight control systems.\n\n-Applied “extended Kalman filtering” techniques for enhanced sensor data fusion and noise reduction in real-time flight operations.\n\n-Documented technical implementations and contributed to comprehensive project reports.\n\n-Created a machine learning model for carbon emission measurement as a scientific payload component, addressing environmental monitoring challenges in rocket flight operations."
     },
     "highlights": {
       "en": []
     },
     "stack": [],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/competitions_tab/Rocket_Competition_2025_1.png"
+    ],
+    "icon": "images/competitions_tab/Rocket_Competition_2025_1.png",
     "order_index": 1
   },
   {
@@ -57,20 +73,34 @@
     "role": {
       "en": "Game Developer"
     },
-    "organization": "",
-    "start": "24/01/2025",
-    "end": "26/01/2025",
+    "organization": "Bilgi University",
+    "start": "2025-01-24",
+    "end": "2025-01-26",
     "present": false,
+    "start_iso": "2025-01-24",
+    "start_unix": 1737666000,
+    "end_iso": "2025-01-26",
+    "end_unix": 1737838800,
     "result": "",
     "details": {
-      "en": "Theme: Bubble\n\nCreated a horror-themed game in a 48-hour sprint with a 5-member interdisciplinary team.\n Developed core gameplay mechanics using Unity and C#: implemented enemy AI behavior with NavMeshAgent for dynamic\n player pursuit, created hiding mechanics for stealth gameplay, and integrated post-processing effects for enhanced visual\n atmosphere.\n Successfully presented the completed project at the university showcase and published on itch.io gaming platform."
+      "en": "Theme: Bubble\n\n-Created a horror-themed game in a 48-hour sprint with a 5-member interdisciplinary team.\n\n-Developed core gameplay mechanics using Unity and C#: implemented enemy AI behavior with NavMeshAgent for dynamic player pursuit, created hiding mechanics for stealth gameplay, and integrated post-processing effects for enhanced visual atmosphere.\n\n-Successfully presented the completed project at the university showcase and published on itch.io gaming platform."
     },
     "highlights": {
       "en": []
     },
-    "stack": [],
-    "images": [],
-    "icon": null,
+    "stack": [
+      "Unity",
+      "C#"
+    ],
+    "images": [
+      "images/competitions_tab/Global_Game_Jam_2025_1.png",
+      "images/competitions_tab/Global_Game_Jam_2025_2.png",
+      "images/competitions_tab/Global_Game_Jam_2025_3.png",
+      "images/competitions_tab/Global_Game_Jam_2025_4.png",
+      "images/competitions_tab/Global_Game_Jam_2025_5.png",
+      "images/competitions_tab/Global_Game_Jam_2025_6.png"
+    ],
+    "icon": "images/competitions_tab/Global_Game_Jam_2025_1.png",
     "order_index": 2
   },
   {
@@ -82,9 +112,13 @@
       "en": "Software Team Member"
     },
     "organization": "Teknofest",
-    "start": "15/12/2023",
-    "end": "15/04/2024",
+    "start": "2023-12-15",
+    "end": "2024-04-15",
     "present": false,
+    "start_iso": "2023-12-15",
+    "start_unix": 1702587600,
+    "end_iso": "2024-04-15",
+    "end_unix": 1713128400,
     "result": "",
     "details": {
       "en": "Collaborated within a 15-person interdisciplinary team to design and implement flight control algorithms for both custom-built and\n commercial flight control systems.\n Researched and integrated sensor data acquisition methods; applied Kalman filtering to reduce noise.\n Documented research and development processes in comprehensive technical reports.\n Gained hands-on experience with STM32 microcontrollers, including STDPeriph, HAL, and register-level programming."
@@ -93,8 +127,10 @@
       "en": []
     },
     "stack": [],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/competitions_tab/Rocket_Competition_2024_1.png"
+    ],
+    "icon": "images/competitions_tab/Rocket_Competition_2024_1.png",
     "order_index": 3
   },
   {
@@ -106,9 +142,13 @@
       "en": "Software Team Member"
     },
     "organization": "BTK",
-    "start": "23/07/2025",
-    "end": "6/08/2025",
+    "start": "2025-07-23",
+    "end": "2025-08-06",
     "present": false,
+    "start_iso": "2025-07-23",
+    "start_unix": 1753218000,
+    "end_iso": "2025-08-06",
+    "end_unix": 1754427600,
     "result": "",
     "details": {
       "en": ""
@@ -117,8 +157,10 @@
       "en": []
     },
     "stack": [],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/competitions_tab/BTK_Hackathon_2025_1.png"
+    ],
+    "icon": "images/competitions_tab/BTK_Hackathon_2025_1.png",
     "order_index": 4
   },
   {
@@ -130,9 +172,13 @@
       "en": "Software Team Member"
     },
     "organization": "Teknofest & Trendyol",
-    "start": "08/08/2025",
-    "end": "22/08/2025",
+    "start": "2025-09-08",
+    "end": "2025-08-22",
     "present": false,
+    "start_iso": "2025-09-08",
+    "start_unix": 1757278800,
+    "end_iso": "2025-08-22",
+    "end_unix": 1755810000,
     "result": "",
     "details": {
       "en": ""
@@ -141,8 +187,10 @@
       "en": []
     },
     "stack": [],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/competitions_tab/E-Ticaret_Hackathonu_2025_1.png"
+    ],
+    "icon": "images/competitions_tab/E-Ticaret_Hackathonu_2025_1.png",
     "order_index": 5
   },
   {
@@ -154,9 +202,13 @@
       "en": "Software Team Member"
     },
     "organization": "BTK",
-    "start": "25/08/2025",
-    "end": "31/08/2025",
+    "start": "2025-08-25",
+    "end": "2025-08-31",
     "present": false,
+    "start_iso": "2025-08-25",
+    "start_unix": 1756069200,
+    "end_iso": "2025-08-31",
+    "end_unix": 1756587600,
     "result": "",
     "details": {
       "en": ""
@@ -165,8 +217,10 @@
       "en": []
     },
     "stack": [],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/competitions_tab/BTK_Datathon_2025_1.png"
+    ],
+    "icon": "images/competitions_tab/BTK_Datathon_2025_1.png",
     "order_index": 6
   }
 ]
