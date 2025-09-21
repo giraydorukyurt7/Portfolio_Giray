@@ -17,7 +17,7 @@
     "end_unix": 1758142800,
     "result": "Finalist (15th place in 3271 teams)",
     "details": {
-      "en": "-Led a 5-member interdisciplinary team (medical doctor + software engineers) in developing AI-based stroke detection and temporal classification systems.\n\n-Phase 1: Built an ensemble CNN model on brain CT scans to detect stroke presence (ischemic/hemorrhagic).\n\n-Phase 2: Designed a hierarchical deep learning pipeline on MRI Type (ADC, DWI, T2A) to classify stroke stages (Hyperacute–Acute, Subacute, Chronic).\n\n-Gained hands-on expertise in deep learning for medical imaging, DICOM/NIfTI processing, dataset curation, and large-scale experimentation.\n\n-Strengthened skills in project management, technical documentation, and interdisciplinary coordination."
+      "en": "-Led a 5-member interdisciplinary team (medical doctor + software engineers) and gained expertise in medical imaging (DICOM/NIfTI), dataset curation, and project coordination.\n-Phase 1: Built an ensemble CNN model on brain CT scans to detect stroke presence (ischemic/hemorrhagic).\n-Phase 2: Designed a hierarchical deep learning pipeline on MRI Type (ADC, DWI, T2A) to classify stroke stages (Hyperacute–Acute, Subacute, Chronic)."
     },
     "highlights": {
       "en": []
@@ -53,7 +53,7 @@
     "end_unix": 1744405200,
     "result": "",
     "details": {
-      "en": "-Collaborated within a 15-person interdisciplinary team to design and implement advanced flight control algorithms for both custom\n\n-built and commercial flight control systems.\n\n-Applied “extended Kalman filtering” techniques for enhanced sensor data fusion and noise reduction in real-time flight operations.\n\n-Documented technical implementations and contributed to comprehensive project reports.\n\n-Created a machine learning model for carbon emission measurement as a scientific payload component, addressing environmental monitoring challenges in rocket flight operations."
+      "en": "-Designed advanced flight control algorithms for custom-built and commercial systems.\n-Applied extended Kalman filtering for real-time sensor fusion and noise reduction.\n-Built a machine learning model for carbon emission measurement as a scientific payload."
     },
     "highlights": {
       "en": []
@@ -83,7 +83,7 @@
     "end_unix": 1737838800,
     "result": "",
     "details": {
-      "en": "Theme: Bubble\n\n-Created a horror-themed game in a 48-hour sprint with a 5-member interdisciplinary team.\n\n-Developed core gameplay mechanics using Unity and C#: implemented enemy AI behavior with NavMeshAgent for dynamic player pursuit, created hiding mechanics for stealth gameplay, and integrated post-processing effects for enhanced visual atmosphere.\n\n-Successfully presented the completed project at the university showcase and published on itch.io gaming platform."
+      "en": "-Developed a horror-themed game using Unity & C#, implementing enemy AI (NavMeshAgent), stealth mechanics, and visual effects.\n-Presented at the university showcase and published on Itch.io.\r"
     },
     "highlights": {
       "en": []
@@ -121,7 +121,7 @@
     "end_unix": 1713128400,
     "result": "",
     "details": {
-      "en": "Collaborated within a 15-person interdisciplinary team to design and implement flight control algorithms for both custom-built and\n commercial flight control systems.\n Researched and integrated sensor data acquisition methods; applied Kalman filtering to reduce noise.\n Documented research and development processes in comprehensive technical reports.\n Gained hands-on experience with STM32 microcontrollers, including STDPeriph, HAL, and register-level programming."
+      "en": "-Designed flight control algorithms for both custom-built and commercial systems.\n-Researched sensor data acquisition methods and applied Kalman filtering for noise reduction.\n-Contributed to the technical report and received STM32 microcontroller training (STDPeriph, HAL, register-level programming)."
     },
     "highlights": {
       "en": []
@@ -151,7 +151,7 @@
     "end_unix": 1754427600,
     "result": "",
     "details": {
-      "en": ""
+      "en": "-Built a RAG-based educational assistant using the Google Gemini API.\n-Implemented retrieval and knowledge integration over the Turkish high school curriculum.\n-Focused on backend logic and model integration, enabling summarization and question-generation features tailored for students."
     },
     "highlights": {
       "en": []
@@ -181,7 +181,7 @@
     "end_unix": 1755810000,
     "result": "",
     "details": {
-      "en": ""
+      "en": "-Trained ML ranking models for Kaggle submissions, predicting click/order outcomes in user search sessions.\n-Applied feature engineering & large-scale modeling on anonymized e-commerce data."
     },
     "highlights": {
       "en": []
@@ -211,7 +211,7 @@
     "end_unix": 1756587600,
     "result": "",
     "details": {
-      "en": ""
+      "en": "-Predicted session value in a large-scale e-commerce dataset.\n-Applied machine learning & feature engineering for regression task.\r"
     },
     "highlights": {
       "en": []
