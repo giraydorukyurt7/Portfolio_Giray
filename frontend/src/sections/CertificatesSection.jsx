@@ -4,14 +4,17 @@ import Card from "../components/Card";
 import Section from "../components/Section";
 import { safeGet } from "../lib/utils";
 
-// dd/mm/yyyy veya yyyy-mm-dd -> UNIX
+// dd/mm/yyyy veya yyyy-mm-dd -> UNIX (saniye)
 function toUnix(dateStr) {
-  if (!dateStr) return null;
-  if (typeof dateStr === "number") return dateStr;
+  if (!dateStr && dateStr !== 0) return null;
+  if (typeof dateStr === "number") {
+    // 13 haneli ms gelirse saniyeye indir
+    return dateStr > 1e12 ? Math.floor(dateStr / 1000) : dateStr;
+  }
   const s = String(dateStr).trim();
   const m = s.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
   if (m) {
-    const [_, dd, mm, yyyy] = m;
+    const [, dd, mm, yyyy] = m;
     const d = new Date(Number(yyyy), Number(mm) - 1, Number(dd));
     return isNaN(d) ? null : Math.floor(d.getTime() / 1000);
   }
@@ -108,8 +111,8 @@ function GroupBlock({ title, items, onOpen }) {
 }
 
 export default function CertificatesSection({ certificates = [] }) {
-  // Varsayılan: Newest → Oldest
-  const [mode, setMode] = useState("date_desc"); // 'date_desc' | 'date_asc'
+  // Varsayılanı "alma sırası": Oldest → Newest
+  const [mode, setMode] = useState("date_asc"); // 'date_asc' | 'date_desc'
 
   // Lightbox state
   const [lightbox, setLightbox] = useState(null);
@@ -127,15 +130,31 @@ export default function CertificatesSection({ certificates = [] }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [lightbox, closeLightbox]);
 
+  // Stabil, çok-kriterli sıralayıcı:
+  // 1) tarih (mode'a göre), 2) order_index, 3) JSON orijinal sırası
   const sorted = useMemo(() => {
-    const arr = [...(certificates || [])];
-    if (mode === "date_desc") {
-      return arr.sort((a, b) => (pickIssuedUnix(b) ?? -1) - (pickIssuedUnix(a) ?? -1));
-    }
-    if (mode === "date_asc") {
-      return arr.sort((a, b) => (pickIssuedUnix(a) ?? 1e15) - (pickIssuedUnix(b) ?? 1e15));
-    }
-    return arr;
+    const withIndex = [...(certificates || [])].map((c, i) => ({ c, i }));
+    const cmpAsc = (a, b) => {
+      const ad = pickIssuedUnix(a.c);
+      const bd = pickIssuedUnix(b.c);
+      if (ad == null && bd == null) {
+        const ao = a.c.order_index ?? 1e9;
+        const bo = b.c.order_index ?? 1e9;
+        if (ao !== bo) return ao - bo;
+        return a.i - b.i; // stabilize
+      }
+      if (ad == null) return 1;  // tarihi olmayanlar sona
+      if (bd == null) return -1;
+      if (ad !== bd) return ad - bd; // eski → yeni
+      const ao = a.c.order_index ?? 1e9;
+      const bo = b.c.order_index ?? 1e9;
+      if (ao !== bo) return ao - bo;
+      return a.i - b.i;
+    };
+    const cmpDesc = (a, b) => -cmpAsc(a, b);
+
+    withIndex.sort(mode === "date_asc" ? cmpAsc : cmpDesc);
+    return withIndex.map((x) => x.c);
   }, [certificates, mode]);
 
   // Gruplar: üstte TECHNICAL, altta SEMINAR
@@ -165,8 +184,8 @@ export default function CertificatesSection({ certificates = [] }) {
             onChange={(e) => setMode(e.target.value)}
             aria-label="Sort certificates"
           >
-            <option value="date_desc">Newest → Oldest</option>
             <option value="date_asc">Oldest → Newest</option>
+            <option value="date_desc">Newest → Oldest</option>
           </select>
         }
       >
