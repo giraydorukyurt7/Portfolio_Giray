@@ -1,3 +1,4 @@
+// src/sections/CertificatesSection.jsx
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import Card from "../components/Card";
 import Section from "../components/Section";
@@ -27,8 +28,86 @@ function pickIssuedUnix(c) {
   );
 }
 
+function CertificateCard({ c, onOpen }) {
+  const name = safeGet(c, "name.en", "Certificate");
+  const issuer = c?.issuer || "";
+  const dtUnix = pickIssuedUnix(c);
+  const dateLabel = dtUnix ? new Date(dtUnix * 1000).toLocaleDateString() : "";
+
+  const cover =
+    (Array.isArray(c?.images) && c.images[0]) ||
+    c?.icon ||
+    "";
+
+  const credUrl = c?.credential_url || "";
+  const credId  = c?.credential_id || "";
+
+  return (
+    <Card>
+      <article className="flex flex-col h-full">
+        {cover ? (
+          <button
+            type="button"
+            onClick={() => onOpen(cover, name, credUrl, credId)}
+            className="mb-3 overflow-hidden rounded-lg border border-white/10 focus:outline-none focus:ring-2 focus:ring-sky-400/50"
+            aria-label={`Open ${name} image`}
+          >
+            <img
+              src={cover}
+              alt={name}
+              className="h-56 w-full object-cover cursor-zoom-in"
+              height={224}
+              loading="lazy"
+            />
+          </button>
+        ) : null}
+
+        <h3 className="text-lg font-semibold leading-tight">{name}</h3>
+        <div className="mt-1 text-sm text-white/70">
+          {issuer && <span>{issuer}</span>}
+          {issuer && dateLabel && <span className="mx-1">•</span>}
+          {dateLabel && <span>{dateLabel}</span>}
+        </div>
+
+        {(credUrl || credId) && (
+          <div className="mt-3 text-sm">
+            {credUrl && (
+              <a
+                className="underline underline-offset-4"
+                href={credUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Verify
+              </a>
+            )}
+            {credUrl && credId && <span className="mx-2 text-white/40">|</span>}
+            {credId && <span className="text-white/80">ID: {credId}</span>}
+          </div>
+        )}
+      </article>
+    </Card>
+  );
+}
+
+function GroupBlock({ title, items, onOpen }) {
+  if (!items || items.length === 0) return null;
+  return (
+    <div className="mb-8">
+      <h3 className="mb-2 text-base font-semibold uppercase tracking-wide text-white/80">
+        {title}
+      </h3>
+      <div className="h-px bg-white/10 mb-4" />
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {items.map((c, i) => (
+          <CertificateCard key={`${safeGet(c,"name.en","Certificate")}-${i}`} c={c} onOpen={onOpen} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function CertificatesSection({ certificates = [] }) {
-  // İSTEK: Editor sırası yok → yalnız iki seçenek
   // Varsayılan: Newest → Oldest
   const [mode, setMode] = useState("date_desc"); // 'date_desc' | 'date_asc'
 
@@ -59,6 +138,20 @@ export default function CertificatesSection({ certificates = [] }) {
     return arr;
   }, [certificates, mode]);
 
+  // Gruplar: üstte TECHNICAL, altta SEMINAR
+  const isTechnical = (c) =>
+    String(c?.category || "").toLowerCase() === "technical" ||
+    /TECHNICAL/i.test(String(c?.category_label || ""));
+
+  const isSeminar = (c) =>
+    String(c?.category || "").toLowerCase() === "seminar" ||
+    /SEMINAR/i.test(String(c?.category_label || ""));
+
+  const technical = useMemo(() => sorted.filter(isTechnical), [sorted]);
+  const seminar   = useMemo(() => sorted.filter(isSeminar),   [sorted]);
+
+  const hasAny = sorted.length > 0;
+
   return (
     <>
       <Section
@@ -77,72 +170,21 @@ export default function CertificatesSection({ certificates = [] }) {
           </select>
         }
       >
-        {sorted.length === 0 && <p className="text-white/60">No certificates yet.</p>}
+        {!hasAny && <p className="text-white/60">No certificates yet.</p>}
 
-        {/* Daha geniş görsel + dengeli grid */}
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {sorted.map((c, i) => {
-            const name = safeGet(c, "name.en", "Certificate");
-            const issuer = c?.issuer || "";
-            const dtUnix = pickIssuedUnix(c);
-            const dateLabel = dtUnix ? new Date(dtUnix * 1000).toLocaleDateString() : "";
+        {/* ÜST: TECHNICAL CERTIFICATIONS */}
+        <GroupBlock
+          title="TECHNICAL CERTIFICATIONS"
+          items={technical}
+          onOpen={openLightbox}
+        />
 
-            const cover =
-              (Array.isArray(c?.images) && c.images[0]) ||
-              c?.icon ||
-              "";
-
-            const credUrl = c?.credential_url || "";
-            const credId  = c?.credential_id || "";
-
-            return (
-              <Card key={`${name}-${i}`}>
-                <article className="flex flex-col h-full">
-                  {cover ? (
-                    <button
-                      type="button"
-                      onClick={() => openLightbox(cover, name, credUrl, credId)}
-                      className="mb-3 overflow-hidden rounded-lg border border-white/10 focus:outline-none focus:ring-2 focus:ring-sky-400/50"
-                      aria-label={`Open ${name} image`}
-                    >
-                      <img
-                        src={cover}
-                        alt={name}
-                        className="h-56 w-full object-cover cursor-zoom-in"
-                        height={224}
-                        loading="lazy"
-                      />
-                    </button>
-                  ) : null}
-
-                  <h3 className="text-lg font-semibold leading-tight">{name}</h3>
-                  <div className="mt-1 text-sm text-white/70">
-                    {issuer && <span>{issuer}</span>}
-                    {issuer && dateLabel && <span className="mx-1">•</span>}
-                    {dateLabel && <span>{dateLabel}</span>}
-                  </div>
-
-                  {(credUrl || credId) && (
-                    <div className="mt-3 text-sm">
-                      {credUrl && (
-                        <a
-                          className="underline underline-offset-4"
-                          href={credUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Verify
-                        </a>
-                      )}
-                      {credUrl && credId && <span className="mx-2 text-white/40">|</span>}
-                      {credId && <span className="text-white/80">ID: {credId}</span>}
-                    </div>
-                  )}
-                </article>
-              </Card>
-            );
-          })}
-        </div>
+        {/* ALT: SEMINAR PARTICIPATION CERTIFICATIONS */}
+        <GroupBlock
+          title="SEMINAR PARTICIPATION CERTIFICATIONS"
+          items={seminar}
+          onOpen={openLightbox}
+        />
       </Section>
 
       {/* Lightbox */}
