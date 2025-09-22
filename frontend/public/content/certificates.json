@@ -4,6 +4,8 @@
       "en": "Artificial Intelligence Literacy and Technologies"
     },
     "issuer": "TECHPRO EDUCATION",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-05-17",
     "issued_at_iso": "2024-05-17",
     "issued_at_unix": 1715893200,
@@ -24,6 +26,8 @@
       "en": "Informatics and Innovation Summit"
     },
     "issuer": "Halic - Y.B.S Club",
+    "category": "seminar",
+    "category_label": "SEMINAR PARTICIPATION CERTIFICATIONS",
     "issued_at": "2024-05-09",
     "issued_at_iso": "2024-05-09",
     "issued_at_unix": 1715202000,
@@ -44,6 +48,8 @@
       "en": "EMK Academy Matlab"
     },
     "issuer": "ISU Energy and Engineering Club",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-05-23",
     "issued_at_iso": "2024-05-23",
     "issued_at_unix": 1716411600,
@@ -66,6 +72,8 @@
       "en": "Discover the Future: Artificial Intelligence"
     },
     "issuer": "Halic - Y.B.S Club",
+    "category": "seminar",
+    "category_label": "SEMINAR PARTICIPATION CERTIFICATIONS",
     "issued_at": "2023-12-22",
     "issued_at_iso": "2023-12-22",
     "issued_at_unix": 1703192400,
@@ -86,6 +94,8 @@
       "en": "Networking: Building and Managing a Business Network"
     },
     "issuer": "Halic - Career Center",
+    "category": "seminar",
+    "category_label": "SEMINAR PARTICIPATION CERTIFICATIONS",
     "issued_at": "2023-12-27",
     "issued_at_iso": "2023-12-27",
     "issued_at_unix": 1703624400,
@@ -106,6 +116,8 @@
       "en": "ITU Artificial Intelligence Summit"
     },
     "issuer": "ITU AI Club",
+    "category": "seminar",
+    "category_label": "SEMINAR PARTICIPATION CERTIFICATIONS",
     "issued_at": "2024-03-04",
     "issued_at_iso": "2024-03-04",
     "issued_at_unix": 1709499600,
@@ -126,6 +138,8 @@
       "en": "Deep Learning - ANN"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-09-26",
     "issued_at_iso": "2024-09-26",
     "issued_at_unix": 1727298000,
@@ -148,6 +162,8 @@
       "en": "Deep Learning - CNN"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-09-29",
     "issued_at_iso": "2024-09-29",
     "issued_at_unix": 1727557200,
@@ -170,6 +186,8 @@
       "en": "Deep Learning - RNN"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-10-01",
     "issued_at_iso": "2024-10-01",
     "issued_at_unix": 1727730000,
@@ -192,6 +210,8 @@
       "en": "Deep Learning - LSTM"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-10-04",
     "issued_at_iso": "2024-10-04",
     "issued_at_unix": 1727989200,
@@ -214,6 +234,8 @@
       "en": "Deep Learning - GAN, TRANSFORMERS, AUTOENCODER, TRANSFER LEARNING"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2025-04-02",
     "issued_at_iso": "2025-04-02",
     "issued_at_unix": 1743541200,
@@ -236,6 +258,8 @@
       "en": "Machine Learning 101"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-08-25",
     "issued_at_iso": "2024-08-25",
     "issued_at_unix": 1724533200,
@@ -258,6 +282,8 @@
       "en": "Machine Learning 201"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-09-04",
     "issued_at_iso": "2024-09-04",
     "issued_at_unix": 1725397200,
@@ -280,6 +306,8 @@
       "en": "Machine Learning 301"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-09-16",
     "issued_at_iso": "2024-09-16",
     "issued_at_unix": 1726434000,
@@ -302,6 +330,8 @@
       "en": "Machine Learning 401"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-09-18",
     "issued_at_iso": "2024-09-18",
     "issued_at_unix": 1726606800,
@@ -324,6 +354,8 @@
       "en": "Machine Learning 501"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-09-19",
     "issued_at_iso": "2024-09-19",
     "issued_at_unix": 1726693200,
@@ -346,6 +378,8 @@
       "en": "OpenCV 201"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-10-08",
     "issued_at_iso": "2024-10-08",
     "issued_at_unix": 1728334800,
@@ -368,6 +402,8 @@
       "en": "OpenCV 301"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-10-26",
     "issued_at_iso": "2024-10-26",
     "issued_at_unix": 1729890000,
@@ -390,6 +426,8 @@
       "en": "OpenCV 401"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-10-27",
     "issued_at_iso": "2024-10-27",
     "issued_at_unix": 1729976400,
@@ -412,6 +450,8 @@
       "en": "OpenCV 501"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-11-01",
     "issued_at_iso": "2024-11-01",
     "issued_at_unix": 1730408400,
@@ -434,6 +474,8 @@
       "en": "Statistics for Data Science 101"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-08-14",
     "issued_at_iso": "2024-08-14",
     "issued_at_unix": 1723582800,
@@ -456,6 +498,8 @@
       "en": "Statistics for Data Science 201"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-08-20",
     "issued_at_iso": "2024-08-20",
     "issued_at_unix": 1724101200,
@@ -478,6 +522,8 @@
       "en": "Data Science Project Cycle"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-09-23",
     "issued_at_iso": "2024-09-23",
     "issued_at_unix": 1727038800,
@@ -498,6 +544,8 @@
       "en": "Data Visualization"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-08-13",
     "issued_at_iso": "2024-08-13",
     "issued_at_unix": 1723496400,
@@ -520,6 +568,8 @@
       "en": "Data Manipulation 101"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-07-30",
     "issued_at_iso": "2024-07-30",
     "issued_at_unix": 1722286800,
@@ -542,6 +592,8 @@
       "en": "Data Manipulation 201"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-08-10",
     "issued_at_iso": "2024-08-10",
     "issued_at_unix": 1723237200,
@@ -564,6 +616,8 @@
       "en": "Data Literacy"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-07-26",
     "issued_at_iso": "2024-07-26",
     "issued_at_unix": 1721941200,
@@ -584,6 +638,8 @@
       "en": "Data Preprocessing"
     },
     "issuer": "Turkcell Geleceği Yazanlar",
+    "category": "technical",
+    "category_label": "TECHNICAL CERTIFICATIONS",
     "issued_at": "2024-08-25",
     "issued_at_iso": "2024-08-25",
     "issued_at_unix": 1724533200,
