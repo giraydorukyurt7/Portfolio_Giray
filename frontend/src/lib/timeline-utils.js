@@ -192,7 +192,11 @@ export function normalizeEvents({ experience, competitions, certificates, projec
       startU,
       endU,
       present: present && endU >= nowU && startU <= nowU,
-      meta: { organization: p?.organization || "", team: p?.team || "" },
+      meta: {
+        organization: p?.organization || "",
+        team: p?.team || "",
+        origin: p?.origin || p?.origin_label || "", // <- tutorial/course kontrolü için
+      },
     });
   });
 
@@ -206,7 +210,10 @@ export function normalizeEvents({ experience, competitions, certificates, projec
       startU: when,
       endU: when,
       present: false,
-      meta: { organization: c?.issuer || "" },
+      meta: {
+        organization: c?.issuer || "",
+        category: c?.category || c?.category_label || "", // <- seminar/technical kontrolü için
+      },
     });
   });
 

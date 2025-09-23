@@ -57,6 +57,27 @@ function variantColorStrong(baseHex, id) {
   return signed >= 0 ? mix(baseHex, "#ffffff", amt) : mix(baseHex, "#000000", amt);
 }
 
+/* ---- İSTENEN RENK KURALLARI ----
+   - Tutorial/Course projeler: gri
+   - Seminar sertifikalar: koyu turuncu
+   - Diğerleri: TYPE_COLOR
+*/
+function baseColorFor(ev) {
+  if (ev?.type === "project") {
+    const o = String(ev?.meta?.origin || "").toLowerCase();
+    if (o.includes("tutorial") || o.includes("course")) {
+      return "#9ca3af"; // gray-400
+    }
+  }
+  if (ev?.type === "certificate") {
+    const cat = String(ev?.meta?.category || "").toLowerCase();
+    if (cat.includes("seminar")) {
+      return "#c2410c"; // orange-700 (koyu turuncu)
+    }
+  }
+  return TYPE_COLOR[ev?.type] || "#ffffff";
+}
+
 function Section({ id, title, subtitle, children }) {
   return (
     <section id={id} className="py-12 px-4">
@@ -209,7 +230,7 @@ export default function TimelineSection({ data }) {
   const renderTooltip = () => {
     if (!hoverState) return null;
     const ev = hoverState.ev;
-    const baseCol = TYPE_COLOR[ev.type] || "#fff";
+    const baseCol = baseColorFor(ev);
     const col = variantColorStrong(baseCol, ev.id);
     const clean = (t) => (t && String(t).trim().length ? String(t).trim() : null);
 
@@ -313,7 +334,7 @@ export default function TimelineSection({ data }) {
               return (yb - ya) || (a.x1 - b.x1);
             })
             .map((s, i) => {
-              const baseCol = TYPE_COLOR[s.event.type] || "white";
+              const baseCol = baseColorFor(s.event);
               const col = variantColorStrong(baseCol, `${s.id}-${s.row}`);
               const lane = segLane.get(s) ?? 0;
               const y = laneY(s.row, lane);
@@ -375,7 +396,7 @@ export default function TimelineSection({ data }) {
 
           {/* Tek günlük noktalar (ince border + iç renk) */}
           {P.map((p, i) => {
-            const baseCol = TYPE_COLOR[p.event.type] || "white";
+            const baseCol = baseColorFor(p.event);
             const col = variantColorStrong(baseCol, `${p.id}-pt-${i}`);
             const r = BAND_W / 2;
             const borderCol = mix(col, "#000000", 0.35);
