@@ -5,7 +5,7 @@
     },
     "team": "NEUROCTULUS",
     "role": {
-      "en": "TEAM LEADER"
+      "en": "TEAM LEADER (5-person team)"
     },
     "organization": "Teknofest",
     "start": "2024-11-15",
@@ -17,7 +17,7 @@
     "end_unix": 1758142800,
     "result": "Finalist (15th place in 3271 teams)",
     "details": {
-      "en": "-Led a 5-member interdisciplinary team (medical doctor + software engineers) and gained expertise in medical imaging (DICOM/NIfTI), dataset curation, and project coordination.\n-Phase 1: Built an ensemble CNN model on brain CT scans to detect stroke presence (ischemic/hemorrhagic).\n-Phase 2: Designed a hierarchical deep learning pipeline on MRI Type (ADC, DWI, T2A) to classify stroke stages (Hyperacute–Acute, Subacute, Chronic)."
+      "en": "-Led a 5-member interdisciplinary team (medical doctor + software engineers) and gained expertise in medical imaging (DICOM/NIfTI), dataset curation, and project coordination.\n\n-Phase 1: Built an ensemble CNN model on brain CT scans to detect stroke presence (ischemic/hemorrhagic).\n\n-Phase 2: Designed a hierarchical deep learning pipeline on MRI Type (ADC, DWI, T2A) to classify stroke stages (Hyperacute–Acute, Subacute, Chronic)."
     },
     "highlights": {
       "en": []
@@ -41,7 +41,7 @@
     },
     "team": "İstikbal Rocket Team",
     "role": {
-      "en": "Software Team Member"
+      "en": "Software Team Member – A2 Category, Medium Altitude (15-person team)"
     },
     "organization": "Teknofest",
     "start": "2024-06-15",
@@ -53,7 +53,7 @@
     "end_unix": 1744405200,
     "result": "",
     "details": {
-      "en": "-Designed advanced flight control algorithms for custom-built and commercial systems.\n-Applied extended Kalman filtering for real-time sensor fusion and noise reduction.\n-Built a machine learning model for carbon emission measurement as a scientific payload."
+      "en": "-Designed advanced flight control algorithms for custom-built and commercial systems.\n\n-Applied extended Kalman filtering for real-time sensor fusion and noise reduction.\n\n-Built a machine learning model for carbon emission measurement as a scientific payload."
     },
     "highlights": {
       "en": []
@@ -71,7 +71,7 @@
     },
     "team": "Rose Game",
     "role": {
-      "en": "Game Developer"
+      "en": "Game Developer – Theme: Bubble (5-person team, 48-hour sprint)"
     },
     "organization": "Bilgi University",
     "start": "2025-01-24",
@@ -83,7 +83,7 @@
     "end_unix": 1737838800,
     "result": "",
     "details": {
-      "en": "-Developed a horror-themed game using Unity & C#, implementing enemy AI (NavMeshAgent), stealth mechanics, and visual effects.\n-Presented at the university showcase and published on Itch.io.\r"
+      "en": "-Developed a horror-themed game using Unity & C#, implementing enemy AI (NavMeshAgent), stealth mechanics, and visual effects.\n\n-Presented at the university showcase and published on Itch.io.\r"
     },
     "highlights": {
       "en": []
@@ -109,7 +109,7 @@
     },
     "team": "Cumhuriyet Rocket Team",
     "role": {
-      "en": "Software Team Member"
+      "en": "Software Team Member – A2 Category, Medium Altitude (15-person team)"
     },
     "organization": "Teknofest",
     "start": "2023-12-15",
@@ -121,7 +121,7 @@
     "end_unix": 1713128400,
     "result": "",
     "details": {
-      "en": "-Designed flight control algorithms for both custom-built and commercial systems.\n-Researched sensor data acquisition methods and applied Kalman filtering for noise reduction.\n-Contributed to the technical report and received STM32 microcontroller training (STDPeriph, HAL, register-level programming)."
+      "en": "-Designed flight control algorithms for both custom-built and commercial systems.\n\n-Researched sensor data acquisition methods and applied Kalman filtering for noise reduction.\n\n-Contributed to the technical report and received STM32 microcontroller training (STDPeriph, HAL, register-level programming)."
     },
     "highlights": {
       "en": []
@@ -139,7 +139,7 @@
     },
     "team": "PromptiTron",
     "role": {
-      "en": "Software Team Member"
+      "en": "Software Team Member (3-person team)"
     },
     "organization": "BTK",
     "start": "2025-07-23",
@@ -151,7 +151,7 @@
     "end_unix": 1754427600,
     "result": "",
     "details": {
-      "en": "-Built a RAG-based educational assistant using the Google Gemini API.\n-Implemented retrieval and knowledge integration over the Turkish high school curriculum.\n-Focused on backend logic and model integration, enabling summarization and question-generation features tailored for students."
+      "en": "-Built a RAG-based educational assistant using the Google Gemini API.\n\n-Implemented retrieval and knowledge integration over the Turkish high school curriculum.\n\n-Focused on backend logic and model integration, enabling summarization and question-generation features tailored for students."
     },
     "highlights": {
       "en": []
@@ -169,19 +169,19 @@
     },
     "team": "Shopelope",
     "role": {
-      "en": "Software Team Member"
+      "en": "Software Team Member (5-person team)"
     },
     "organization": "Teknofest & Trendyol",
-    "start": "2025-09-08",
+    "start": "2025-08-08",
     "end": "2025-08-22",
     "present": false,
-    "start_iso": "2025-09-08",
-    "start_unix": 1757278800,
+    "start_iso": "2025-08-08",
+    "start_unix": 1754600400,
     "end_iso": "2025-08-22",
     "end_unix": 1755810000,
     "result": "",
     "details": {
-      "en": "-Trained ML ranking models for Kaggle submissions, predicting click/order outcomes in user search sessions.\n-Applied feature engineering & large-scale modeling on anonymized e-commerce data."
+      "en": "-Trained ML ranking models for Kaggle submissions, predicting click/order outcomes in user search sessions.\n\n-Applied feature engineering & large-scale modeling on anonymized e-commerce data."
     },
     "highlights": {
       "en": []
@@ -199,7 +199,7 @@
     },
     "team": "",
     "role": {
-      "en": "Software Team Member"
+      "en": "Software Team Member (2-person team)"
     },
     "organization": "BTK",
     "start": "2025-08-25",
@@ -211,7 +211,7 @@
     "end_unix": 1756587600,
     "result": "",
     "details": {
-      "en": "-Predicted session value in a large-scale e-commerce dataset.\n-Applied machine learning & feature engineering for regression task.\r"
+      "en": "-Predicted session value in a large-scale e-commerce dataset.\n\n-Applied machine learning & feature engineering for regression task.\r"
     },
     "highlights": {
       "en": []
