@@ -5,16 +5,13 @@ import Card from "../components/Card";
 import StackBadge from "../components/StackBadge";
 import { safeGet, resolveAsset } from "../lib/utils";
 
-// TR kısaltmalı ay isimleri
 const MONTHS_TR = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
 
-// "DD/MM/YYYY" (tek haneli gün/ay da olur), "YYYY-MM-DD", "YYYY/MM/DD", "MM/YYYY", "YYYY"
 function parseToYearMonth(input) {
   if (!input || typeof input !== "string") return null;
   const s = input.trim();
   if (!s) return null;
 
-  // D/M/YYYY veya DD/MM/YYYY (ayırıcı: / . -)
   let m = s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);
   if (m) {
     const month = parseInt(m[2], 10);
@@ -22,7 +19,6 @@ function parseToYearMonth(input) {
     if (month >= 1 && month <= 12) return { y: year, m: month };
   }
 
-  // YYYY-M-D veya YYYY/M/D (gün opsiyonel)
   m = s.match(/^(\d{4})[\/\-\.](\d{1,2})(?:[\/\-\.](\d{1,2}))?$/);
   if (m) {
     const year = parseInt(m[1], 10);
@@ -30,7 +26,6 @@ function parseToYearMonth(input) {
     if (month >= 1 && month <= 12) return { y: year, m: month };
   }
 
-  // MM/YYYY
   m = s.match(/^(\d{1,2})[\/\-\.](\d{4})$/);
   if (m) {
     const month = parseInt(m[1], 10);
@@ -38,7 +33,6 @@ function parseToYearMonth(input) {
     if (month >= 1 && month <= 12) return { y: year, m: month };
   }
 
-  // YYYY
   m = s.match(/^(\d{4})$/);
   if (m) return { y: parseInt(m[1], 10), m: null };
 
@@ -52,7 +46,6 @@ function formatYMStrict(value) {
   return `${MONTHS_TR[d.m - 1]} ${d.y}`;
 }
 
-// Küçük yardımcı: item içinden görselleri topla (images, photos, media.images vs.)
 function useImages(item) {
   return useMemo(() => {
     const arrays = [
@@ -63,14 +56,11 @@ function useImages(item) {
     ].filter(Array.isArray);
 
     const flat = arrays.flat().map((p) => resolveAsset(p)).filter(Boolean);
-    // Aynı yolu tekrar etme
     return Array.from(new Set(flat));
   }, [item]);
 }
 
-// Lightbox bileşeni (çok basit)
 function Lightbox({ open, images, index, onClose, onIndex }) {
-  // ESC ile kapat
   useEffect(() => {
     if (!open) return;
     const h = (e) => { if (e.key === "Escape") onClose?.(); };
@@ -102,10 +92,9 @@ function Lightbox({ open, images, index, onClose, onIndex }) {
         <img
           src={images[index]}
           alt=""
-          className="w-full max-h-[80vh] object-contain rounded-xl shadow-2xl border border-white/10"
+          className="w-full max-h-[80vh] object-contain rounded-xl shadow-2xl border border-white/10 bg-black"
           loading="eager"
         />
-        {/* Sol / Sağ oklar */}
         {images.length > 1 && (
           <>
             <button
@@ -124,7 +113,6 @@ function Lightbox({ open, images, index, onClose, onIndex }) {
             </button>
           </>
         )}
-        {/* Kapat */}
         <button
           onClick={onClose}
           className="absolute -top-3 -right-3 bg-white text-black rounded-full w-8 h-8 shadow-lg"
@@ -133,7 +121,6 @@ function Lightbox({ open, images, index, onClose, onIndex }) {
         >
           ✕
         </button>
-        {/* Sayaç */}
         <div className="absolute bottom-2 right-3 text-xs text-white/90 bg-black/40 px-2 py-1 rounded">
           {index + 1} / {images.length}
         </div>
@@ -159,7 +146,8 @@ export default function CompetitionsSection({ items, stackIndex }) {
         <p className="text-white/60">No competitions yet.</p>
       )}
 
-      <div className="grid md:grid-cols-2 gap-4">
+      {/* 3 sütun: md ve üstü ekranlarda 3 kolona zorla */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {items?.map((c, idx) => {
           const name = safeGet(c, "name.en") || safeGet(c, "title.en");
           const role = safeGet(c, "role.en");
@@ -172,7 +160,6 @@ export default function CompetitionsSection({ items, stackIndex }) {
           const range = [start, end].filter(Boolean).join(" — ");
           const stack = Array.isArray(c?.stack) ? c.stack : [];
 
-          // görseller
           const images = useImages(c);
           const coverIndex = Math.min(
             Math.max(0, Number(c?.cover_index ?? 0)),
@@ -183,27 +170,27 @@ export default function CompetitionsSection({ items, stackIndex }) {
           return (
             <Card key={idx}>
               <div className="flex flex-col gap-3">
-                {/* Kapak + thumb şeridi */}
+                {/* Kapak + thumb şeridi (KIRPMA YOK — object-contain) */}
                 {images.length > 0 && (
                   <div className="group">
-                    {/* Kapak görseli */}
                     <button
                       type="button"
                       onClick={() => openLightbox(images, coverIndex)}
-                      className="w-full block overflow-hidden rounded-xl border border-white/10"
+                      className="w-full block overflow-hidden rounded-xl border border-white/10 bg-black/20"
                       title="Click to enlarge"
                     >
-                      <div className="aspect-[16/9] w-full">
+                      {/* Sabit oranlı kutu (4:3), görsel kırpılmadan sığar */}
+                      <div className="aspect-[4/3] w-full">
                         <img
                           src={cover}
                           alt={name || "Competition image"}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02] select-none"
+                          className="w-full h-full object-contain select-none"
                           loading="lazy"
                         />
                       </div>
                     </button>
 
-                    {/* Küçük önizlemeler */}
+                    {/* Küçük önizlemeler (object-contain) */}
                     {images.length > 1 && (
                       <div className="mt-2 flex gap-2 overflow-x-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
                         {images.map((src, i) => {
@@ -214,19 +201,21 @@ export default function CompetitionsSection({ items, stackIndex }) {
                               type="button"
                               onClick={() => openLightbox(images, i)}
                               className={[
-                                "shrink-0 rounded-lg border overflow-hidden",
+                                "shrink-0 rounded-lg border overflow-hidden bg-black/20",
                                 active
                                   ? "border-emerald-400/70 ring-2 ring-emerald-400/30"
                                   : "border-white/10 hover:border-white/20",
                               ].join(" ")}
                               title={`Preview ${i + 1}`}
                             >
-                              <img
-                                src={src}
-                                alt=""
-                                className="w-20 h-14 md:w-24 md:h-16 object-cover"
-                                loading="lazy"
-                              />
+                              <div className="w-24 h-16">
+                                <img
+                                  src={src}
+                                  alt=""
+                                  className="w-full h-full object-contain"
+                                  loading="lazy"
+                                />
+                              </div>
                             </button>
                           );
                         })}
@@ -278,7 +267,6 @@ export default function CompetitionsSection({ items, stackIndex }) {
         })}
       </div>
 
-      {/* Lightbox */}
       <Lightbox
         open={lbOpen}
         images={lbImages}

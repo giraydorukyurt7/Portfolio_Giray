@@ -26,13 +26,11 @@
     "images": [
       "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_1.png",
       "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_1.png",
-      "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_2.png",
       "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_3.png",
       "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_4.png",
-      "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_5.png",
       "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_6.png"
     ],
-    "icon": "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_1.png",
+    "icon": "images/competitions_tab/Artificial_Inteligence_in_Healtcare_2025_6.png",
     "order_index": 0
   },
   {
@@ -100,7 +98,7 @@
       "images/competitions_tab/Global_Game_Jam_2025_5.png",
       "images/competitions_tab/Global_Game_Jam_2025_6.png"
     ],
-    "icon": "images/competitions_tab/Global_Game_Jam_2025_1.png",
+    "icon": "images/competitions_tab/Global_Game_Jam_2025_4.png",
     "order_index": 2
   },
   {
