@@ -13,7 +13,7 @@
     "end_iso": "2025-08-29",
     "end_unix": 1756414800,
     "details": {
-      "en": "-Started and completed the “Phoneme-Based Pronunciation Accuracy Analysis” project from scratch.\n-Goal: To analyze English pronunciation at the phoneme level, identifying correct, substituted, omitted, and inserted sounds.\n-Compared and integrated ASR & alignment tools (MFA, Whisper, Gentle, Wav2Vec2) → finalized with Wav2Vec2-based pipeline.\n-Designed a modular system (G2P, segmentation, phoneme features, comparison) with both CLI and FastAPI service endpoints.\n-Produced outputs as HTML reports, timeline visualizations, and detailed phoneme-level metrics.\n-Authored comprehensive technical documentation for pipeline design and usage."
+      "en": "-Started and completed the “Phoneme-Based Pronunciation Accuracy Analysis” project from scratch.\n\n-Goal: To analyze English pronunciation at the phoneme level, identifying correct, substituted, omitted, and inserted sounds.\n\n-Compared and integrated ASR & alignment tools (MFA, Whisper, Gentle, Wav2Vec2) → finalized with Wav2Vec2-based pipeline.\n\n-Designed a modular system (G2P, segmentation, phoneme features, comparison) with both CLI and FastAPI service endpoints.\n\n-Produced outputs as HTML reports, timeline visualizations, and detailed phoneme-level metrics.\n\n-Authored comprehensive technical documentation for pipeline design and usage."
     },
     "highlights": {
       "en": [
