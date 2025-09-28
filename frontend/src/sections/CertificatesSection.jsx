@@ -101,7 +101,8 @@ function GroupBlock({ title, items, onOpen }) {
         {title}
       </h3>
       <div className="h-px bg-white/10 mb-4" />
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {/* 4 sütun: lg ve üzeri */}
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((c, i) => (
           <CertificateCard key={`${safeGet(c,"name.en","Certificate")}-${i}`} c={c} onOpen={onOpen} />
         ))}
