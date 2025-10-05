@@ -183,6 +183,7 @@ function ProjectCard({ p, stackIndex }) {
 
 export default function ProjectsSection({ projects = [], stackIndex = {} }) {
   const [mode, setMode] = useState("default");
+  const [tutorialOpen, setTutorialOpen] = useState(false);
 
   const sorted = useMemo(() => {
     const arr = [...(projects || [])];
@@ -233,6 +234,7 @@ export default function ProjectsSection({ projects = [], stackIndex = {} }) {
   );
 
   const hasAny = sorted.length > 0;
+  const tutorialCount = tutorial.length;
 
   return (
     <Section
@@ -258,9 +260,9 @@ export default function ProjectsSection({ projects = [], stackIndex = {} }) {
         <div className="mb-6">
           <div className="mb-2 flex items-center gap-2">
             <h3 className="text-base font-semibold">
-              Personal{" "}
+              Personal Projects{" "}
               <span className="text-white/50 text-sm">
-                (Projects completely made by me)
+                (Completely made by me)
               </span>
             </h3>
             <span className="h-px flex-1 bg-white/10" />
@@ -273,18 +275,43 @@ export default function ProjectsSection({ projects = [], stackIndex = {} }) {
         </div>
       )}
 
-      {tutorial.length > 0 && (
+      {tutorialCount > 0 && (
         <div className="mb-6">
-          <div className="mb-2 flex items-center gap-2">
+          <div className="mb-2 flex items-center gap-3">
             <h3 className="text-base font-semibold">
-              Tutorial/Course{" "}
+              Tutorial/Course Projects{" "}
               <span className="text-white/50 text-sm">
                 (created while learning topics with help of courses)
               </span>
             </h3>
             <span className="h-px flex-1 bg-white/10" />
+
+            {/* NEW: Expand/Collapse button */}
+            <button
+              type="button"
+              className="shrink-0 rounded-lg border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/80 hover:bg-white/10"
+              aria-expanded={tutorialOpen}
+              aria-controls="tutorial-projects"
+              onClick={() => setTutorialOpen((v) => !v)}
+              title={tutorialOpen ? "Hide tutorial projects" : "Show tutorial projects"}
+            >
+              {tutorialOpen
+                ? "HIDE TUTORIALS"
+                : `EXPAND FOR TUTORIALS (${tutorialCount})`}
+            </button>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+
+          {!tutorialOpen && (
+            <p className="mb-2 text-xs text-white/50">
+              Tutorial/Course Projects. To See Click{" "}
+              <span className="font-semibold">EXPAND</span> Button.
+            </p>
+          )}
+
+          <div
+            id="tutorial-projects"
+            className={tutorialOpen ? "grid gap-5 sm:grid-cols-2 lg:grid-cols-3" : "hidden"}
+          >
             {tutorial.map((p, i) => (
               <ProjectCard key={`tutorial-${i}`} p={p} stackIndex={stackIndex} />
             ))}
