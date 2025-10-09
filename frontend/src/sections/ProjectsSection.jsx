@@ -297,7 +297,7 @@ export default function ProjectsSection({ projects = [], stackIndex = {} }) {
             >
               {tutorialOpen
                 ? "HIDE TUTORIALS"
-                : `EXPAND FOR TUTORIALS (${tutorialCount})`}
+                : `EXPAND FOR MORE PROJECTS (${tutorialCount})`}
             </button>
           </div>
 
