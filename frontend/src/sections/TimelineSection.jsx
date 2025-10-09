@@ -463,6 +463,75 @@ export default function TimelineSection({ data }) {
           </div>
         )}
       </div>
+
+      {/* === AÇIKLAMA (LEGEND) — timeline ile aynı arkaplan === */}
+      <div className="mt-8 max-w-5xl mx-auto">
+        <div className="bg-slate-900 border border-slate-700 rounded-xl p-5">
+          <h4 className="font-semibold text-white mb-3 text-center">Legend</h4>
+
+          {/* Renkler */}
+          <ul className="flex flex-wrap justify-center gap-4 text-xs text-gray-300 mb-3">
+            <li className="flex items-center gap-2">
+              <span className="w-6 h-2 rounded-sm" style={{ background: TYPE_COLOR.experience }} />
+              <span>Experience</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="w-6 h-2 rounded-sm" style={{ background: TYPE_COLOR.competition }} />
+              <span>Competition</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="w-6 h-2 rounded-sm" style={{ background: TYPE_COLOR.project }} />
+              <span>Project</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="w-6 h-2 rounded-sm bg-gray-400" />
+              <span>Project (Tutorial/Course)</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="w-6 h-2 rounded-sm" style={{ background: TYPE_COLOR.certificate }} />
+              <span>Certificate</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="w-6 h-2 rounded-sm bg-orange-700" />
+              <span>Certificate (Seminar)</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="w-6 h-2 rounded-sm" style={{ background: TYPE_COLOR.course }} />
+              <span>Course</span>
+            </li>
+          </ul>
+
+          {/* Semboller */}
+          <ul className="flex flex-wrap justify-center gap-6 text-xs text-gray-300">
+            <li className="flex items-center gap-2">
+              <svg width="34" height="8" className="text-gray-200">
+                <line x1="2" y1="4" x2="32" y2="4" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
+              </svg>
+              <span>Multi-day range</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <svg width="12" height="12" className="text-gray-200">
+                <circle cx="6" cy="6" r="4" fill="currentColor" />
+              </svg>
+              <span>Single-day event</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <svg width="26" height="10" className="text-gray-200">
+                <path d="M 10 5 l -8 -4 l 0 8 z" fill="currentColor" />
+                <path d="M 16 5 l 8 -4 l 0 8 z" fill="currentColor" />
+              </svg>
+              <span>Continues from/to next row</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <svg width="16" height="16" className="text-gray-200">
+                <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" strokeWidth="2" />
+                <circle cx="8" cy="8" r="4" fill="currentColor" />
+              </svg>
+              <span>Ongoing (Present)</span>
+            </li>
+          </ul>
+        </div>
+      </div>
     </Section>
   );
 }
