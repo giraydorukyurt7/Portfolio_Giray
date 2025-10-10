@@ -227,8 +227,8 @@
     "name": "Tkinter",
     "category": "Web & UI Development",
     "link": "",
-    "logo_url": "https://github.com/giraydorukyurt7/giraydorukyurt7/blob/main/logos/tkinter-logo.png",
-    "logo_path": "",
+    "logo_url": "",
+    "logo_path": "content/stack_logos/tkinter.png",
     "order_index": 28
   },
   {
