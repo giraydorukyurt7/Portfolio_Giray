@@ -220,5 +220,33 @@
     ],
     "icon": "images/competitions_tab/BTK_Datathon_2025_1.png",
     "order_index": 6
+  },
+  {
+    "name": {
+      "en": "ING Hubs Datathon 2025"
+    },
+    "team": "",
+    "role": {
+      "en": ""
+    },
+    "organization": "",
+    "start": "2025-10-10",
+    "end": "",
+    "present": true,
+    "start_iso": "2025-10-10",
+    "start_unix": 1760043600,
+    "end_iso": null,
+    "end_unix": null,
+    "result": "",
+    "details": {
+      "en": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "stack": [],
+    "images": [],
+    "icon": null,
+    "order_index": 7
   }
 ]
