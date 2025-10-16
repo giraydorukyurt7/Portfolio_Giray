@@ -245,8 +245,10 @@
       "en": []
     },
     "stack": [],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/competitions_tab/ING_Hubs_Datathon_2025_1.png"
+    ],
+    "icon": "images/competitions_tab/ING_Hubs_Datathon_2025_1.png",
     "order_index": 7
   }
 ]
