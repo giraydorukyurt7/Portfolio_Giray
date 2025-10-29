@@ -128,5 +128,29 @@
     "type": "elective",
     "elective_type": "Area Elective",
     "order_index": 19
+  },
+  {
+    "name": "Software Design and Analysis",
+    "semester": "6th semester",
+    "type": "mandatory",
+    "order_index": 20
+  },
+  {
+    "name": "Visual Programming",
+    "semester": "6th semester",
+    "type": "mandatory",
+    "order_index": 21
+  },
+  {
+    "name": "Software Testing",
+    "semester": "6th semester",
+    "type": "mandatory",
+    "order_index": 22
+  },
+  {
+    "name": "Microprocessors",
+    "semester": "6th semester",
+    "type": "mandatory",
+    "order_index": 23
   }
 ]
