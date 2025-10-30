@@ -231,12 +231,12 @@
     },
     "organization": "",
     "start": "2025-10-10",
-    "end": "",
-    "present": true,
+    "end": "2025-10-22",
+    "present": false,
     "start_iso": "2025-10-10",
     "start_unix": 1760043600,
-    "end_iso": null,
-    "end_unix": null,
+    "end_iso": "2025-10-22",
+    "end_unix": 1761080400,
     "result": "",
     "details": {
       "en": ""
