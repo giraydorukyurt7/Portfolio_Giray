@@ -32,8 +32,14 @@
       "MFA",
       "Wav2Vec2"
     ],
-    "images": [],
-    "icon": null,
+    "images": [
+      "images/experience_tab/RD_Artificial_Intelligence__Backend_Intern_1.png",
+      "images/experience_tab/RD_Artificial_Intelligence__Backend_Intern_2.png",
+      "images/experience_tab/RD_Artificial_Intelligence__Backend_Intern_3.png",
+      "images/experience_tab/RD_Artificial_Intelligence__Backend_Intern_4.png",
+      "images/experience_tab/RD_Artificial_Intelligence__Backend_Intern_5.png"
+    ],
+    "icon": "images/experience_tab/RD_Artificial_Intelligence__Backend_Intern_1.png",
     "order_index": 0
   }
 ]
