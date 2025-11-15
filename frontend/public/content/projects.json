@@ -1015,5 +1015,79 @@
     "images": [],
     "icon": null,
     "order_index": 26
+  },
+  {
+    "title": {
+      "en": "OBJECT LOCALIZATOR"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "2025-11-09",
+    "date_iso": "2025-11-09",
+    "date_unix": 1762635600,
+    "start": "2025-11-09",
+    "end": null,
+    "present": false,
+    "stack": [
+      "Python",
+      "Tensorflow"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "CNN"
+    ],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/blob/main/Deep_Learning/OTHERS/OBJECT_LOCALIZATOR/object_localizator.ipynb",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 27
+  },
+  {
+    "title": {
+      "en": "NEURAL STYLE TRANSFER"
+    },
+    "summary": {
+      "en": "GAN"
+    },
+    "origin": "personal",
+    "origin_label": "Personal",
+    "date": "2025-11-18",
+    "date_iso": "2025-11-18",
+    "date_unix": 1763413200,
+    "start": "2025-11-18",
+    "end": null,
+    "present": false,
+    "stack": [
+      "Python",
+      "Tensorflow"
+    ],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "GAN"
+    ],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/blob/main/Deep_Learning/OTHERS/NEURAL_STYLE_TRANSFER/NEURAL_STYLE_TRANSFER.ipynb",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 28
   }
 ]
