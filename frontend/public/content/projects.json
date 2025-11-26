@@ -1058,10 +1058,10 @@
       "en": "NEURAL STYLE TRANSFER"
     },
     "summary": {
-      "en": "GAN"
+      "en": "Combining an image with another image's style using computer vision."
     },
-    "origin": "personal",
-    "origin_label": "Personal",
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
     "date": "2025-11-18",
     "date_iso": "2025-11-18",
     "date_unix": 1763413200,
