@@ -1089,5 +1089,63 @@
     "images": [],
     "icon": null,
     "order_index": 28
+  },
+  {
+    "title": {
+      "en": "POETRY GENERATOR"
+    },
+    "summary": {
+      "en": "-Generating poetry with using Markov Models.\n-Coded from scratch."
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "2025-12-13",
+    "date_iso": "2025-12-13",
+    "date_unix": 1765573200,
+    "start": "2025-12-13",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "areas": [],
+    "topics": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/blob/main/Natural_Language_Processing/Markov_Models/POETRY_GENERATOR.ipynb",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 29
+  },
+  {
+    "title": {
+      "en": "Markov Model Text Classifier"
+    },
+    "summary": {
+      "en": "-Text Classifier with using Markov models.\n-Coded from scrath."
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "2025-12-14",
+    "date_iso": "2025-12-14",
+    "date_unix": 1765659600,
+    "start": "2025-12-14",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "areas": [],
+    "topics": [],
+    "links": {
+      "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/blob/main/Natural_Language_Processing/Markov_Models/Markov_Model_Classifier_Text_Classifier.ipynb",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 30
   }
 ]
