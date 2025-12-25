@@ -1147,5 +1147,34 @@
     "images": [],
     "icon": null,
     "order_index": 30
+  },
+  {
+    "title": {
+      "en": "Article Spinner"
+    },
+    "summary": {
+      "en": "-Created Article Spinner by using markov models from scratch"
+    },
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
+    "date": "2025-12-24",
+    "date_iso": "2025-12-24",
+    "date_unix": 1766523600,
+    "start": "2025-12-24",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "areas": [],
+    "topics": [],
+    "links": {
+      "github": "",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 31
   }
 ]
