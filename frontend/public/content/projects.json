@@ -1176,5 +1176,34 @@
     "images": [],
     "icon": null,
     "order_index": 31
+  },
+  {
+    "title": {
+      "en": "Cyper Decryption"
+    },
+    "summary": {
+      "en": "-Created Cyper Decyrption with markov models from scracth."
+    },
+    "origin": "personal",
+    "origin_label": "Personal",
+    "date": "2025-12-29",
+    "date_iso": "2025-12-29",
+    "date_unix": 1766955600,
+    "start": "2025-12-29",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "areas": [],
+    "topics": [],
+    "links": {
+      "github": "",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 32
   }
 ]
