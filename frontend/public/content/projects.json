@@ -1106,8 +1106,13 @@
     "end": null,
     "present": false,
     "stack": [],
-    "areas": [],
-    "topics": [],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "NLP"
+    ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/blob/main/Natural_Language_Processing/Markov_Models/POETRY_GENERATOR.ipynb",
       "demo": ""
@@ -1135,8 +1140,13 @@
     "end": null,
     "present": false,
     "stack": [],
-    "areas": [],
-    "topics": [],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "NLP"
+    ],
     "links": {
       "github": "https://github.com/giraydorukyurt7/Data_Science-And-Artificial_Intelligence-Journeys/blob/main/Natural_Language_Processing/Markov_Models/Markov_Model_Classifier_Text_Classifier.ipynb",
       "demo": ""
@@ -1164,8 +1174,13 @@
     "end": null,
     "present": false,
     "stack": [],
-    "areas": [],
-    "topics": [],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "NLP"
+    ],
     "links": {
       "github": "",
       "demo": ""
@@ -1184,8 +1199,8 @@
     "summary": {
       "en": "-Created Cyper Decyrption with markov models from scracth."
     },
-    "origin": "personal",
-    "origin_label": "Personal",
+    "origin": "tutorial",
+    "origin_label": "Tutorial/Course",
     "date": "2025-12-29",
     "date_iso": "2025-12-29",
     "date_unix": 1766955600,
@@ -1193,8 +1208,13 @@
     "end": null,
     "present": false,
     "stack": [],
-    "areas": [],
-    "topics": [],
+    "areas": [
+      "Data Science",
+      "Artificial Intelligence"
+    ],
+    "topics": [
+      "NLP"
+    ],
     "links": {
       "github": "",
       "demo": ""
