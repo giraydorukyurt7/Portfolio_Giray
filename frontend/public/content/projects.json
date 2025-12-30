@@ -1225,5 +1225,36 @@
     "images": [],
     "icon": null,
     "order_index": 32
+  },
+  {
+    "title": {
+      "en": "IOT Attack Images Classification"
+    },
+    "summary": {
+      "en": ""
+    },
+    "origin": "personal",
+    "origin_label": "Personal",
+    "date": "2025-12-30",
+    "date_iso": "2025-12-30",
+    "date_unix": 1767042000,
+    "start": "2025-12-30",
+    "end": null,
+    "present": false,
+    "stack": [],
+    "areas": [],
+    "topics": [
+      "CNN"
+    ],
+    "links": {
+      "github": "",
+      "demo": ""
+    },
+    "highlights": {
+      "en": []
+    },
+    "images": [],
+    "icon": null,
+    "order_index": 33
   }
 ]
